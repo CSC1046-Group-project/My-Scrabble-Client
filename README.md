@@ -14,9 +14,3 @@ Then run the project using:
 ```
 mvn exec:java
 ```
-
-### Run using Docker
-If you have and prefer to use Docker to run the project, run the following command on your terminal at the project root:
-```
-docker-compose up --build
-```
