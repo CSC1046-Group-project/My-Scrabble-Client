@@ -1,22 +1,25 @@
 package com.example;
 
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+import com.example.RendereUI.RendererUI;
+import com.example.SceneManager.SceneManager;
+
 import javafx.stage.Stage;
 
 public class Application extends javafx.application.Application {
 
+    final String _appName = "MyScrabble";
+
     @Override
     public void start(Stage stage) {
 
-        stage.setTitle("MyScrabble Client");
-        StackPane root = new StackPane();
+        RendererUI.init(stage, _appName);
+        SceneManager.init();
+        SceneManager.loadScene(SceneManager.SceneNames.FIRST_SCENE);
 
-        Scene scene = new Scene(root, 960, 540);
-        scene.setFill(Color.web("0x16161E"));
+        run();
+    }
 
-        stage.setScene(scene);
-        stage.show();
+    private void run() {
+
     }
 }

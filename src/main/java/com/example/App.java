@@ -1,16 +1,5 @@
 package com.example;
 
-// import java.net.URI;
-
-// import org.java_websocket.client.WebSocketClient;
-// import org.java_websocket.handshake.ServerHandshake;
-
-// import javafx.application.Application;
-// import javafx.scene.Scene;
-// import javafx.scene.control.Button;
-// import javafx.scene.layout.BorderPane;
-// import javafx.stage.Stage;
-
 public class App extends Application {
 
     // private WebSocketClient client;
@@ -62,9 +51,6 @@ public class App extends Application {
     // }
 
     public static void main(String[] args) {
-
-        Application myApp = new Application();
-
         launch(args);
     }
 }
