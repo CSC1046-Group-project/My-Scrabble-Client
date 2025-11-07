@@ -3,11 +3,18 @@ package com.example.SceneManager;
 import java.util.HashMap;
 
 import com.example.SceneManager.Scenes.FirstScene;
+import com.example.SceneManager.Scenes.LoginScene;
 
 public class SceneManager {
 
     public static enum SceneNames {
-        FIRST_SCENE
+        FIRST_SCENE,
+        LOGIN_SCENE,
+        REGISTER_SCENE,
+        CHOOSE_SCENE,
+        JOIN_SCENE,
+        GAME_SCENE,
+        SETTINGS_SCENE
     }
 
     private static final HashMap<SceneNames, MyScene> _scenes = new HashMap<>();
@@ -16,6 +23,7 @@ public class SceneManager {
 
     public static void init() {
         _scenes.put(SceneNames.FIRST_SCENE, new FirstScene());
+        _scenes.put(SceneNames.LOGIN_SCENE, new LoginScene());
         _currentScene = _scenes.get(SceneNames.FIRST_SCENE);
     }
 

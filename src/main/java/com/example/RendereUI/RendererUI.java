@@ -10,8 +10,8 @@ public class RendererUI {
     private static Scene _scene;
     private static StackPane _root;
 
-    private static final int WIDTH = 960;
-    private static final int HEIGHT = 540;
+    private static final int WIDTH = 1920;
+    private static final int HEIGHT = 1080;
 
     public static void init(Stage stage, final String appName) {
         _stage = stage;
