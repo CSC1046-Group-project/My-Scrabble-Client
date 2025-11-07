@@ -28,7 +28,6 @@ public class SceneManager {
             return;
         }
         _currentScene = nextScene;
-        _currentScene.load();
         _currentScene.onDraw();
     }
 }
