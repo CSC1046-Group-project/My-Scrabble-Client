@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 public class ButtonBuilder extends Widget{
@@ -21,6 +22,26 @@ public class ButtonBuilder extends Widget{
         _button.setFont(Font.font(24));
         _button.setStyle("-fx-background-color: #3B8895; -fx-background-radius: 10;");
         _button.setOnAction(event);
+    }
+
+    public ButtonBuilder setPrefHeight(double value) {
+        _button.setPrefHeight(value);
+        return this;
+    }
+
+    public ButtonBuilder setTextFill(Paint value) {
+        _button.setTextFill(value);
+        return this;
+    }
+
+    public ButtonBuilder setFont(double size) {
+        _button.setFont(Font.font(size));
+        return this;
+    }
+
+    public ButtonBuilder setStyle(String style) {
+        _button.setStyle(style);
+        return this;
     }
 
     @Override

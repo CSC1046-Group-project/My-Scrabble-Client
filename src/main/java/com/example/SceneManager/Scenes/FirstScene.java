@@ -25,14 +25,14 @@ public class FirstScene extends MyScene {
         _root.setAlignment(Pos.CENTER);
 
         // Centered Panel
-        VBoxBuilder panel = WidgetFactory.panel();
+        VBoxBuilder panel = WidgetFactory.vbox();
 
         // Title
         TextBuilder title = WidgetFactory.text("My Scrabble").setFont(36);
         // Line under title
         LineBuilder titleLine = WidgetFactory.line();
         // Group title + line
-        VBoxBuilder titleBox = WidgetFactory.panel();
+        VBoxBuilder titleBox = WidgetFactory.vbox();
         titleBox.add(title.getNode(), titleLine.getNode());
 
         // Login and Register Buttons
@@ -48,7 +48,7 @@ public class FirstScene extends MyScene {
         LineBuilder line = WidgetFactory.line();
 
         // Box to put Login and register button together
-        VBoxBuilder buttonBox = WidgetFactory.panel();
+        VBoxBuilder buttonBox = WidgetFactory.vbox();
         buttonBox.add(loginButton.getNode(), line.getNode(), registerButton.getNode());
 
         // Combine Title box and button box

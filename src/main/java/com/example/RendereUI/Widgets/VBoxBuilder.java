@@ -28,12 +28,23 @@ public class VBoxBuilder extends Widget{
         _vbox.getChildren().addAll(elements);
     }
 
-    public VBoxBuilder addWithFlex(Node top, Node bottom) {
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-        _vbox.getChildren().addAll(top, spacer, bottom);
+    public VBoxBuilder addWithFlex(Node... elements) {
+        if (elements == null || elements.length == 0) {
+            return this;
+        }
+        _vbox.getChildren().clear();
+        for (int i = 0; i < elements.length; i++) {
+            _vbox.getChildren().add(elements[i]);
+            if (i < elements.length - 1) {
+                Region spacer = new Region();
+                VBox.setVgrow(spacer, Priority.ALWAYS);
+                _vbox.getChildren().add(spacer);
+            }
+        }
         return this;
     }
+
+
 
     @Override
     public Node getNode() {
