@@ -28,7 +28,10 @@ public class LoginScene extends MyScene {
         _root.setAlignment(Pos.CENTER);
 
         // Centered Panel
-        VBoxBuilder panel = WidgetFactory.vbox();
+        VBoxBuilder panel = WidgetFactory.vbox()
+            .setMaxWidth(550)
+            .setMaxHeight(550)
+            .setPrefWidth(550);
 
         IconButtonBuilder back = WidgetFactory.iconButton(
             "/assets/left-arrow.png",

@@ -18,10 +18,47 @@ public class VBoxBuilder extends Widget{
         _vbox.setSpacing(24);
         _vbox.setAlignment(Pos.CENTER);
         _vbox.setPadding(new Insets(20));
-        _vbox.setMaxWidth(550);
-        _vbox.setMaxHeight(550);
-        _vbox.setPrefWidth(550);
         _vbox.setStyle("-fx-background-color: #22222B; -fx-background-radius: 10;");
+    }
+
+    public VBoxBuilder setSpacing(double value) {
+        _vbox.setSpacing(value);
+        return this;
+    }
+
+    public VBoxBuilder setAlignment(Pos value) {
+        _vbox.setAlignment(value);
+        return this;
+    }
+
+    public VBoxBuilder setMaxWidth(double value) {
+        _vbox.setMaxWidth(value);
+        return this;
+    }
+
+    public VBoxBuilder setMaxHeight(double value) {
+        _vbox.setMaxHeight(value);
+        return this;
+    }
+
+    public VBoxBuilder setPrefWidth(double value) {
+        _vbox.setPrefWidth(value);
+        return this;
+    }
+
+    public VBoxBuilder setPrefHeigth(double value) {
+        _vbox.setPrefHeight(value);
+        return this;
+    }
+
+    public VBoxBuilder setPadding(double topRightBottomLeft) {
+        _vbox.setPadding(new Insets(topRightBottomLeft));
+        return this;
+    }
+
+    public VBoxBuilder setStyle(String style) {
+        _vbox.setStyle(style);
+        return this;
     }
 
     public void add(Node... elements) {

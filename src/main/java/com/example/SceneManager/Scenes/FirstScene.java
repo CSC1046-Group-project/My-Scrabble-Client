@@ -25,7 +25,10 @@ public class FirstScene extends MyScene {
         _root.setAlignment(Pos.CENTER);
 
         // Centered Panel
-        VBoxBuilder panel = WidgetFactory.vbox();
+        VBoxBuilder panel = WidgetFactory.vbox()
+            .setMaxWidth(550)
+            .setMaxHeight(550)
+            .setPrefWidth(550);
 
         // Title
         TextBuilder title = WidgetFactory.text("My Scrabble").setFont(36);
