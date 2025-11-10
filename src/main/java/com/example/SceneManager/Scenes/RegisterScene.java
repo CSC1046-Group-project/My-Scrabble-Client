@@ -93,4 +93,9 @@ public class RegisterScene extends MyScene {
         _root.getChildren().addAll(panel.getNode());
 
     }
+
+    @Override
+    public void initListener() {
+
+    }
 }

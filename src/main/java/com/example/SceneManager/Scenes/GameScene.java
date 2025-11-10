@@ -8,4 +8,9 @@ public class GameScene extends MyScene {
     public void initRoot() {
 
     }
+
+    @Override
+    public void initListener() {
+
+    }
 }

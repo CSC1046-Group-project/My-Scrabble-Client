@@ -8,4 +8,9 @@ public class JoinScene extends MyScene {
     public void initRoot() {
 
     }
+
+    @Override
+    public void initListener() {
+
+    }
 }

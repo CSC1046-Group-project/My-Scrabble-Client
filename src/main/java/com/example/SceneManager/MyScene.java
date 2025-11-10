@@ -11,6 +11,7 @@ public abstract class MyScene {
     public MyScene () {
         _root = new StackPane();
         initRoot();
+        initListener();
     }
 
     public void onDraw() {
@@ -18,4 +19,5 @@ public abstract class MyScene {
     }
 
     public abstract void initRoot();
+    public abstract void initListener();
 }

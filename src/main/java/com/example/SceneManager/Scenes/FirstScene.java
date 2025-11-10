@@ -60,4 +60,9 @@ public class FirstScene extends MyScene {
         // Add the panel to the root container
         _root.getChildren().addAll(panel.getNode());
     }
+
+    @Override
+    public void initListener() {
+
+    }
 }
