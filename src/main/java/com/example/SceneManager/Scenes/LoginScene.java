@@ -1,5 +1,6 @@
 package com.example.SceneManager.Scenes;
 
+import com.example.Game.User;
 import com.example.Network.Listener;
 import com.example.Network.Network;
 import com.example.Network.Protocol.MessageType;
@@ -105,7 +106,13 @@ public class LoginScene extends MyScene {
     }
 
     private void onLoginSuccess(ProtocolMessage message) {
-        SceneManager.loadScene(SceneManager.SceneNames.CHOOSE_SCENE);
+        try {
+            String token = message.getArgs().get(0);
+            User.setToken(token);
+            SceneManager.loadScene(SceneManager.SceneNames.CHOOSE_SCENE);
+        } catch (Exception e) {
+            System.err.println("Error: Can't get the user token.");
+        }
     }
 
     private void onLoginFailed(ProtocolMessage message) {

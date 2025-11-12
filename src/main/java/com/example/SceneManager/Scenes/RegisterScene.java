@@ -1,5 +1,11 @@
 package com.example.SceneManager.Scenes;
 
+import com.example.Game.User;
+import com.example.Network.Listener;
+import com.example.Network.Network;
+import com.example.Network.Protocol.MessageType;
+import com.example.Network.Protocol.ProtocolFactory;
+import com.example.Network.Protocol.ProtocolMessage;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
@@ -67,7 +73,7 @@ public class RegisterScene extends MyScene {
         // Register button
         ButtonBuilder registerButton = WidgetFactory.button(
             "Register",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.CHOOSE_SCENE)
+            e -> register(username.getText(), email.getText(), password.getText())
         );
 
         LineBuilder lineButtons = WidgetFactory.line();
@@ -96,6 +102,29 @@ public class RegisterScene extends MyScene {
 
     @Override
     public void initListener() {
+        Listener registerListener = new Listener();
+        registerListener.on(MessageType.REGISTER_SUCCESS, msg -> onRegisterSuccess(msg));
+        registerListener.on(MessageType.REGISTER_FAILED, msg -> onRegisterFailed(msg));
+        Network.setListener(registerListener);
+    }
 
+    private void register(String username, String email, String password) {
+        Network.sendMessage(ProtocolFactory.register(username, email, password));
+    }
+
+    private void onRegisterSuccess(ProtocolMessage message) {
+        try {
+            String token = message.getArgs().get(0);
+            User.setToken(token);
+            SceneManager.loadScene(SceneManager.SceneNames.CHOOSE_SCENE);
+        } catch (Exception e) {
+            System.err.println("Error: Can't get the user token.");
+        }
+    }
+
+    private void onRegisterFailed(ProtocolMessage message) {
+        TextBuilder error = WidgetFactory.text("Try again...").setFill(Color.RED);
+        _root.getChildren().addAll(error.getNode());
+        onDraw();
     }
 }
