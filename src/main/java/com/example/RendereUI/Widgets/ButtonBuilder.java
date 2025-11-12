@@ -4,6 +4,7 @@ import com.example.RendereUI.Widget;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
@@ -24,8 +25,28 @@ public class ButtonBuilder extends Widget{
         _button.setOnAction(event);
     }
 
+    public ButtonBuilder setAlignment(Pos value) {
+        _button.setAlignment(value);
+        return this;
+    }
+
     public ButtonBuilder setPrefHeight(double value) {
         _button.setPrefHeight(value);
+        return this;
+    }
+
+    public ButtonBuilder setPrefWidth(double value) {
+        _button.setPrefWidth(value);
+        return this;
+    }
+
+    public ButtonBuilder setMaxHeight(double value) {
+        _button.setMaxHeight(value);
+        return this;
+    }
+
+    public ButtonBuilder setMaxWidth(double value) {
+        _button.setMaxWidth(value);
         return this;
     }
 
