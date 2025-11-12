@@ -62,7 +62,7 @@ public class LoginScene extends MyScene {
         // Login button
         ButtonBuilder loginButton = WidgetFactory.button(
             "Login",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.LOGIN_SCENE)
+            e -> SceneManager.loadScene(SceneManager.SceneNames.CHOOSE_SCENE)
         );
 
         LineBuilder lineButtons = WidgetFactory.line();
