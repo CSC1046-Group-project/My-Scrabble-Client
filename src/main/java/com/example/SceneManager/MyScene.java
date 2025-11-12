@@ -11,10 +11,10 @@ public abstract class MyScene {
     public MyScene () {
         _root = new StackPane();
         initRoot();
-        initListener();
     }
 
     public void onDraw() {
+        initListener();
         RendererUI.draw(_root);
     }
 

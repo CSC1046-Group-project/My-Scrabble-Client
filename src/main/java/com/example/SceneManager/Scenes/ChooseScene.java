@@ -1,5 +1,11 @@
 package com.example.SceneManager.Scenes;
 
+import com.example.Game.User;
+import com.example.Network.Listener;
+import com.example.Network.Network;
+import com.example.Network.Protocol.MessageType;
+import com.example.Network.Protocol.ProtocolFactory;
+import com.example.Network.Protocol.ProtocolMessage;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
@@ -68,7 +74,7 @@ public class ChooseScene extends MyScene {
         // Create logout icon
         IconButtonBuilder logoutIcon = WidgetFactory.iconButton(
             "/assets/logout.png",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.FIRST_SCENE)
+            e -> logout()
         ).setFitWidth(24).setFitHeight(24);
         // Create logout button
         ButtonBuilder logoutButton = WidgetFactory.button(
@@ -90,7 +96,7 @@ public class ChooseScene extends MyScene {
         // Create game button
         ButtonBuilder createGameButton = WidgetFactory.button(
             "Create a game",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE)
+            e -> createPrivateGame()
         ).setPrefWidth(215);
         // Join game button
         ButtonBuilder joinGameButton = WidgetFactory.button(
@@ -105,7 +111,7 @@ public class ChooseScene extends MyScene {
         // Start game button
         ButtonBuilder startGameButton = WidgetFactory.button(
             "Start a game",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE)
+            e -> startPublicGame()
         );
 
         // Buttons block
@@ -120,6 +126,44 @@ public class ChooseScene extends MyScene {
 
     @Override
     public void initListener() {
+        Listener chooseListener = new Listener();
+        chooseListener.on(MessageType.START_PUBLIC_GAME_SUCCESS, msg -> onStartPublicGameSuccess(msg));
+        chooseListener.on(MessageType.START_PUBLIC_GAME_FAILED, msg -> onStartPublicGameFailed(msg));
+        chooseListener.on(MessageType.CREATE_PRIVATE_GAME_SUCCESS, msg -> onCreatePrivateGameSuccess(msg));
+        chooseListener.on(MessageType.CREATE_PRIVATE_GAME_FAILED, msg -> onCreatePrivateGameFailed(msg));
+        Network.setListener(chooseListener);
+    }
+
+    private void logout() {
+        User.logout();
+        SceneManager.loadScene(SceneManager.SceneNames.FIRST_SCENE);
+    }
+
+    private void startPublicGame() {
+        if (User.getToken() == null || User.getToken().equals(""))
+            return;
+        Network.sendMessage(ProtocolFactory.startPublicGame(User.getToken()));
+    }
+
+    private void createPrivateGame() {
+        if (User.getToken() == null || User.getToken().equals(""))
+            return;
+        Network.sendMessage(ProtocolFactory.createPrivateGame(User.getToken()));
+    }
+
+    private void onStartPublicGameSuccess(ProtocolMessage message) {
+        SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE);
+    }
+
+    private void onStartPublicGameFailed(ProtocolMessage message) {
+
+    }
+
+    private void onCreatePrivateGameSuccess(ProtocolMessage message) {
+        SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE);
+    }
+
+    private void onCreatePrivateGameFailed(ProtocolMessage message) {
 
     }
 }
