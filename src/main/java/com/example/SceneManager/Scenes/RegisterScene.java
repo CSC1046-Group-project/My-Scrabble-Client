@@ -40,7 +40,7 @@ public class RegisterScene extends MyScene {
         );
         // Title
         TextBuilder title = WidgetFactory.text("My Scrabble").setFont(36);
-        // Create ampty button just to center the title on the middle
+        // Create empty button just to center the title on the middle
         IconButtonBuilder nothing = WidgetFactory.iconButton(
             "",
             e -> {}
@@ -67,7 +67,7 @@ public class RegisterScene extends MyScene {
         // Register button
         ButtonBuilder registerButton = WidgetFactory.button(
             "Register",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.REGISTER_SCENE)
+            e -> SceneManager.loadScene(SceneManager.SceneNames.CHOOSE_SCENE)
         );
 
         LineBuilder lineButtons = WidgetFactory.line();
