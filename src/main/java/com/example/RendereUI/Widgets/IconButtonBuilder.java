@@ -25,7 +25,15 @@ public class IconButtonBuilder extends Widget{
         _icoBtn.setPrefWidth(48);
         _icoBtn.setGraphic(_iconView);
         _icoBtn.setStyle("-fx-background-color: transparent;");
-        _icoBtn.setOnAction(event);
+
+        // only set if there is an event
+        if (event != null){
+            _icoBtn.setOnAction(event);
+        }
+    }
+
+    public IconButtonBuilder(String iconPath) {
+        this(iconPath, null);
     }
 
     public IconButtonBuilder setPrefHeight(double value) {
