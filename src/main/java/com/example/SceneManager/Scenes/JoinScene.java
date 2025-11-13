@@ -1,5 +1,11 @@
 package com.example.SceneManager.Scenes;
 
+import com.example.Game.User;
+import com.example.Network.Listener;
+import com.example.Network.Network;
+import com.example.Network.Protocol.MessageType;
+import com.example.Network.Protocol.ProtocolFactory;
+import com.example.Network.Protocol.ProtocolMessage;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
@@ -62,7 +68,7 @@ public class JoinScene extends MyScene {
         // Join button
         ButtonBuilder joinButton = WidgetFactory.button(
             "Join",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE)
+            e -> join(code.getText(), password.getText())
         );
 
         LineBuilder lineButtons = WidgetFactory.line();
@@ -79,6 +85,23 @@ public class JoinScene extends MyScene {
 
     @Override
     public void initListener() {
+        Listener joinListener = new Listener();
+        joinListener.on(MessageType.JOIN_PRIVATE_GAME_SUCCESS, msg -> onJoinPrivateGameSuccess(msg));
+        joinListener.on(MessageType.JOIN_PRIVATE_GAME_FAILED, msg -> onJoinPrivateGameFailed(msg));
+        Network.setListener(joinListener);
+    }
+
+    private void join(String code, String password) {
+        if (User.getToken() == null || User.getToken().equals(""))
+            return;
+        Network.sendMessage(ProtocolFactory.joinPrivateGame(User.getToken(), code, password));
+    }
+
+    private void onJoinPrivateGameSuccess(ProtocolMessage message) {
+        SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE);
+    }
+
+    private void onJoinPrivateGameFailed(ProtocolMessage message) {
 
     }
 }
