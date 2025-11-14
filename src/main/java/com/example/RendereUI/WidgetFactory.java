@@ -4,7 +4,6 @@ import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
 import com.example.RendereUI.Widgets.IconButtonBuilder;
 import com.example.RendereUI.Widgets.LineBuilder;
-import com.example.RendereUI.Widgets.SliderBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
 import com.example.RendereUI.Widgets.TextFieldBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
@@ -46,7 +45,7 @@ public class WidgetFactory {
         return new IconButtonBuilder(iconPath);
     }
 
-    public static SliderBuilder slider() {
-        return new SliderBuilder();
-    }
+    // public static SliderBuilder slider() {
+    //     return new SliderBuilder();
+    // }
 }
