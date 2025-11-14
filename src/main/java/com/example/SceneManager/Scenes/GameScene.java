@@ -46,14 +46,18 @@ public class GameScene extends MyScene {
             .setPrefHeight(1880);
 
 
-        // VBoxBuilder game = WidgetFactory.vbox();
-        // VBoxBuilder panel = WidgetFactory.vbox();
+        VBoxBuilder game = WidgetFactory.vbox()
+            .setMaxWidth(1000)
+            .setPrefWidth(1000)
+            .setStyle("-fx-background-color: transparent;");
+
+        VBoxBuilder panel = WidgetFactory.vbox();
 
         header(header);
-        boardView(gameView);
+        boardView(game);
         rightSidePanel();
 
-        // gameView.add(game.getNode(), panel.getNode());
+        gameView.add(game.getNode(), panel.getNode());
         page.add(header.getNode(), gameView.getNode());
         _root.getChildren().addAll(page.getNode());
     }
@@ -83,7 +87,7 @@ public class GameScene extends MyScene {
         header.addWithFlex(settings.getNode(), gameCode.getNode());
     }
 
-    private void boardView(HBoxBuilder gameView) {
+    private void boardView(VBoxBuilder game) {
 
         // REMOVE THIS SAMPLE EXAMPLE
         List<Tile> tiles = new ArrayList<>();
@@ -96,10 +100,29 @@ public class GameScene extends MyScene {
             tiles.add(tile);
         }
 
-        tileRack(gameView, tiles);
+        Pane rack = tileRack(tiles);
+
+        HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
+        ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> {})
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        ButtonBuilder skipButton = WidgetFactory.button("Skip", e -> {})
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        ButtonBuilder swapButton = WidgetFactory.button("Swap", e -> {})
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        ButtonBuilder submitButton = WidgetFactory.button("Submit", e -> {})
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5);
+        buttons.add(resignButton.getNode(), skipButton.getNode(), swapButton.getNode(), submitButton.getNode());
+        game.add(rack, buttons.getNode());
     }
 
-    private void tileRack(HBoxBuilder gameView, List<Tile> tiles) {
+    private Pane tileRack(List<Tile> tiles) {
 
         Pane rack = new Pane();
         rack.setPrefWidth(550);
@@ -128,16 +151,10 @@ public class GameScene extends MyScene {
         rotateIcon.getNode().setLayoutX(480);
         rotateIcon.getNode().setLayoutY(16);
 
-        // One draggable tile
-        // TileBuilder tile = WidgetFactory.tile("E", 1);
-        // tile.getNode().setLayoutX(100);
-        // tile.getNode().setLayoutY(10);
-
         rack.getChildren().addAll(
             shuffleIcon.getNode(),
             rotateIcon.getNode()
         );
-
 
         AtomicInteger x = new AtomicInteger(82);
         tiles.forEach(t -> {
@@ -146,7 +163,7 @@ public class GameScene extends MyScene {
             x.addAndGet(56);
         });
 
-        gameView.add(rack);
+        return rack;
     }
 
     private void rightSidePanel() {
