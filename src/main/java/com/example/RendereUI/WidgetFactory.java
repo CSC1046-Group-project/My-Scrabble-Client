@@ -7,6 +7,7 @@ import com.example.RendereUI.Widgets.LineBuilder;
 import com.example.RendereUI.Widgets.SliderBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
 import com.example.RendereUI.Widgets.TextFieldBuilder;
+import com.example.RendereUI.Widgets.TileBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
 
 import javafx.event.ActionEvent;
@@ -48,5 +49,9 @@ public class WidgetFactory {
 
     public static SliderBuilder slider() {
         return new SliderBuilder();
+    }
+
+    public static TileBuilder tile(String letter, int number, int x, int y) {
+        return new TileBuilder(letter, number, x, y);
     }
 }
