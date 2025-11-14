@@ -4,6 +4,7 @@ import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.HBoxBuilder;
 import com.example.RendereUI.Widgets.IconButtonBuilder;
 import com.example.RendereUI.Widgets.LineBuilder;
+import com.example.RendereUI.Widgets.SliderBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
 import com.example.RendereUI.Widgets.TextFieldBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
@@ -80,18 +81,18 @@ public class SettingsScene extends MyScene {
 
 
         TextBuilder changeVolumeText = WidgetFactory.text("Set Volume").setFont(16);
-        // SliderBuilder volumeSlider = WidgetFactory.slider();
-        // HBox.setHgrow(volumeSlider.getNode(), javafx.scene.layout.Priority.ALWAYS);
+        SliderBuilder volumeSlider = WidgetFactory.slider();
+        HBox.setHgrow(volumeSlider.getNode(), javafx.scene.layout.Priority.ALWAYS);
 
         TextBuilder changeMusicText = WidgetFactory.text("Set   Music").setFont(16);
-        // SliderBuilder musicSlider = WidgetFactory.slider();
-        // HBox.setHgrow(musicSlider.getNode(), javafx.scene.layout.Priority.ALWAYS);
+        SliderBuilder musicSlider = WidgetFactory.slider();
+        HBox.setHgrow(musicSlider.getNode(), javafx.scene.layout.Priority.ALWAYS);
 
         HBoxBuilder volumeBlock = WidgetFactory.hbox().setSpacing(10);
-        // volumeBlock.add(changeVolumeText.getNode(), volumeSlider.getNode());
+        volumeBlock.add(changeVolumeText.getNode(), volumeSlider.getNode());
 
         HBoxBuilder musicBlock = WidgetFactory.hbox().setSpacing(10);
-        // musicBlock.add(changeMusicText.getNode(), musicSlider.getNode());
+        musicBlock.add(changeMusicText.getNode(), musicSlider.getNode());
 
         panel.add(header.getNode(), changeUsernameText.getNode(), usernameBox.getNode(), changePasswordText.getNode(), passwordBox.getNode(), titleLine.getNode(), volumeBlock.getNode(), musicBlock.getNode());
 
