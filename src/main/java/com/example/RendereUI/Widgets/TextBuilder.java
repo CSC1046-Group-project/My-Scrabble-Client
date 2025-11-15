@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class TextBuilder extends Widget{
 
@@ -16,10 +17,16 @@ public class TextBuilder extends Widget{
         _text = new Text(text);
         _text.setFill(Color.WHITE);
         _text.setFont(Font.font(16));
+        _text.setTextAlignment(TextAlignment.LEFT);
     }
 
     public TextBuilder setFont(double size) {
         _text.setFont(Font.font(size));
+        return this;
+    }
+
+    public TextBuilder setTextAlignment(TextAlignment value) {
+        _text.setTextAlignment(value);
         return this;
     }
 
