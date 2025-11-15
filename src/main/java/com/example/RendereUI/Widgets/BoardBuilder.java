@@ -65,6 +65,10 @@ public class BoardBuilder extends Widget {
         _boardPane.getChildren().remove(tile.getNode());
     }
 
+    public BoardCell getBoardCell(int i, int j) {
+        return _board.getCell(i, j);
+    }
+
     @Override
     public Node getNode() {
         return _boardPane;

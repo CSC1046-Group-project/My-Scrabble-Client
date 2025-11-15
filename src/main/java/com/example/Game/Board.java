@@ -36,7 +36,7 @@ public class Board {
         };
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
-                _cells.add(new BoardCell(layout[row][col]));
+                _cells.add(new BoardCell(layout[row][col], row, col));
             }
         }
     }

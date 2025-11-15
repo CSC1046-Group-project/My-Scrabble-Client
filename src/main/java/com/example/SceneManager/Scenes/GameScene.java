@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.example.Game.BoardCell;
 import com.example.Game.Tile;
 import com.example.Game.User;
 import com.example.Network.Listener;
@@ -31,6 +32,7 @@ import javafx.scene.text.TextAlignment;
 public class GameScene extends MyScene {
 
     private BoardBuilder _board;
+    private List<BoardCell> _cellsPlaced = new ArrayList<>();
 
     @Override
     public void initRoot() {
@@ -198,7 +200,13 @@ public class GameScene extends MyScene {
     private boolean releaseTile(TileBuilder tile, double[] pos) {
         Integer[] mousePosOnBoard = _board.getCellHover(pos[0], pos[1]);
         TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0, false);
-        return _board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1]);
+
+        if (_board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1])) {
+            _cellsPlaced.add(_board.getBoardCell(mousePosOnBoard[0], mousePosOnBoard[1]));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void rightSidePanel(VBoxBuilder panel) {
@@ -315,7 +323,82 @@ public class GameScene extends MyScene {
     private void submit() {
         if (User.getToken() == null || User.getToken().equals(""))
             return;
-        Network.sendMessage(ProtocolFactory.submit(User.getToken(), "", "0", "0", "0"));
+
+        if (_cellsPlaced == null || _cellsPlaced.isEmpty())
+            return;
+
+        boolean isVertical = true;
+        boolean isHorizontal = true;
+        boolean isHalign = true;
+        boolean isValign = true;
+        int currentPosV = -1;
+        int currentPosH = -1;
+
+        _cellsPlaced.sort((a, b) -> Integer.compare(a.getPos()[0], b.getPos()[0]));
+
+        for (int i = 0; i < _cellsPlaced.size(); i++) {
+            BoardCell c = _cellsPlaced.get(i);
+            if (currentPosV == -1) {
+                currentPosV = c.getPos()[0];
+                currentPosH = c.getPos()[1];
+                continue;
+            }
+            if (c.getPos()[0] != currentPosV + 1)
+                isVertical = false;
+            if (c.getPos()[1] != currentPosH)
+                isValign = false;
+            currentPosV = c.getPos()[0];
+        }
+        currentPosH = -1;
+        currentPosV = -1;
+
+        System.out.println(isVertical);
+        System.out.println(isValign);
+
+        if (isVertical && isValign) {
+            String word = "";
+            for (int i = 0; i < _cellsPlaced.size(); i++) {
+                word += _cellsPlaced.get(i).getTile().getLetter();
+            }
+
+            Network.sendMessage(ProtocolFactory.submit(
+                User.getToken(),
+                word,
+                String.valueOf(_cellsPlaced.get(0).getPos()[0]),
+                String.valueOf(_cellsPlaced.get(0).getPos()[1]),
+                "0"
+            ));
+        }
+
+        _cellsPlaced.sort((a, b) -> Integer.compare(a.getPos()[1], b.getPos()[1]));
+        for (int i = 0; i < _cellsPlaced.size(); i++) {
+            BoardCell c = _cellsPlaced.get(i);
+            if (currentPosH == -1) {
+                currentPosH = c.getPos()[1];
+                currentPosV = c.getPos()[0];
+                continue;
+            }
+            if (c.getPos()[1] != currentPosH + 1)
+                isHorizontal = false;
+            if (c.getPos()[0] != currentPosV)
+                isHalign = false;
+            currentPosH = c.getPos()[1];
+        }
+
+        if (isHorizontal && isHalign) {
+            String word = "";
+            for (int i = 0; i < _cellsPlaced.size(); i++) {
+                word += _cellsPlaced.get(i).getTile().getLetter();
+            }
+
+            Network.sendMessage(ProtocolFactory.submit(
+                User.getToken(),
+                word,
+                String.valueOf(_cellsPlaced.get(0).getPos()[0]),
+                String.valueOf(_cellsPlaced.get(0).getPos()[1]),
+                "1"
+            ));
+        }
     }
 
     private void challenge() {
