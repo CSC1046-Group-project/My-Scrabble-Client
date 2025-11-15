@@ -57,10 +57,6 @@ public class BoardBuilder extends Widget {
         javafx.geometry.Point2D local = _boardPane.screenToLocal(mouseX, mouseY);
         int col = (int)(local.getX() / tileSize);
         int row = (int)(local.getY() / tileSize);
-
-        System.out.println(col);
-        System.out.println(row);
-
         return new Integer[]{row, col};
     }
 

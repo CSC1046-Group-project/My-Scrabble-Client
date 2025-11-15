@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.example.Game.Tile;
+import com.example.Game.User;
+import com.example.Network.Listener;
+import com.example.Network.Network;
+import com.example.Network.Protocol.ProtocolFactory;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.BoardBuilder;
 import com.example.RendereUI.Widgets.ButtonBuilder;
@@ -109,26 +113,41 @@ public class GameScene extends MyScene {
 
         _board = WidgetFactory.board(15, 15, 50);
 
+        ButtonBuilder challengeButton = WidgetFactory.button("Challenge", e -> challenge())
+            .setFont(16)
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #C04D4D; -fx-background-radius: 10;");
+
         Pane rack = tileRack(tiles);
+        HBoxBuilder challengeRackBlock = WidgetFactory.hbox()
+            .setMaxWidth(696)
+            .setPrefWidth(696)
+            .setStyle("-fx-background-color: transparent;");
+        challengeRackBlock.add(challengeButton.getNode(), rack);
 
         HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
-        ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> {})
+        ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> resign())
+            .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5)
             .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        ButtonBuilder skipButton = WidgetFactory.button("Skip", e -> {})
+        ButtonBuilder skipButton = WidgetFactory.button("Skip", e -> skip())
+            .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5)
             .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        ButtonBuilder swapButton = WidgetFactory.button("Swap", e -> {})
+        ButtonBuilder swapButton = WidgetFactory.button("Swap", e -> swap())
+            .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5)
             .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        ButtonBuilder submitButton = WidgetFactory.button("Submit", e -> {})
+        ButtonBuilder submitButton = WidgetFactory.button("Submit", e -> submit())
+            .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5);
         buttons.add(resignButton.getNode(), skipButton.getNode(), swapButton.getNode(), submitButton.getNode());
-        game.add(_board.getNode(), rack, buttons.getNode());
+        game.add(_board.getNode(), challengeRackBlock.getNode(), buttons.getNode());
     }
 
     private Pane tileRack(List<Tile> tiles) {
@@ -271,6 +290,37 @@ public class GameScene extends MyScene {
 
     @Override
     public void initListener() {
+        Listener gameListener = new Listener();
+        Network.setListener(gameListener);
+    }
 
+    private void resign() {
+        if (User.getToken() == null || User.getToken().equals(""))
+            return;
+        Network.sendMessage(ProtocolFactory.resign(User.getToken()));
+    }
+
+    private void skip() {
+        if (User.getToken() == null || User.getToken().equals(""))
+            return;
+        Network.sendMessage(ProtocolFactory.skip(User.getToken()));
+    }
+
+    private void swap() {
+        if (User.getToken() == null || User.getToken().equals(""))
+            return;
+        Network.sendMessage(ProtocolFactory.swap(User.getToken(), ""));
+    }
+
+    private void submit() {
+        if (User.getToken() == null || User.getToken().equals(""))
+            return;
+        Network.sendMessage(ProtocolFactory.submit(User.getToken(), "", "0", "0", "0"));
+    }
+
+    private void challenge() {
+        if (User.getToken() == null || User.getToken().equals(""))
+            return;
+        Network.sendMessage(ProtocolFactory.challenge(User.getToken()));
     }
 }
