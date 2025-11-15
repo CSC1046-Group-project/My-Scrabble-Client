@@ -40,7 +40,7 @@ public class GameScene extends MyScene {
             .setStyle("-fx-background-color: transparent;")
             .setPadding(0);
         HBoxBuilder header = WidgetFactory.hbox()
-            .setStyle("-fx-background-color: red;")
+            .setStyle("-fx-background-color: transparent;")
             .setMaxWidth(Double.MAX_VALUE);
 
         HBoxBuilder gameView = WidgetFactory.hbox()
