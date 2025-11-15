@@ -194,7 +194,7 @@ public class GameScene extends MyScene {
         AtomicInteger x = new AtomicInteger(82);
         tiles.forEach(t -> {
             TileBuilder tile = WidgetFactory.tile(t, x.get(), 16);
-            tile.setOnRelease((a,b) -> test(a, b));
+            tile.setOnRelease((a,b) -> releaseTile(a, b));
             rack.getChildren().add(tile.getNode());
             x.addAndGet(56);
         });
@@ -206,7 +206,7 @@ public class GameScene extends MyScene {
 
     }
 
-    public void test(TileBuilder tile, double[] pos) {
+    public void releaseTile(TileBuilder tile, double[] pos) {
         Integer[] mousePosOnBoard = _board.getCellHover(pos[0], pos[1]);
         TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0);
         _board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1]);
