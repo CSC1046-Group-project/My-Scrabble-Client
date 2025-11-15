@@ -27,6 +27,11 @@ public class HBoxBuilder extends Widget {
         return this;
     }
 
+    public HBoxBuilder setAlignment(Pos value) {
+        _hBox.setAlignment(value);
+        return this;
+    }
+
     public void add(Node... elements) {
         _hBox.getChildren().addAll(elements);
     }
@@ -44,6 +49,31 @@ public class HBoxBuilder extends Widget {
                 _hBox.getChildren().add(spacer);
             }
         }
+        return this;
+    }
+
+    public HBoxBuilder setMaxWidth(double value) {
+        _hBox.setMaxWidth(value);
+        return this;
+    }
+
+    public HBoxBuilder setMaxHeight(double value) {
+        _hBox.setMaxHeight(value);
+        return this;
+    }
+
+    public HBoxBuilder setPrefWidth(double value) {
+        _hBox.setPrefWidth(value);
+        return this;
+    }
+
+    public HBoxBuilder setPrefHeight(double value) {
+        _hBox.setPrefHeight(value);
+        return this;
+    }
+
+    public HBoxBuilder setStyle(String value) {
+        _hBox.setStyle(value);
         return this;
     }
 
