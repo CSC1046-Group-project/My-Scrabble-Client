@@ -2,10 +2,10 @@ package com.example.SceneManager.Scenes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.example.Game.BoardCell;
 import com.example.Game.Tile;
+import com.example.Game.TileRack;
 import com.example.Game.User;
 import com.example.Network.Listener;
 import com.example.Network.Network;
@@ -32,7 +32,10 @@ import javafx.scene.text.TextAlignment;
 public class GameScene extends MyScene {
 
     private BoardBuilder _board;
-    private List<BoardCell> _cellsPlaced = new ArrayList<>();
+    private final List<BoardCell> _cellsPlaced = new ArrayList<>();
+    private List<Tile> _tiles;
+    private TileRack _tileRack;
+    private Pane _rack;
 
     @Override
     public void initRoot() {
@@ -103,14 +106,19 @@ public class GameScene extends MyScene {
     private void boardView(VBoxBuilder game) {
 
         // REMOVE THIS SAMPLE EXAMPLE
-        List<Tile> tiles = new ArrayList<>();
+        _tiles = new ArrayList<>();
         String[] letters = { "E", "E", "O", "R", "H", "D", "U" };
         int[] points     = {  1,   1,   1,   1,   4,   2,   1 };
         for (int i = 0; i < letters.length; i++) {
             Tile tile = new Tile();
             tile.setLetter(letters[i]);
             tile.setPoint(points[i]);
-            tiles.add(tile);
+            _tiles.add(tile);
+        }
+
+        _tileRack = new TileRack();
+        for (Tile t : _tiles) {
+            _tileRack.addTile(t);
         }
 
         _board = WidgetFactory.board(15, 15, 50);
@@ -121,12 +129,12 @@ public class GameScene extends MyScene {
             .setMaxWidth(122.5)
             .setStyle("-fx-background-color: #C04D4D; -fx-background-radius: 10;");
 
-        Pane rack = tileRack(tiles);
+        initTileRack();
         HBoxBuilder challengeRackBlock = WidgetFactory.hbox()
             .setMaxWidth(696)
             .setPrefWidth(696)
             .setStyle("-fx-background-color: transparent;");
-        challengeRackBlock.add(challengeButton.getNode(), rack);
+        challengeRackBlock.add(challengeButton.getNode(), _rack);
 
         HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
         ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> resign())
@@ -152,14 +160,20 @@ public class GameScene extends MyScene {
         game.add(_board.getNode(), challengeRackBlock.getNode(), buttons.getNode());
     }
 
-    private Pane tileRack(List<Tile> tiles) {
+    private void initTileRack() {
 
-        Pane rack = new Pane();
-        rack.setPrefWidth(550);
-        rack.setPrefHeight(86);
-        rack.setMaxWidth(550);
-        rack.setMaxHeight(86);
-        rack.setStyle("-fx-background-color: #222226;");
+        _rack = new Pane();
+        _rack.setPrefWidth(550);
+        _rack.setPrefHeight(86);
+        _rack.setMaxWidth(550);
+        _rack.setMaxHeight(86);
+        _rack.setStyle("-fx-background-color: #222226;");
+
+        displayTileRack();
+    }
+
+    private void displayTileRack() {
+        _rack.getChildren().clear();
 
         // Shuffle button (left)
         IconButtonBuilder shuffleIcon = WidgetFactory.iconButton(
@@ -174,32 +188,37 @@ public class GameScene extends MyScene {
         // Rotate icon (right)
         IconButtonBuilder rotateIcon = WidgetFactory.iconButton(
             "/assets/rotate.png",
-            e -> {}
+            e -> tilesGoBackToRack()
         ).setFitWidth(32).setFitHeight(32)
         .setStyle("-fx-background-color: #282833");
 
         rotateIcon.getNode().setLayoutX(480);
         rotateIcon.getNode().setLayoutY(16);
 
-        rack.getChildren().addAll(
+        _rack.getChildren().addAll(
             shuffleIcon.getNode(),
             rotateIcon.getNode()
         );
 
-        AtomicInteger x = new AtomicInteger(82);
-        tiles.forEach(t -> {
-            TileBuilder tile = WidgetFactory.tile(t, x.get(), 16, true);
+        int x = 82;
+        for (int i = 0; i < _tileRack.getTiles().size(); i++) {
+            Tile t = _tileRack.getTiles().get(i);
+            if (t == null) {
+                x += 56;
+                continue;
+            }
+            TileBuilder tile = WidgetFactory.tile(t, x, 16, true, i);
             tile.setOnRelease((a,b) -> releaseTile(a, b));
-            rack.getChildren().add(tile.getNode());
-            x.addAndGet(56);
-        });
-
-        return rack;
+            _rack.getChildren().add(tile.getNode());
+            x += 56;
+        }
     }
 
     private boolean releaseTile(TileBuilder tile, double[] pos) {
         Integer[] mousePosOnBoard = _board.getCellHover(pos[0], pos[1]);
-        TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0, false);
+        TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0, false, tile.getRackIndex());
+
+        _tileRack.removeTile(tile.getRackIndex());
 
         if (_board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1])) {
             _cellsPlaced.add(_board.getBoardCell(mousePosOnBoard[0], mousePosOnBoard[1]));
@@ -352,9 +371,6 @@ public class GameScene extends MyScene {
         currentPosH = -1;
         currentPosV = -1;
 
-        System.out.println(isVertical);
-        System.out.println(isValign);
-
         if (isVertical && isValign) {
             String word = "";
             for (int i = 0; i < _cellsPlaced.size(); i++) {
@@ -405,5 +421,15 @@ public class GameScene extends MyScene {
         if (User.getToken() == null || User.getToken().equals(""))
             return;
         Network.sendMessage(ProtocolFactory.challenge(User.getToken()));
+    }
+
+    private void tilesGoBackToRack() {
+
+        for (int i = 0; i < _cellsPlaced.size(); i++) {
+            _tileRack.addTile(_cellsPlaced.get(i).getTile());
+            _board.removeTile(_cellsPlaced.get(i));
+        }
+        _cellsPlaced.clear();
+        displayTileRack();
     }
 }

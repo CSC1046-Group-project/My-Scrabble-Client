@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
 public class BoardBuilder extends Widget {
 
     private final Pane _boardPane;
-    private final List<TileBuilder> tiles = new ArrayList<>();
+    private final List<TileBuilder> _tiles = new ArrayList<>(java.util.Collections.nCopies(15*15, null));
     private final Board _board;
 
     private final int rows;
@@ -48,7 +48,7 @@ public class BoardBuilder extends Widget {
 
         tile.setLayoutX(col * tileSize);
         tile.setLayoutY(row * tileSize);
-        tiles.add(tile);
+        _tiles.set(row * 15 + col, tile);
         _boardPane.getChildren().add(tile.getNode());
         return true;
     }
@@ -60,9 +60,9 @@ public class BoardBuilder extends Widget {
         return new Integer[]{row, col};
     }
 
-    public void removeTile(TileBuilder tile) {
-        tiles.remove(tile);
-        _boardPane.getChildren().remove(tile.getNode());
+    public void removeTile(BoardCell cell) {
+        _boardPane.getChildren().remove(_tiles.get(cell.getPos()[0] * 15 + cell.getPos()[1]).getNode());
+        _board.removeTile(cell.getPos()[0], cell.getPos()[1]);
     }
 
     public BoardCell getBoardCell(int i, int j) {

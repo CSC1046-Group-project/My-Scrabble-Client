@@ -18,8 +18,9 @@ public class TileBuilder extends Widget {
     private final StackPane _tilePane;
     private BiFunction<TileBuilder, double[], Boolean> _onReleaseCallback;
     private final Tile _tile;
+    private int _rackIndex = -1;
 
-    public TileBuilder(Tile tile, int x, int y, boolean isDraggable) {
+    public TileBuilder(Tile tile, int x, int y, boolean isDraggable, int rackIndex) {
 
         _tile = tile;
         _tilePane = new StackPane();
@@ -41,6 +42,7 @@ public class TileBuilder extends Widget {
         _tilePane.setLayoutY(y);
 
         if (isDraggable) enableDrag(_tilePane);
+        _rackIndex = rackIndex;
     }
 
     public void setOnRelease(BiFunction<TileBuilder, double[], Boolean> callback) {
@@ -90,6 +92,10 @@ public class TileBuilder extends Widget {
 
     public Tile getTile() {
         return _tile;
+    }
+
+    public int getRackIndex() {
+        return _rackIndex;
     }
 
     @Override

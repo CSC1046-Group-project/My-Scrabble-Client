@@ -24,8 +24,9 @@ public class BoardCell {
     }
 
     public boolean addTile(Tile tile) {
-        if (_tile != null)
+        if (_tile != null) {
             return false;
+        }
         _tile = tile;
         return true;
     }
