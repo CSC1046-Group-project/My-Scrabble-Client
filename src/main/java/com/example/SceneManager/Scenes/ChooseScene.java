@@ -152,7 +152,12 @@ public class ChooseScene extends MyScene {
     }
 
     private void onStartPublicGameSuccess(ProtocolMessage message) {
-        SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE);
+        try {
+            String roomId = message.getArgs().get(0);
+            User.setRoomId(roomId);
+            SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE);
+        } catch (Exception e) {
+        }
     }
 
     private void onStartPublicGameFailed(ProtocolMessage message) {

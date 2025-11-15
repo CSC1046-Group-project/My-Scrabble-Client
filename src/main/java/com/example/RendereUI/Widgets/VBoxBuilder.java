@@ -65,6 +65,10 @@ public class VBoxBuilder extends Widget{
         _vbox.getChildren().addAll(elements);
     }
 
+    public void remove(Node node) {
+        _vbox.getChildren().remove(node);
+    }
+
     public VBoxBuilder addWithFlex(Node... elements) {
         if (elements == null || elements.length == 0) {
             return this;

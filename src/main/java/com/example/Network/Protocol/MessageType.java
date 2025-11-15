@@ -23,5 +23,12 @@ public enum MessageType {
     CHALLENGE,
     SKIP,
     RESIGN,
-    SWAP
+    SWAP,
+
+    TILEBAG,
+
+    GAME_START,
+    PLAYER_HAVE_PLAYED,
+    PLAYER_IS_READY,
+    // IS_READY,
 }
