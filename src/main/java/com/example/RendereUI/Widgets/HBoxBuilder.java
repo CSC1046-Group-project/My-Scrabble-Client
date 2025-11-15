@@ -27,6 +27,11 @@ public class HBoxBuilder extends Widget {
         return this;
     }
 
+    public HBoxBuilder setAlignment(Pos value) {
+        _hBox.setAlignment(value);
+        return this;
+    }
+
     public void add(Node... elements) {
         _hBox.getChildren().addAll(elements);
     }
