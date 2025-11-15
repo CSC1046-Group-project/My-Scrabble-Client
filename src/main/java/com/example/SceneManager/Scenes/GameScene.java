@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.example.Game.Tile;
 import com.example.RendereUI.WidgetFactory;
+import com.example.RendereUI.Widgets.BoardBuilder;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
 import com.example.RendereUI.Widgets.IconButtonBuilder;
@@ -23,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class GameScene extends MyScene {
+
+    private BoardBuilder _board;
 
     @Override
     public void initRoot() {
@@ -100,6 +103,38 @@ public class GameScene extends MyScene {
             tiles.add(tile);
         }
 
+        _board = WidgetFactory.board(15, 15, 50);
+        // TileBuilder tile1 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile2 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile3 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile4 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile5 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile6 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile7 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile8 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile9 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile10 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile11 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile12 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile13 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile14 = WidgetFactory.tile("h", 2, 0, 0);
+        // TileBuilder tile15 = WidgetFactory.tile("h", 2, 0, 0);
+        // _board.addTile(tile1, 0, 1);
+        // _board.addTile(tile2, 0, 2);
+        // _board.addTile(tile3, 0, 3);
+        // _board.addTile(tile4, 0, 4);
+        // _board.addTile(tile5, 0, 5);
+        // _board.addTile(tile6, 0, 6);
+        // _board.addTile(tile7, 0, 7);
+        // _board.addTile(tile8, 0, 8);
+        // _board.addTile(tile9, 0, 9);
+        // _board.addTile(tile10, 0, 10);
+        // _board.addTile(tile11, 0, 11);
+        // _board.addTile(tile12, 0, 12);
+        // _board.addTile(tile13, 0, 13);
+        // _board.addTile(tile14, 0, 14);
+        // _board.addTile(tile15, 0, 0);
+
         Pane rack = tileRack(tiles);
 
         HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
@@ -119,7 +154,7 @@ public class GameScene extends MyScene {
             .setPrefWidth(122.5)
             .setMaxWidth(122.5);
         buttons.add(resignButton.getNode(), skipButton.getNode(), swapButton.getNode(), submitButton.getNode());
-        game.add(rack, buttons.getNode());
+        game.add(_board.getNode(), rack, buttons.getNode());
     }
 
     private Pane tileRack(List<Tile> tiles) {
@@ -158,7 +193,8 @@ public class GameScene extends MyScene {
 
         AtomicInteger x = new AtomicInteger(82);
         tiles.forEach(t -> {
-            TileBuilder tile = WidgetFactory.tile(t.getLetter(), t.getPoint(), x.get(), 16);
+            TileBuilder tile = WidgetFactory.tile(t, x.get(), 16);
+            tile.setOnRelease((a,b) -> test(a, b));
             rack.getChildren().add(tile.getNode());
             x.addAndGet(56);
         });
@@ -168,5 +204,11 @@ public class GameScene extends MyScene {
 
     private void rightSidePanel() {
 
+    }
+
+    public void test(TileBuilder tile, double[] pos) {
+        Integer[] mousePosOnBoard = _board.getCellHover(pos[0], pos[1]);
+        TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0);
+        _board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1]);
     }
 }
