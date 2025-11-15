@@ -21,4 +21,28 @@ public class ProtocolFactory {
     public static ProtocolMessage startPublicGame(String token) {
         return new ProtocolMessage(MessageType.START_PUBLIC_GAME, token);
     }
+
+    public static ProtocolMessage ready(String token, String roomId) {
+        return new ProtocolMessage(MessageType.READY, token, roomId);
+    }
+
+    public static ProtocolMessage submit(String token, String roomId, String word, String x, String y, String horizontal) {
+        return new ProtocolMessage(MessageType.READY, token, roomId, word, x, y, horizontal);
+    }
+
+    public static ProtocolMessage challenge(String token, String roomId) {
+        return new ProtocolMessage(MessageType.READY, token, roomId);
+    }
+
+    public static ProtocolMessage skip(String token, String roomId) {
+        return new ProtocolMessage(MessageType.READY, token, roomId);
+    }
+
+    public static ProtocolMessage resign(String token, String roomId) {
+        return new ProtocolMessage(MessageType.READY, token, roomId);
+    }
+
+    public static ProtocolMessage swap(String token, String roomId, String letters) {
+        return new ProtocolMessage(MessageType.READY, token, roomId, letters);
+    }
 }

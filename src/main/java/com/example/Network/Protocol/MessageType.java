@@ -15,5 +15,13 @@ public enum MessageType {
     JOIN_PRIVATE_GAME_FAILED,
     START_PUBLIC_GAME,
     START_PUBLIC_GAME_SUCCESS,
-    START_PUBLIC_GAME_FAILED
+    START_PUBLIC_GAME_FAILED,
+
+    // In Game protocol
+    READY,
+    SUBMIT,
+    CHALLENGE,
+    SKIP,
+    RESIGN,
+    SWAP
 }
