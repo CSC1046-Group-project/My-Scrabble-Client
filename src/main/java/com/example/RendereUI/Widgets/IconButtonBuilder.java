@@ -58,6 +58,11 @@ public class IconButtonBuilder extends Widget{
         return this;
     }
 
+    public IconButtonBuilder setStyle(String value) {
+        _icoBtn.setStyle(value);
+        return this;
+    }
+
     @Override
     public Node getNode() {
         return _icoBtn;

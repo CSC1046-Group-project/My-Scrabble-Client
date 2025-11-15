@@ -1,52 +1,189 @@
 package com.example.SceneManager.Scenes;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import com.example.Game.Tile;
 import com.example.RendereUI.WidgetFactory;
+import com.example.RendereUI.Widgets.BoardBuilder;
+import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
 import com.example.RendereUI.Widgets.IconButtonBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
+import com.example.RendereUI.Widgets.TileBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
 import com.example.SceneManager.MyScene;
+import com.example.SceneManager.SceneManager;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 public class GameScene extends MyScene {
 
+    private BoardBuilder _board;
+
     @Override
     public void initRoot() {
 
-         // Root container
+        // Root container
         _root.setPadding(new Insets(20));
         _root.setBackground(new Background(new BackgroundFill(Color.web("0x16161E"), null, null)));
         _root.setAlignment(Pos.CENTER);
 
-        header();
-        boardView();
-        VBoxBuilder rightsidePanel = rightSidePanel();
+        VBoxBuilder page = WidgetFactory.vbox()
+            .setStyle("-fx-background-color: transparent;")
+            .setPadding(0);
+        HBoxBuilder header = WidgetFactory.hbox()
+            .setStyle("-fx-background-color: red;")
+            .setMaxWidth(Double.MAX_VALUE);
 
-        _root.getChildren().addAll(rightsidePanel.getNode());
-    }
+        HBoxBuilder gameView = WidgetFactory.hbox()
+            .setStyle("-fx-background-color: transparent;")
+            .setMaxWidth(Double.MAX_VALUE)
+            .setMaxHeight(1880)
+            .setPrefHeight(1880);
 
-    private void header() {
-
-    }
-
-    private void boardView() {
-
-    }
-
-    private VBoxBuilder rightSidePanel() {
+        VBoxBuilder game = WidgetFactory.vbox()
+            .setMaxWidth(1000)
+            .setPrefWidth(1000)
+            .setStyle("-fx-background-color: transparent;");
 
         VBoxBuilder panel = WidgetFactory.vbox()
             .setMaxWidth(550)
             .setMaxHeight(850)
             .setPrefWidth(550)
-            .setAlignment(Pos.TOP_CENTER);
-    
+            .setAlignment(Pos.CENTER_RIGHT);
+
+        header(header);
+        boardView(game);
+        rightSidePanel(panel);
+
+        gameView.addWithFlex(game.getNode(), panel.getNode());
+        page.add(header.getNode(), gameView.getNode());
+        _root.getChildren().addAll(page.getNode());
+    }
+
+    private void header(HBoxBuilder header) {
+
+        // Create settings icon
+        IconButtonBuilder settingsIcon = WidgetFactory.iconButton(
+            "/assets/settings.png",
+            e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
+        ).setFitWidth(24).setFitHeight(24);
+        // Create settings button
+        ButtonBuilder settingsButton = WidgetFactory.button(
+            "Settings",
+            e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
+        ).setPrefHeight(34)
+            .setFont(16)
+            .setStyle("-fx-background-color: transparent;")
+            .setMaxWidth(120)
+            .setAlignment(Pos.CENTER_LEFT);
+        HBoxBuilder settings = WidgetFactory.hbox().setSpacing(0).setStyle("-fx-background-color: transparent;");
+        settings.add(settingsIcon.getNode(), settingsButton.getNode());
+
+        // Game code/password
+        TextBuilder gameCode = WidgetFactory.text("Private Game 56-54-24-12-43#Password");
+
+        header.addWithFlex(settings.getNode(), gameCode.getNode());
+    }
+
+    private void boardView(VBoxBuilder game) {
+
+        // REMOVE THIS SAMPLE EXAMPLE
+        List<Tile> tiles = new ArrayList<>();
+        String[] letters = { "E", "E", "O", "R", "H", "D", "U" };
+        int[] points     = {  1,   1,   1,   1,   4,   2,   1 };
+        for (int i = 0; i < letters.length; i++) {
+            Tile tile = new Tile();
+            tile.setLetter(letters[i]);
+            tile.setPoint(points[i]);
+            tiles.add(tile);
+        }
+
+        _board = WidgetFactory.board(15, 15, 50);
+
+        Pane rack = tileRack(tiles);
+
+        HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
+        ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> {})
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        ButtonBuilder skipButton = WidgetFactory.button("Skip", e -> {})
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        ButtonBuilder swapButton = WidgetFactory.button("Swap", e -> {})
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        ButtonBuilder submitButton = WidgetFactory.button("Submit", e -> {})
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5);
+        buttons.add(resignButton.getNode(), skipButton.getNode(), swapButton.getNode(), submitButton.getNode());
+        game.add(_board.getNode(), rack, buttons.getNode());
+    }
+
+    private Pane tileRack(List<Tile> tiles) {
+
+        Pane rack = new Pane();
+        rack.setPrefWidth(550);
+        rack.setPrefHeight(86);
+        rack.setMaxWidth(550);
+        rack.setMaxHeight(86);
+        rack.setStyle("-fx-background-color: #222226;");
+
+        // Shuffle button (left)
+        IconButtonBuilder shuffleIcon = WidgetFactory.iconButton(
+            "/assets/shuffle.png",
+            e -> {}
+        ).setFitWidth(32).setFitHeight(32)
+         .setStyle("-fx-background-color: #282833");
+
+        shuffleIcon.getNode().setLayoutX(13);
+        shuffleIcon.getNode().setLayoutY(16);
+
+        // Rotate icon (right)
+        IconButtonBuilder rotateIcon = WidgetFactory.iconButton(
+            "/assets/rotate.png",
+            e -> {}
+        ).setFitWidth(32).setFitHeight(32)
+        .setStyle("-fx-background-color: #282833");
+
+        rotateIcon.getNode().setLayoutX(480);
+        rotateIcon.getNode().setLayoutY(16);
+
+        rack.getChildren().addAll(
+            shuffleIcon.getNode(),
+            rotateIcon.getNode()
+        );
+
+        AtomicInteger x = new AtomicInteger(82);
+        tiles.forEach(t -> {
+            TileBuilder tile = WidgetFactory.tile(t, x.get(), 16, true);
+            tile.setOnRelease((a,b) -> releaseTile(a, b));
+            rack.getChildren().add(tile.getNode());
+            x.addAndGet(56);
+        });
+
+        return rack;
+    }
+
+    private boolean releaseTile(TileBuilder tile, double[] pos) {
+        Integer[] mousePosOnBoard = _board.getCellHover(pos[0], pos[1]);
+        TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0, false);
+        return _board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1]);
+    }
+
+    private void rightSidePanel(VBoxBuilder panel) {
+
         VBoxBuilder usersBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833");
 
         HBoxBuilder user1 = createUserBox("Player1", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
@@ -101,9 +238,7 @@ public class GameScene extends MyScene {
         turnhistoryBox.add(turnhistorytext.getNode(), turn1.getNode(), turn2.getNode());
 
         panel.addWithFlex(usersBox.getNode(), tilebagBox.getNode(), turnhistoryBox.getNode());
-
-        return panel;
-    }    
+    }
 
     // we will change this to user.getUsername() and user.getProfilePicPath() later
     public static HBoxBuilder createUserBox(String username, String profilePicPath) {
