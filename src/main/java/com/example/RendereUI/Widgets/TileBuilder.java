@@ -1,6 +1,6 @@
 package com.example.RendereUI.Widgets;
 
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 import com.example.Game.Tile;
 import com.example.RendereUI.Widget;
@@ -8,6 +8,7 @@ import com.example.RendereUI.Widget;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -15,10 +16,10 @@ import javafx.scene.text.Text;
 public class TileBuilder extends Widget {
 
     private final StackPane _tilePane;
-    private BiConsumer<TileBuilder, double[]> _onReleaseCallback;
+    private BiFunction<TileBuilder, double[], Boolean> _onReleaseCallback;
     private final Tile _tile;
 
-    public TileBuilder(Tile tile, int x, int y) {
+    public TileBuilder(Tile tile, int x, int y, boolean isDraggable) {
 
         _tile = tile;
         _tilePane = new StackPane();
@@ -39,10 +40,10 @@ public class TileBuilder extends Widget {
         _tilePane.setLayoutX(x);
         _tilePane.setLayoutY(y);
 
-        enableDrag(_tilePane);
+        if (isDraggable) enableDrag(_tilePane);
     }
 
-    public void setOnRelease(BiConsumer<TileBuilder, double[]> callback) {
+    public void setOnRelease(BiFunction<TileBuilder, double[], Boolean> callback) {
         this._onReleaseCallback = callback;
     }
 
@@ -60,14 +61,19 @@ public class TileBuilder extends Widget {
         });
 
         node.setOnMouseReleased(e -> {
-            node.setTranslateX(0);
-            node.setTranslateY(0);
 
             double mouseX = e.getScreenX();
             double mouseY = e.getScreenY();
 
             if (_onReleaseCallback != null) {
-                _onReleaseCallback.accept(this, new double[]{mouseX, mouseY});
+                if (!_onReleaseCallback.apply(this, new double[]{mouseX, mouseY})) {
+                    node.setTranslateX(0);
+                    node.setTranslateY(0);
+                }
+                else {
+                    Pane parent = (Pane) node.getParent();
+                    if (parent != null) parent.getChildren().remove(node);
+                }
             }
         });
     }

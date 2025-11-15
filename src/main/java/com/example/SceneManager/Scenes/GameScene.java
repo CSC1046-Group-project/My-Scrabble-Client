@@ -40,7 +40,7 @@ public class GameScene extends MyScene {
             .setStyle("-fx-background-color: transparent;")
             .setPadding(0);
         HBoxBuilder header = WidgetFactory.hbox()
-            .setStyle("-fx-background-color: transparent;")
+            .setStyle("-fx-background-color: red;")
             .setMaxWidth(Double.MAX_VALUE);
 
         HBoxBuilder gameView = WidgetFactory.hbox()
@@ -49,26 +49,24 @@ public class GameScene extends MyScene {
             .setMaxHeight(1880)
             .setPrefHeight(1880);
 
-
         VBoxBuilder game = WidgetFactory.vbox()
             .setMaxWidth(1000)
             .setPrefWidth(1000)
             .setStyle("-fx-background-color: transparent;");
 
-        VBoxBuilder panel = WidgetFactory.vbox();
+        VBoxBuilder panel = WidgetFactory.vbox()
+            .setMaxWidth(550)
+            .setMaxHeight(850)
+            .setPrefWidth(550)
+            .setAlignment(Pos.CENTER_RIGHT);
 
         header(header);
         boardView(game);
         rightSidePanel(panel);
 
-        gameView.add(game.getNode(), panel.getNode());
+        gameView.addWithFlex(game.getNode(), panel.getNode());
         page.add(header.getNode(), gameView.getNode());
         _root.getChildren().addAll(page.getNode());
-        // header();
-        // boardView();
-        // VBoxBuilder rightsidePanel = rightSidePanel();
-
-        // _root.getChildren().addAll(rightsidePanel.getNode());
     }
 
     private void header(HBoxBuilder header) {
@@ -110,36 +108,6 @@ public class GameScene extends MyScene {
         }
 
         _board = WidgetFactory.board(15, 15, 50);
-        // TileBuilder tile1 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile2 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile3 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile4 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile5 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile6 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile7 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile8 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile9 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile10 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile11 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile12 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile13 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile14 = WidgetFactory.tile("h", 2, 0, 0);
-        // TileBuilder tile15 = WidgetFactory.tile("h", 2, 0, 0);
-        // _board.addTile(tile1, 0, 1);
-        // _board.addTile(tile2, 0, 2);
-        // _board.addTile(tile3, 0, 3);
-        // _board.addTile(tile4, 0, 4);
-        // _board.addTile(tile5, 0, 5);
-        // _board.addTile(tile6, 0, 6);
-        // _board.addTile(tile7, 0, 7);
-        // _board.addTile(tile8, 0, 8);
-        // _board.addTile(tile9, 0, 9);
-        // _board.addTile(tile10, 0, 10);
-        // _board.addTile(tile11, 0, 11);
-        // _board.addTile(tile12, 0, 12);
-        // _board.addTile(tile13, 0, 13);
-        // _board.addTile(tile14, 0, 14);
-        // _board.addTile(tile15, 0, 0);
 
         Pane rack = tileRack(tiles);
 
@@ -199,7 +167,7 @@ public class GameScene extends MyScene {
 
         AtomicInteger x = new AtomicInteger(82);
         tiles.forEach(t -> {
-            TileBuilder tile = WidgetFactory.tile(t, x.get(), 16);
+            TileBuilder tile = WidgetFactory.tile(t, x.get(), 16, true);
             tile.setOnRelease((a,b) -> releaseTile(a, b));
             rack.getChildren().add(tile.getNode());
             x.addAndGet(56);
@@ -208,13 +176,13 @@ public class GameScene extends MyScene {
         return rack;
     }
 
-    private void rightSidePanel(VBoxBuilder panel) {
+    private boolean releaseTile(TileBuilder tile, double[] pos) {
+        Integer[] mousePosOnBoard = _board.getCellHover(pos[0], pos[1]);
+        TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0, false);
+        return _board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1]);
+    }
 
-        // VBoxBuilder panel = WidgetFactory.vbox()
-        //     .setMaxWidth(550)
-        //     .setMaxHeight(850)
-        //     .setPrefWidth(550)
-        //     .setAlignment(Pos.TOP_CENTER);
+    private void rightSidePanel(VBoxBuilder panel) {
 
         VBoxBuilder usersBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833");
 
@@ -299,11 +267,5 @@ public class GameScene extends MyScene {
 
             allusersBox.add(userBox.getNode(), statsBox.getNode());
             return allusersBox;
-    }
-
-    public void releaseTile(TileBuilder tile, double[] pos) {
-        Integer[] mousePosOnBoard = _board.getCellHover(pos[0], pos[1]);
-        TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0);
-        _board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1]);
     }
 }

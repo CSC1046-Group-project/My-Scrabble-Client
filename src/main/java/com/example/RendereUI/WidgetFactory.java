@@ -1,7 +1,9 @@
 package com.example.RendereUI;
 
+import com.example.Game.BoardCell;
 import com.example.Game.Tile;
 import com.example.RendereUI.Widgets.BoardBuilder;
+import com.example.RendereUI.Widgets.BoardCellBuilder;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
 import com.example.RendereUI.Widgets.IconButtonBuilder;
@@ -53,11 +55,15 @@ public class WidgetFactory {
         return new SliderBuilder();
     }
 
-    public static TileBuilder tile(Tile tile, int x, int y) {
-        return new TileBuilder(tile, x, y);
+    public static TileBuilder tile(Tile tile, int x, int y, boolean isDraggable) {
+        return new TileBuilder(tile, x, y, isDraggable);
     }
 
     public static BoardBuilder board(int rows, int cols, int tileSize) {
         return new BoardBuilder(rows, cols, tileSize);
+    }
+
+    public static BoardCellBuilder boardCell(int x, int y, BoardCell.TypePower powerType) {
+        return new BoardCellBuilder(x, y, powerType);
     }
 }
