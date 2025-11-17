@@ -30,5 +30,6 @@ public enum MessageType {
     GAME_START,
     PLAYER_HAVE_PLAYED,
     PLAYER_IS_READY,
+    PLAYER_TURN,
     // IS_READY,
 }

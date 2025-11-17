@@ -41,6 +41,13 @@ public class GameScene extends MyScene {
 
     private ButtonBuilder _readyButton;
     private VBoxBuilder _usersBox;
+    private VBoxBuilder _tilesleft;
+
+    private boolean _isPlayerTurn = false;
+
+    private ButtonBuilder _submitButton;
+    private ButtonBuilder _skipButton;
+    private ButtonBuilder _swapButton;
 
     @Override
     public void initRoot() {
@@ -147,21 +154,21 @@ public class GameScene extends MyScene {
             .setPrefWidth(122.5)
             .setMaxWidth(122.5)
             .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        ButtonBuilder skipButton = WidgetFactory.button("Skip", e -> skip())
+        _skipButton = WidgetFactory.button("Skip", e -> skip())
             .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5)
             .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        ButtonBuilder swapButton = WidgetFactory.button("Swap", e -> swap())
+        _swapButton = WidgetFactory.button("Swap", e -> swap())
             .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5)
             .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        ButtonBuilder submitButton = WidgetFactory.button("Submit", e -> submit())
+        _submitButton = WidgetFactory.button("Submit", e -> submit())
             .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5);
-        buttons.add(resignButton.getNode(), skipButton.getNode(), swapButton.getNode(), submitButton.getNode());
+        buttons.add(resignButton.getNode(), _skipButton.getNode(), _swapButton.getNode(), _submitButton.getNode());
         game.add(_board.getNode(), challengeRackBlock.getNode(), buttons.getNode());
     }
 
@@ -256,7 +263,7 @@ public class GameScene extends MyScene {
         TextBuilder tilebagText = WidgetFactory.text("Tile bag - 81 tiles left").setFont(16);
         tiletext.add(tilebagText.getNode());
 
-        VBoxBuilder tilesleft = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
+        _tilesleft = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
 
         // TextBuilder line1 = WidgetFactory.text("A  A  A  A  A  A  A  A  B  C  C  D  D  D  ").setFont(16);
         // TextBuilder line2 = WidgetFactory.text("E  E  E  E  E  E  E  E  E  F  F  G  G  G  ").setFont(16);
@@ -266,7 +273,7 @@ public class GameScene extends MyScene {
         // TextBuilder line6 = WidgetFactory.text("U  U  U  V  V  W  W  X  Y  Y  Z  ?  ?  ").setFont(16);
 
         // tilesleft.add(line1.getNode(), line2.getNode(), line3.getNode(), line4.getNode(), line5.getNode(), line6.getNode());
-        tilebagBox.add(tiletext.getNode(), tilesleft.getNode());
+        tilebagBox.add(tiletext.getNode(), _tilesleft.getNode());
 
         VBoxBuilder turnhistoryBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
 
@@ -333,6 +340,7 @@ public class GameScene extends MyScene {
         gameListener.on(MessageType.TILEBAG, msg -> onTileBagMessage(msg));
         gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
         gameListener.on(MessageType.GAME_START, msg -> onGameStart(msg));
+        gameListener.on(MessageType.PLAYER_TURN, msg -> onPlayerTurn(msg));
         Network.setListener(gameListener);
     }
 
@@ -400,7 +408,14 @@ public class GameScene extends MyScene {
         if (isVertical && isValign) {
             String word = "";
             for (int i = 0; i < _cellsPlaced.size(); i++) {
+                Tile tile = _cellsPlaced.get(i).getTile();
+                if (tile == null)
+                    continue;
+
+                if (i > 0)
+                    word += "|";
                 word += _cellsPlaced.get(i).getTile().getLetter();
+                word += String.valueOf(tile.getPoint());
             }
 
             Network.sendMessage(ProtocolFactory.submit(
@@ -470,9 +485,26 @@ public class GameScene extends MyScene {
 
     private void onTileBagMessage(ProtocolMessage message) {
 
+        try {
+
+            String tileBag = message.getArgs().get(0);
+
+            Platform.runLater(() -> {
+                _tilesleft.removeAll();
+                for (int i = 0; i < tileBag.length(); i += 17) {
+                    int end = Math.min(i + 17, tileBag.length());
+                    TextBuilder line = WidgetFactory.text(String.join("  ", tileBag.substring(i, end).split(""))).setFont(16);
+                    _tilesleft.add(line.getNode());
+                }
+            });
+
+        } catch (Exception e) {
+        }
     }
 
     private void onHavePlayed(ProtocolMessage message) {
+
+        _cellsPlaced.clear();
         try {
 
             String name = message.getArgs().get(0);
@@ -536,6 +568,19 @@ public class GameScene extends MyScene {
                 displayTileRack();
             });
 
+        } catch (Exception e) {
+        }
+    }
+
+    private void onPlayerTurn(ProtocolMessage message) {
+        try {
+            String player = message.getArgs().get(0);
+            _isPlayerTurn = player.equals(User.getToken());
+            Platform.runLater(() -> {
+                _submitButton.getNode().setDisable(!_isPlayerTurn);
+                _skipButton.getNode().setDisable(!_isPlayerTurn);
+                _swapButton.getNode().setDisable(!_isPlayerTurn);
+            });
         } catch (Exception e) {
         }
     }
