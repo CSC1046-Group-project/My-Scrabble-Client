@@ -1,14 +1,17 @@
 package com.example.SceneManager;
 
 import com.example.Interfaces.IAuthenticationService;
+import com.example.Interfaces.IJoinGameService;
 import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
+import com.example.SceneManager.Scenes.ChooseScene;
 import com.example.SceneManager.Scenes.FirstScene;
 import com.example.SceneManager.Scenes.LoginScene;
 import com.example.SceneManager.Scenes.RegisterScene;
-import com.example.Services.Login.NetworkAuthenticationService;
-import com.example.Services.Login.SceneManagerNavigationService;
-import com.example.Services.Login.UserSessionImpl;
+import com.example.Services.NetworkAuthenticationService;
+import com.example.Services.NetworkJoinGameService;
+import com.example.Services.SceneManagerNavigationService;
+import com.example.Services.UserSessionImpl;
 
 public class SceneFactory {
 
@@ -29,5 +32,12 @@ public class SceneFactory {
         INavigationService navigationService = new SceneManagerNavigationService();
         IUserSession userSession = new UserSessionImpl();
         return new RegisterScene(authService, navigationService, userSession);
+    }
+
+    public static ChooseScene createChooseScene() {
+        IJoinGameService joinGameService = new NetworkJoinGameService();
+        INavigationService navigationService = new SceneManagerNavigationService();
+        IUserSession userSession = new UserSessionImpl();
+        return new ChooseScene(navigationService, joinGameService, userSession);
     }
 }

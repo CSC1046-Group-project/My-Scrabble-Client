@@ -5,4 +5,7 @@ public interface INavigationService {
     void navigateToRegisterScene();
     void navigateToLoginScene();
     void navigateToFirstScene();
+    void navigateToSettingsScene();
+    void navigateToJoinScene();
+    void navigateToGame();
 }

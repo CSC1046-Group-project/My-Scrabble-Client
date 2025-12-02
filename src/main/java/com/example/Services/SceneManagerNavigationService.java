@@ -1,4 +1,4 @@
-package com.example.Services.Login;
+package com.example.Services;
 
 import com.example.Interfaces.INavigationService;
 import com.example.SceneManager.SceneManager;
@@ -22,5 +22,20 @@ public class SceneManagerNavigationService implements INavigationService {
     @Override
     public void navigateToLoginScene() {
         SceneManager.loadScene(SceneManager.SceneNames.LOGIN_SCENE);
+    }
+
+    @Override
+    public void navigateToSettingsScene() {
+        SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE);
+    }
+
+    @Override
+    public void navigateToJoinScene() {
+        SceneManager.loadScene(SceneManager.SceneNames.JOIN_SCENE);
+    }
+
+    @Override
+    public void navigateToGame() {
+        SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE);
     }
 }

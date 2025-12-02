@@ -1,10 +1,10 @@
 package com.example.Controllers;
 
+import com.example.Interfaces.AuthCallback;
 import com.example.Interfaces.CredentialsView;
 import com.example.Interfaces.IAuthenticationService;
 import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
-import com.example.Interfaces.LoginCallback;
 
 public class RegisterController {
     private final IAuthenticationService authService;
@@ -29,7 +29,7 @@ public class RegisterController {
             view.showError("Username, email and password are required");
             return;
         }
-        authService.register(username, email, password, new LoginCallback() {
+        authService.register(username, email, password, new AuthCallback() {
             @Override
             public void onSuccess(String token) {
                 userSession.setToken(token);

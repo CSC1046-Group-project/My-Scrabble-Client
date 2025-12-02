@@ -1,7 +1,7 @@
-package com.example.Services.Login;
+package com.example.Services;
 
+import com.example.Interfaces.AuthCallback;
 import com.example.Interfaces.IAuthenticationService;
-import com.example.Interfaces.LoginCallback;
 import com.example.Network.Listener;
 import com.example.Network.Network;
 import com.example.Network.Protocol.MessageType;
@@ -9,7 +9,7 @@ import com.example.Network.Protocol.ProtocolFactory;
 
 public class NetworkAuthenticationService implements IAuthenticationService {
     @Override
-    public void login(String email, String password, LoginCallback callback) {
+    public void login(String email, String password, AuthCallback callback) {
         Listener loginListener = new Listener();
 
         loginListener.on(MessageType.LOGIN_SUCCESS, msg -> {
@@ -33,7 +33,7 @@ public class NetworkAuthenticationService implements IAuthenticationService {
     }
 
     @Override
-    public void register(String username, String email, String password, LoginCallback callback) {
+    public void register(String username, String email, String password, AuthCallback callback) {
         Listener registerListener = new Listener();
 
         registerListener.on(MessageType.REGISTER_SUCCESS, msg -> {
