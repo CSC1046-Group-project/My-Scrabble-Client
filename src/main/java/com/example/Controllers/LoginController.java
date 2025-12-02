@@ -1,10 +1,10 @@
 package com.example.Controllers;
 
+import com.example.Interfaces.AuthCallback;
 import com.example.Interfaces.CredentialsView;
 import com.example.Interfaces.IAuthenticationService;
 import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
-import com.example.Interfaces.LoginCallback;
 
 public class LoginController {
     private final IAuthenticationService authService;
@@ -30,7 +30,7 @@ public class LoginController {
             return;
         }
 
-        authService.login(email, password, new LoginCallback() {
+        authService.login(email, password, new AuthCallback() {
             @Override
             public void onSuccess(String token) {
                 userSession.setToken(token);

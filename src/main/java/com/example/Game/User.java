@@ -23,5 +23,6 @@ public abstract class User {
 
     public static void logout() {
         _token = null;
+        _roomId = null;
     }
 }

@@ -2,4 +2,9 @@ package com.example.Interfaces;
 
 public interface IUserSession {
     void setToken(String token);
+    String getToken();
+    void setIdRoom(String id);
+    String getIdRoom();
+    boolean isLog();
+    void logout();
 }
