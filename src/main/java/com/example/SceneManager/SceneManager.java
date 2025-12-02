@@ -3,7 +3,6 @@ package com.example.SceneManager;
 import java.util.HashMap;
 
 import com.example.SceneManager.Scenes.ChooseScene;
-import com.example.SceneManager.Scenes.FirstScene;
 import com.example.SceneManager.Scenes.GameScene;
 import com.example.SceneManager.Scenes.JoinScene;
 import com.example.SceneManager.Scenes.SettingsScene;
@@ -25,7 +24,7 @@ public class SceneManager {
     private static MyScene _currentScene;
 
     public static void init() {
-        _scenes.put(SceneNames.FIRST_SCENE, new FirstScene());
+        _scenes.put(SceneNames.FIRST_SCENE, SceneFactory.createFirstScene());
         _scenes.put(SceneNames.LOGIN_SCENE, SceneFactory.createLoginScene());
         _scenes.put(SceneNames.REGISTER_SCENE, SceneFactory.createRegisterScene());
         _scenes.put(SceneNames.CHOOSE_SCENE, new ChooseScene());

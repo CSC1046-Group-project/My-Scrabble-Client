@@ -1,15 +1,20 @@
 package com.example.UIBuilder;
 
+import com.example.Interfaces.INavigationService;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.LineBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
-import com.example.SceneManager.SceneManager;
 
 import javafx.scene.Node;
 
 public class FirstViewBuilder {
+    private final INavigationService navigationService;
+
+    public FirstViewBuilder(INavigationService navigationService) {
+        this.navigationService = navigationService;
+    }
 
     public Node build() {
 
@@ -42,11 +47,11 @@ public class FirstViewBuilder {
         // Login and Register Buttons
         ButtonBuilder loginButton = WidgetFactory.button(
             "Login",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.LOGIN_SCENE)
+            e -> navigationService.navigateToLoginScene()
         );
         ButtonBuilder registerButton = WidgetFactory.button(
             "Register",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.REGISTER_SCENE)
+            e -> navigationService.navigateToRegisterScene()
         );
 
         LineBuilder line = WidgetFactory.line();
