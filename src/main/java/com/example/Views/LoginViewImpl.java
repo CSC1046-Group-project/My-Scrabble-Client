@@ -1,13 +1,13 @@
 package com.example.Views;
 
-import com.example.Interfaces.CredentialsView;
+import com.example.Interfaces.View;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.TextBuilder;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class LoginViewImpl implements CredentialsView {
+public class LoginViewImpl implements View {
     private final StackPane root;
     private TextBuilder errorText;
 

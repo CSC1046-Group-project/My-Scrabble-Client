@@ -6,6 +6,7 @@ import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
 import com.example.SceneManager.Scenes.ChooseScene;
 import com.example.SceneManager.Scenes.FirstScene;
+import com.example.SceneManager.Scenes.JoinScene;
 import com.example.SceneManager.Scenes.LoginScene;
 import com.example.SceneManager.Scenes.RegisterScene;
 import com.example.Services.NetworkAuthenticationService;
@@ -39,5 +40,12 @@ public class SceneFactory {
         INavigationService navigationService = new SceneManagerNavigationService();
         IUserSession userSession = new UserSessionImpl();
         return new ChooseScene(navigationService, joinGameService, userSession);
+    }
+
+    public static JoinScene createJoinScene() {
+        IJoinGameService joinGameService = new NetworkJoinGameService();
+        INavigationService navigationService = new SceneManagerNavigationService();
+        IUserSession userSession = new UserSessionImpl();
+        return new JoinScene(joinGameService, navigationService, userSession);
     }
 }
