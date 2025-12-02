@@ -10,7 +10,6 @@ import com.example.RendereUI.Widgets.LineBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
 import com.example.RendereUI.Widgets.TextFieldBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
-import com.example.SceneManager.SceneManager;
 
 import javafx.scene.Node;
 
@@ -79,7 +78,7 @@ public class JoinViewBuilder {
         // Join button
         ButtonBuilder joinButton = WidgetFactory.button(
             "Join",
-            e -> _controller.join(code.getText(), password.getText())
+            e -> _controller.handleJoin(code.getText(), password.getText())
         );
 
         LineBuilder lineButtons = WidgetFactory.line();

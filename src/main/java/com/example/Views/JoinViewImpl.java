@@ -7,11 +7,11 @@ import com.example.RendereUI.Widgets.TextBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class RegisterViewImpl implements View {
+public class JoinViewImpl implements View {
     private final StackPane root;
     private TextBuilder errorText;
 
-    public RegisterViewImpl(StackPane root) {
+    public JoinViewImpl(StackPane root) {
         this.root = root;
     }
 

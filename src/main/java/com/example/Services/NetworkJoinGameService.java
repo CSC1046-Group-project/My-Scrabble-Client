@@ -11,7 +11,26 @@ public class NetworkJoinGameService implements IJoinGameService {
 
     @Override
     public void join(String token, String code, String password, JoinGameCallback callback) {
+        Listener joinListener = new Listener();
 
+        joinListener.on(MessageType.JOIN_PRIVATE_GAME_SUCCESS, msg -> {
+            try {
+                String idRoom = msg.getArgs().get(0);
+                callback.onSuccess(idRoom);
+            } catch (Exception e) {
+                callback.onFailure("Invalid server response");
+            }
+        });
+
+        joinListener.on(MessageType.JOIN_PRIVATE_GAME_FAILED, msg -> {
+            String errorMsg = msg.getArgs().isEmpty()
+                ? "Join private game failed"
+                : msg.getArgs().get(0);
+            callback.onFailure(errorMsg);
+        });
+
+        Network.setListener(joinListener);
+        Network.sendMessage(ProtocolFactory.joinPrivateGame(token, code, password));
     }
 
     @Override

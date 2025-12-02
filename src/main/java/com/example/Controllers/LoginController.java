@@ -1,22 +1,22 @@
 package com.example.Controllers;
 
 import com.example.Interfaces.AuthCallback;
-import com.example.Interfaces.CredentialsView;
 import com.example.Interfaces.IAuthenticationService;
 import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
+import com.example.Interfaces.View;
 
 public class LoginController {
     private final IAuthenticationService authService;
     private final INavigationService navigationService;
     private final IUserSession userSession;
-    private final CredentialsView view;
+    private final View view;
 
     public LoginController(
         IAuthenticationService authService,
         INavigationService navigationService,
         IUserSession userSession,
-        CredentialsView view
+        View view
     ) {
         this.authService = authService;
         this.navigationService = navigationService;
