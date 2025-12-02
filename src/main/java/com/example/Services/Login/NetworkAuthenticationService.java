@@ -31,4 +31,28 @@ public class NetworkAuthenticationService implements IAuthenticationService {
         Network.setListener(loginListener);
         Network.sendMessage(ProtocolFactory.login(email, password));
     }
+
+    @Override
+    public void register(String username, String email, String password, LoginCallback callback) {
+        Listener registerListener = new Listener();
+
+        registerListener.on(MessageType.REGISTER_SUCCESS, msg -> {
+            try {
+                String token = msg.getArgs().get(0);
+                callback.onSuccess(token);
+            } catch (Exception e) {
+                callback.onFailure("Invalid server response");
+            }
+        });
+
+        registerListener.on(MessageType.REGISTER_FAILED, msg -> {
+            String errorMsg = msg.getArgs().isEmpty()
+                ? "Register failed"
+                : msg.getArgs().get(0);
+            callback.onFailure(errorMsg);
+        });
+
+        Network.setListener(registerListener);
+        Network.sendMessage(ProtocolFactory.register(username, email, password));
+    }
 }

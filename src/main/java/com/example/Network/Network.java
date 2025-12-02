@@ -10,7 +10,7 @@ import com.example.Network.Protocol.ProtocolMessage;
 
 public class Network {
 
-    private static final String URL = "wss://my-scrabble-backend.onrender.com";
+    private static final String URL = "ws://localhost:8080";
     private static WebSocketClient _client;
     private static Listener _listener;
 

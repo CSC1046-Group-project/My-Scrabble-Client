@@ -7,11 +7,11 @@ import com.example.RendereUI.Widgets.TextBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class LoginViewImpl implements CredentialsView {
+public class RegisterViewImpl implements CredentialsView {
     private final StackPane root;
     private TextBuilder errorText;
 
-    public LoginViewImpl(StackPane root) {
+    public RegisterViewImpl(StackPane root) {
         this.root = root;
     }
 

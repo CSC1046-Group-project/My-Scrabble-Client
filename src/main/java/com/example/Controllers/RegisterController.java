@@ -6,13 +6,13 @@ import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
 import com.example.Interfaces.LoginCallback;
 
-public class LoginController {
+public class RegisterController {
     private final IAuthenticationService authService;
     private final INavigationService navigationService;
     private final IUserSession userSession;
     private final CredentialsView view;
 
-    public LoginController(
+    public RegisterController(
         IAuthenticationService authService,
         INavigationService navigationService,
         IUserSession userSession,
@@ -24,13 +24,12 @@ public class LoginController {
         this.view = view;
     }
 
-    public void handleLogin(String email, String password) {
-        if (!validateInput(email, password)) {
-            view.showError("Email and password are required");
+    public void handleRegister(String username, String email, String password) {
+        if (!validateInput(username, email, password)) {
+            view.showError("Username, email and password are required");
             return;
         }
-
-        authService.login(email, password, new LoginCallback() {
+        authService.register(username, email, password, new LoginCallback() {
             @Override
             public void onSuccess(String token) {
                 userSession.setToken(token);
@@ -44,8 +43,9 @@ public class LoginController {
         });
     }
 
-    private boolean validateInput(String email, String password) {
+    private boolean validateInput(String username, String email, String password) {
         return email != null && !email.trim().isEmpty()
-            && password != null && !password.trim().isEmpty();
+            && password != null && !password.trim().isEmpty()
+            && username != null && !username.trim().isEmpty();
     }
 }

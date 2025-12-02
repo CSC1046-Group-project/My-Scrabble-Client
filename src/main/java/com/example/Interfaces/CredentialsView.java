@@ -1,6 +1,6 @@
 package com.example.Interfaces;
 
-public interface LoginView {
+public interface CredentialsView {
     void showError(String message);
     void clearError();
 }

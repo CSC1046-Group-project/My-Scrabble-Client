@@ -18,4 +18,9 @@ public class SceneManagerNavigationService implements INavigationService {
     public void navigateToFirstScene() {
         SceneManager.loadScene(SceneManager.SceneNames.FIRST_SCENE);
     }
+
+    @Override
+    public void navigateToLoginScene() {
+        SceneManager.loadScene(SceneManager.SceneNames.LOGIN_SCENE);
+    }
 }
