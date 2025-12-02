@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.Network.Network;
 import com.example.RendereUI.RendererUI;
 import com.example.SceneManager.SceneManager;
 
@@ -15,11 +16,17 @@ public class Application extends javafx.application.Application {
         RendererUI.init(stage, _appName);
         SceneManager.init();
         SceneManager.loadScene(SceneManager.SceneNames.FIRST_SCENE);
+        Network.run();
 
         run();
     }
 
     private void run() {
 
+    }
+
+    @Override
+    public void stop() {
+        Network.close();
     }
 }

@@ -55,8 +55,8 @@ public class WidgetFactory {
         return new SliderBuilder();
     }
 
-    public static TileBuilder tile(Tile tile, int x, int y, boolean isDraggable) {
-        return new TileBuilder(tile, x, y, isDraggable);
+    public static TileBuilder tile(Tile tile, int x, int y, boolean isDraggable, int rackIndex) {
+        return new TileBuilder(tile, x, y, isDraggable, rackIndex);
     }
 
     public static BoardBuilder board(int rows, int cols, int tileSize) {

@@ -36,7 +36,7 @@ public class Board {
         };
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
-                _cells.add(new BoardCell(layout[row][col]));
+                _cells.add(new BoardCell(layout[row][col], row, col));
             }
         }
     }
@@ -50,5 +50,12 @@ public class Board {
             return false;
         }
         return _cells.get(row * SIZE + col).addTile(tile);
+    }
+
+    public void removeTile(int row, int col) {
+        if (row >= SIZE || col >= SIZE || row < 0 || col < 0) {
+            return;
+        }
+        _cells.get(row * SIZE + col).removeTile();
     }
 }

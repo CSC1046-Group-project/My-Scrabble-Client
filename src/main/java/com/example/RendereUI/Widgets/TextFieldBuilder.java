@@ -38,6 +38,10 @@ public class TextFieldBuilder extends Widget {
         });
     }
 
+    public String getText() {
+        return _textField.getText();
+    }
+
     @Override
     public Node getNode() {
         return _textField;

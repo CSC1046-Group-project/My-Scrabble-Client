@@ -41,18 +41,18 @@ public class SettingsScene extends MyScene {
         );
 
         IconButtonBuilder enterUsername = WidgetFactory.iconButton(
-            "/assets/left-arrow.png"
+            "/assets/send.png"
             // add a save new username event
-        ).setFitWidth(24).setFitHeight(24);
+        ).setFitWidth(24).setFitHeight(24).setStyle("-fx-background-color: #3B8895; -fx-background-radius: 10;");
 
         // change these with the blue arrow png
         IconButtonBuilder enterPassword = WidgetFactory.iconButton(
-            "/assets/left-arrow.png"
+            "/assets/send.png"
             // add a save new password event
-        ).setFitWidth(24).setFitHeight(24);
+        ).setFitWidth(24).setFitHeight(24).setStyle("-fx-background-color: #3B8895; -fx-background-radius: 10;");
 
         IconButtonBuilder profilepic = WidgetFactory.iconButton(
-                // we will add a user.getProfilePicPath() later, no event for this 
+                // we will add a user.getProfilePicPath() later, no event for this
             "/assets/example-profilepic.png"
         ).setFitWidth(30).setFitHeight(30);
 
@@ -60,10 +60,10 @@ public class SettingsScene extends MyScene {
 
         HBoxBuilder header = WidgetFactory.hbox();
         header.add(back.getNode(), title.getNode(), profilepic.getNode());
-        
+
         // Line under change username / change password
         LineBuilder titleLine = WidgetFactory.line();
-        
+
         TextBuilder changeUsernameText = WidgetFactory.text("Change Username").setFont(16);
         TextFieldBuilder changeUsernameInput = WidgetFactory.textField("Enter new username");
 
@@ -71,20 +71,20 @@ public class SettingsScene extends MyScene {
         TextFieldBuilder changePasswordInput = WidgetFactory.textField("Enter new password");
 
 
-        HBoxBuilder usernameBox = WidgetFactory.hbox().setSpacing(0);
+        HBoxBuilder usernameBox = WidgetFactory.hbox().setSpacing(30);
         usernameBox.add(changeUsernameInput.getNode(), enterUsername.getNode());
-        HBox.setHgrow(changeUsernameInput.getNode(), javafx.scene.layout.Priority.ALWAYS);    
+        HBox.setHgrow(changeUsernameInput.getNode(), javafx.scene.layout.Priority.ALWAYS);
 
-        HBoxBuilder passwordBox = WidgetFactory.hbox().setSpacing(0);
+        HBoxBuilder passwordBox = WidgetFactory.hbox().setSpacing(30);
         passwordBox.add(changePasswordInput.getNode(), enterPassword.getNode());
         HBox.setHgrow(changePasswordInput.getNode(), javafx.scene.layout.Priority.ALWAYS);
 
 
-        TextBuilder changeVolumeText = WidgetFactory.text("Set Volume").setFont(16);       
+        TextBuilder changeVolumeText = WidgetFactory.text("Set Volume").setFont(16);
         SliderBuilder volumeSlider = WidgetFactory.slider();
         HBox.setHgrow(volumeSlider.getNode(), javafx.scene.layout.Priority.ALWAYS);
 
-        TextBuilder changeMusicText = WidgetFactory.text("Set   Music").setFont(16);       
+        TextBuilder changeMusicText = WidgetFactory.text("Set   Music").setFont(16);
         SliderBuilder musicSlider = WidgetFactory.slider();
         HBox.setHgrow(musicSlider.getNode(), javafx.scene.layout.Priority.ALWAYS);
 
@@ -97,5 +97,10 @@ public class SettingsScene extends MyScene {
         panel.add(header.getNode(), changeUsernameText.getNode(), usernameBox.getNode(), changePasswordText.getNode(), passwordBox.getNode(), titleLine.getNode(), volumeBlock.getNode(), musicBlock.getNode());
 
         _root.getChildren().addAll(panel.getNode());
+    }
+
+    @Override
+    public void initListener() {
+
     }
 }

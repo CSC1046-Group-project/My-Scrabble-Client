@@ -14,8 +14,10 @@ public abstract class MyScene {
     }
 
     public void onDraw() {
+        initListener();
         RendererUI.draw(_root);
     }
 
     public abstract void initRoot();
+    public abstract void initListener();
 }

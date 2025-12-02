@@ -1,5 +1,11 @@
 package com.example.SceneManager.Scenes;
 
+import com.example.Game.User;
+import com.example.Network.Listener;
+import com.example.Network.Network;
+import com.example.Network.Protocol.MessageType;
+import com.example.Network.Protocol.ProtocolFactory;
+import com.example.Network.Protocol.ProtocolMessage;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
@@ -62,7 +68,7 @@ public class LoginScene extends MyScene {
         // Login button
         ButtonBuilder loginButton = WidgetFactory.button(
             "Login",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.CHOOSE_SCENE)
+            e -> login(email.getText(), password.getText())
         );
 
         LineBuilder lineButtons = WidgetFactory.line();
@@ -85,5 +91,33 @@ public class LoginScene extends MyScene {
 
         // Add the panel to the root container
         _root.getChildren().addAll(panel.getNode());
+    }
+
+    @Override
+    public void initListener() {
+        Listener loginListener = new Listener();
+        loginListener.on(MessageType.LOGIN_SUCCESS, msg -> onLoginSuccess(msg));
+        loginListener.on(MessageType.LOGIN_FAILED, msg -> onLoginFailed(msg));
+        Network.setListener(loginListener);
+    }
+
+    private void login(String email, String password) {
+        Network.sendMessage(ProtocolFactory.login(email, password));
+    }
+
+    private void onLoginSuccess(ProtocolMessage message) {
+        try {
+            String token = message.getArgs().get(0);
+            User.setToken(token);
+            SceneManager.loadScene(SceneManager.SceneNames.CHOOSE_SCENE);
+        } catch (Exception e) {
+            System.err.println("Error: Can't get the user token.");
+        }
+    }
+
+    private void onLoginFailed(ProtocolMessage message) {
+        TextBuilder error = WidgetFactory.text("Don't have an account?").setFill(Color.RED);
+        _root.getChildren().addAll(error.getNode());
+        onDraw();
     }
 }
