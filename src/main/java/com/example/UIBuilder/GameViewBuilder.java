@@ -2,6 +2,7 @@ package com.example.UIBuilder;
 
 import com.example.Controllers.GameController;
 import com.example.RendereUI.WidgetFactory;
+import com.example.RendereUI.Widgets.BoardBuilder;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
@@ -17,6 +18,11 @@ public class GameViewBuilder {
     // widgets to share
     private VBoxBuilder _usersBox;
     private ButtonBuilder _readyButton;
+    private VBoxBuilder _tilesleft;
+    private BoardBuilder _board;
+    private ButtonBuilder _submitButton;
+    private ButtonBuilder _skipButton;
+    private ButtonBuilder _swapButton;
 
     public GameViewBuilder() {}
 
@@ -85,13 +91,15 @@ public class GameViewBuilder {
 
         // _tileRack = new TileRack();
 
-        // _board = WidgetFactory.board(15, 15, 50);
+        _board = WidgetFactory.board(15, 15, 50);
 
-        // ButtonBuilder challengeButton = WidgetFactory.button("Challenge", e -> challenge())
-        //     .setFont(16)
-        //     .setPrefWidth(122.5)
-        //     .setMaxWidth(122.5)
-        //     .setStyle("-fx-background-color: #C04D4D; -fx-background-radius: 10;");
+        ButtonBuilder challengeButton = WidgetFactory.button(
+            "Challenge",
+            e -> _controller.handleChallenge())
+            .setFont(16)
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #C04D4D; -fx-background-radius: 10;");
 
         // initTileRack();
         // HBoxBuilder challengeRackBlock = WidgetFactory.hbox()
@@ -100,28 +108,29 @@ public class GameViewBuilder {
         //     .setStyle("-fx-background-color: transparent;");
         // challengeRackBlock.add(challengeButton.getNode(), _rack);
 
-        // HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
-        // ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> resign())
-        //     .setFont(16)
-        //     .setPrefWidth(122.5)
-        //     .setMaxWidth(122.5)
-        //     .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        // _skipButton = WidgetFactory.button("Skip", e -> skip())
-        //     .setFont(16)
-        //     .setPrefWidth(122.5)
-        //     .setMaxWidth(122.5)
-        //     .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        // _swapButton = WidgetFactory.button("Swap", e -> swap())
-        //     .setFont(16)
-        //     .setPrefWidth(122.5)
-        //     .setMaxWidth(122.5)
-        //     .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        // _submitButton = WidgetFactory.button("Submit", e -> submit())
-        //     .setFont(16)
-        //     .setPrefWidth(122.5)
-        //     .setMaxWidth(122.5);
-        // buttons.add(resignButton.getNode(), _skipButton.getNode(), _swapButton.getNode(), _submitButton.getNode());
+        HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
+        ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> _controller.handleResign())
+            .setFont(16)
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        _skipButton = WidgetFactory.button("Skip", e -> _controller.handleSkip())
+            .setFont(16)
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        _swapButton = WidgetFactory.button("Swap", e -> _controller.handleSwap())
+            .setFont(16)
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5)
+            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+        _submitButton = WidgetFactory.button("Submit", e -> _controller.handleSubmit())
+            .setFont(16)
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5);
+        buttons.add(resignButton.getNode(), _skipButton.getNode(), _swapButton.getNode(), _submitButton.getNode());
         // game.add(_board.getNode(), challengeRackBlock.getNode(), buttons.getNode());
+        game.add(_board.getNode(), buttons.getNode());
 
         return game;
     }
@@ -145,24 +154,23 @@ public class GameViewBuilder {
 
         _usersBox.add(_readyButton.getNode());
 
-        // VBoxBuilder tilebagBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(1);
-        // HBoxBuilder tiletext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
+        VBoxBuilder tilebagBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(1);
+        HBoxBuilder tiletext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
 
-        // TextBuilder tilebagText = WidgetFactory.text("Tile bag - 81 tiles left").setFont(16);
-        // tiletext.add(tilebagText.getNode());
+        TextBuilder tilebagText = WidgetFactory.text("Tile bag - 81 tiles left").setFont(16);
+        tiletext.add(tilebagText.getNode());
 
-        // _tilesleft = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
+        _tilesleft = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
 
-        // tilebagBox.add(tiletext.getNode(), _tilesleft.getNode());
+        tilebagBox.add(tiletext.getNode(), _tilesleft.getNode());
 
-        // VBoxBuilder turnhistoryBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
+        VBoxBuilder turnhistoryBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
 
-        // HBoxBuilder turnhistorytext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
-        // TextBuilder turnhistoryText = WidgetFactory.text("Turn History").setFont(16);
-        // turnhistorytext.add(turnhistoryText.getNode());
+        HBoxBuilder turnhistorytext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
+        TextBuilder turnhistoryText = WidgetFactory.text("Turn History").setFont(16);
+        turnhistorytext.add(turnhistoryText.getNode());
 
-        // panel.addWithFlex(_usersBox.getNode(), tilebagBox.getNode(), turnhistoryBox.getNode());
-        panel.addWithFlex(_usersBox.getNode());
+        panel.addWithFlex(_usersBox.getNode(), tilebagBox.getNode(), turnhistoryBox.getNode());
         return panel;
     }
 
@@ -172,5 +180,9 @@ public class GameViewBuilder {
 
     public ButtonBuilder getReadyButton() {
         return _readyButton;
+    }
+
+    public VBoxBuilder getTilesLeft() {
+        return _tilesleft;
     }
 }

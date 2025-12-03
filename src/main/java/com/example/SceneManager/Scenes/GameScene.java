@@ -10,9 +10,7 @@ import com.example.Game.TileRack;
 import com.example.Game.User;
 import com.example.Interfaces.IGameService;
 import com.example.Interfaces.IUserSession;
-import com.example.Network.Listener;
 import com.example.Network.Network;
-import com.example.Network.Protocol.MessageType;
 import com.example.Network.Protocol.ProtocolFactory;
 import com.example.Network.Protocol.ProtocolMessage;
 import com.example.RendereUI.WidgetFactory;
@@ -24,7 +22,6 @@ import com.example.RendereUI.Widgets.TextBuilder;
 import com.example.RendereUI.Widgets.TileBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
 import com.example.SceneManager.MyScene;
-import com.example.SceneManager.SceneManager;
 import com.example.UIBuilder.GameViewBuilder;
 import com.example.Views.GameViewImpl;
 
@@ -78,68 +75,6 @@ public class GameScene extends MyScene {
 
     @Override
     public void initRoot() {
-
-        // // Root container
-        // _root.setPadding(new Insets(20));
-        // _root.setBackground(new Background(new BackgroundFill(Color.web("0x16161E"), null, null)));
-        // _root.setAlignment(Pos.CENTER);
-
-        // VBoxBuilder page = WidgetFactory.vbox()
-        //     .setStyle("-fx-background-color: transparent;")
-        //     .setPadding(0);
-        // HBoxBuilder header = WidgetFactory.hbox()
-        //     .setStyle("-fx-background-color: transparent;")
-        //     .setMaxWidth(Double.MAX_VALUE);
-
-        // HBoxBuilder gameView = WidgetFactory.hbox()
-        //     .setStyle("-fx-background-color: transparent;")
-        //     .setMaxWidth(Double.MAX_VALUE)
-        //     .setMaxHeight(1880)
-        //     .setPrefHeight(1880);
-
-        // VBoxBuilder game = WidgetFactory.vbox()
-        //     .setMaxWidth(1000)
-        //     .setPrefWidth(1000)
-        //     .setStyle("-fx-background-color: transparent;");
-
-        // VBoxBuilder panel = WidgetFactory.vbox()
-        //     .setMaxWidth(550)
-        //     .setMaxHeight(850)
-        //     .setPrefWidth(550)
-        //     .setAlignment(Pos.CENTER_RIGHT);
-
-        // header(header);
-        // boardView(game);
-        // rightSidePanel(panel);
-
-        // gameView.addWithFlex(game.getNode(), panel.getNode());
-        // page.add(header.getNode(), gameView.getNode());
-        // _root.getChildren().addAll(page.getNode());
-    }
-
-    private void header(HBoxBuilder header) {
-
-        // Create settings icon
-        IconButtonBuilder settingsIcon = WidgetFactory.iconButton(
-            "/assets/settings.png",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
-        ).setFitWidth(24).setFitHeight(24);
-        // Create settings button
-        ButtonBuilder settingsButton = WidgetFactory.button(
-            "Settings",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
-        ).setPrefHeight(34)
-            .setFont(16)
-            .setStyle("-fx-background-color: transparent;")
-            .setMaxWidth(120)
-            .setAlignment(Pos.CENTER_LEFT);
-        HBoxBuilder settings = WidgetFactory.hbox().setSpacing(0).setStyle("-fx-background-color: transparent;");
-        settings.add(settingsIcon.getNode(), settingsButton.getNode());
-
-        // Game code/password
-        TextBuilder gameCode = WidgetFactory.text("Private Game 56-54-24-12-43#Password");
-
-        header.addWithFlex(settings.getNode(), gameCode.getNode());
     }
 
     private void boardView(VBoxBuilder game) {
@@ -362,13 +297,13 @@ public class GameScene extends MyScene {
 
     @Override
     public void initListener() {
-        Listener gameListener = new Listener();
-        gameListener.on(MessageType.PLAYER_HAVE_PLAYED, msg -> onHavePlayed(msg));
-        gameListener.on(MessageType.TILEBAG, msg -> onTileBagMessage(msg));
-        gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
-        gameListener.on(MessageType.GAME_START, msg -> onGameStart(msg));
-        gameListener.on(MessageType.PLAYER_TURN, msg -> onPlayerTurn(msg));
-        Network.setListener(gameListener);
+        // Listener gameListener = new Listener();
+        // gameListener.on(MessageType.PLAYER_HAVE_PLAYED, msg -> onHavePlayed(msg));
+        // gameListener.on(MessageType.TILEBAG, msg -> onTileBagMessage(msg));
+        // gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
+        // gameListener.on(MessageType.GAME_START, msg -> onGameStart(msg));
+        // gameListener.on(MessageType.PLAYER_TURN, msg -> onPlayerTurn(msg));
+        // Network.setListener(gameListener);
     }
 
     private void ready() {

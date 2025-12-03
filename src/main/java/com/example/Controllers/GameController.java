@@ -27,17 +27,26 @@ public class GameController {
             return;
 
         _view.hideReadyButton();
+        _gameService.ready(_userSession.getToken(), _userSession.getIdRoom());
+    }
 
-        // _gameService.ready(_userSession.getToken(), _userSession.getIdRoom(), new JoinGameCallback() {
-        //     @Override
-        //     public void onSuccess(String idRoom) {
-        //         // Handled by network listener
-        //     }
+    public void handleChallenge() {
 
-        //     @Override
-        //     public void onFailure(String message) {
-        //         // _view.showError(message);
-        //     }
-        // });
+    }
+
+    public void handleResign() {
+
+    }
+
+    public void handleSkip() {
+
+    }
+
+    public void handleSwap() {
+
+    }
+
+    public void handleSubmit() {
+
     }
 }
