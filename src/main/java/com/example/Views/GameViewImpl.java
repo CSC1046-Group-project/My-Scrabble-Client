@@ -143,7 +143,7 @@ public class GameViewImpl implements GameView {
         // Shuffle button (left)
         IconButtonBuilder shuffleIcon = WidgetFactory.iconButton(
             "/assets/shuffle.png",
-            e -> {}
+            e -> shuffleOrder()
         ).setFitWidth(32).setFitHeight(32)
          .setStyle("-fx-background-color: #282833");
 
@@ -183,9 +183,8 @@ public class GameViewImpl implements GameView {
         Integer[] mousePosOnBoard = _board.getCellHover(pos[0], pos[1]);
         TileBuilder newTile = WidgetFactory.tile(tile.getTile(), 0, 0, false, tile.getRackIndex());
 
-        _tileRack.removeTile(tile.getRackIndex());
-
         if (_board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1])) {
+            _tileRack.removeTile(tile.getRackIndex());
             _cellsPlaced.add(_board.getBoardCell(mousePosOnBoard[0], mousePosOnBoard[1]));
             return true;
         } else {
@@ -200,6 +199,11 @@ public class GameViewImpl implements GameView {
             _board.removeTile(_cellsPlaced.get(i));
         }
         _cellsPlaced.clear();
+        displayTileRack();
+    }
+
+    private void shuffleOrder() {
+        _tileRack.shuffleOrder();
         displayTileRack();
     }
 }
