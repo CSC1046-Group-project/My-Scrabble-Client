@@ -30,19 +30,19 @@ public class ProtocolFactory {
         return new ProtocolMessage(MessageType.SUBMIT, token, roomId, word, x, y, horizontal);
     }
 
-    public static ProtocolMessage challenge(String token) {
-        return new ProtocolMessage(MessageType.CHALLENGE, token);
+    public static ProtocolMessage challenge(String token, String roomId) {
+        return new ProtocolMessage(MessageType.CHALLENGE, token, roomId);
     }
 
-    public static ProtocolMessage skip(String token) {
-        return new ProtocolMessage(MessageType.SKIP, token);
+    public static ProtocolMessage skip(String token, String roomId) {
+        return new ProtocolMessage(MessageType.SKIP, token, roomId);
     }
 
-    public static ProtocolMessage resign(String token) {
-        return new ProtocolMessage(MessageType.RESIGN, token);
+    public static ProtocolMessage resign(String token, String roomId) {
+        return new ProtocolMessage(MessageType.RESIGN, token, roomId);
     }
 
-    public static ProtocolMessage swap(String token, String letters) {
-        return new ProtocolMessage(MessageType.SWAP, token, letters);
+    public static ProtocolMessage swap(String token, String roomId, String letters) {
+        return new ProtocolMessage(MessageType.SWAP, token, roomId, letters);
     }
 }

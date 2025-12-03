@@ -31,6 +31,11 @@ public class UserSessionImpl implements IUserSession {
     }
 
     @Override
+    public boolean isInRoom() {
+        return (User.getRoomId() != null && !User.getRoomId().equals(""));
+    }
+
+    @Override
     public void logout() {
         User.logout();
     }
