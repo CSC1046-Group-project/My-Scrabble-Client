@@ -3,6 +3,7 @@ package com.example.SceneManager.Scenes;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.Controllers.GameController;
 import com.example.Game.BoardCell;
 import com.example.Game.Tile;
 import com.example.Game.TileRack;
@@ -57,8 +58,10 @@ public class GameScene extends MyScene {
         _root.setBackground(new Background(new BackgroundFill(Color.web("0x16161E"), null, null)));
         _root.setAlignment(Pos.CENTER);
 
+        GameController controller = new GameController();
+
         // Build UI
-        GameViewBuilder viewBuilder = new GameViewBuilder();
+        GameViewBuilder viewBuilder = new GameViewBuilder(controller);
         _root.getChildren().addAll(viewBuilder.build());
     }
 

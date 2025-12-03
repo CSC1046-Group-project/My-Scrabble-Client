@@ -1,17 +1,24 @@
 package com.example.UIBuilder;
 
+import com.example.Controllers.GameController;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.ButtonBuilder;
 import com.example.RendereUI.Widgets.HBoxBuilder;
-import com.example.RendereUI.Widgets.IconButtonBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
-import com.example.SceneManager.SceneManager;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 
 public class GameViewBuilder {
+
+    private final GameController _controller;
+
+    public GameViewBuilder(
+        GameController controller
+    ) {
+        _controller = controller;
+    }
 
     public Node build() {
 
@@ -40,27 +47,28 @@ public class GameViewBuilder {
             .setStyle("-fx-background-color: transparent;")
             .setMaxWidth(Double.MAX_VALUE);
 
-        // Create settings icon
-        IconButtonBuilder settingsIcon = WidgetFactory.iconButton(
-            "/assets/settings.png",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
-        ).setFitWidth(24).setFitHeight(24);
-        // Create settings button
-        ButtonBuilder settingsButton = WidgetFactory.button(
-            "Settings",
-            e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
-        ).setPrefHeight(34)
-            .setFont(16)
-            .setStyle("-fx-background-color: transparent;")
-            .setMaxWidth(120)
-            .setAlignment(Pos.CENTER_LEFT);
-        HBoxBuilder settings = WidgetFactory.hbox().setSpacing(0).setStyle("-fx-background-color: transparent;");
-        settings.add(settingsIcon.getNode(), settingsButton.getNode());
+        // TODO: Give to the setting page the return value of the GAME SCENE
+        // // Create settings icon
+        // IconButtonBuilder settingsIcon = WidgetFactory.iconButton(
+        //     "/assets/settings.png",
+        //     e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
+        // ).setFitWidth(24).setFitHeight(24);
+        // // Create settings button
+        // ButtonBuilder settingsButton = WidgetFactory.button(
+        //     "Settings",
+        //     e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
+        // ).setPrefHeight(34)
+        //     .setFont(16)
+        //     .setStyle("-fx-background-color: transparent;")
+        //     .setMaxWidth(120)
+        //     .setAlignment(Pos.CENTER_LEFT);
+        // HBoxBuilder settings = WidgetFactory.hbox().setSpacing(0).setStyle("-fx-background-color: transparent;");
+        // settings.add(settingsIcon.getNode(), settingsButton.getNode());
 
         // Game code/password
         TextBuilder gameCode = WidgetFactory.text("Private Game 56-54-24-12-43#Password");
 
-        header.addWithFlex(settings.getNode(), gameCode.getNode());
+        header.addWithFlex(gameCode.getNode());
         return header;
     }
 
@@ -124,10 +132,12 @@ public class GameViewBuilder {
 
         // _usersBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833");
 
-        // _readyButton = WidgetFactory.button("Set Ready", e -> ready())
-        //     .setFont(16)
-        //     .setPrefWidth(122.5)
-        //     .setMaxWidth(122.5);
+        ButtonBuilder readyButton = WidgetFactory.button(
+            "Set Ready",
+            e -> _controller.handleReady())
+            .setFont(16)
+            .setPrefWidth(122.5)
+            .setMaxWidth(122.5);
 
         // _usersBox.add(_readyButton.getNode());
 
