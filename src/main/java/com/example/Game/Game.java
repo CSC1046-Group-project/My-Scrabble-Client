@@ -8,10 +8,12 @@ public class Game {
 
     private static final HashMap<String, Player> _players = new HashMap<>();
     private static String _playerTurn;
+    private static String _winner;
 
     public static void start() {
         _players.clear();
         _playerTurn = "";
+        _winner = "";
     }
 
     public static void addPlayer(String token, String name, TextBuilder scoreText, TextBuilder timerText) {
@@ -38,5 +40,13 @@ public class Game {
 
     public static HashMap<String, Player> getPlayers() {
         return _players;
+    }
+
+    public static void setWinner(String name) {
+        _winner = name;
+    }
+
+    public static String getWinner() {
+        return _winner;
     }
 }

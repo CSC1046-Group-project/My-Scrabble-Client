@@ -3,8 +3,8 @@ package com.example.SceneManager.Scenes;
 import com.example.Controllers.GameController;
 import com.example.Game.Game;
 import com.example.Game.TileRack;
-import com.example.Game.Timer;
 import com.example.Interfaces.IGameService;
+import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
 import com.example.SceneManager.MyScene;
 import com.example.Services.GameEventHandler;
@@ -25,7 +25,8 @@ public class GameScene extends MyScene {
 
     public GameScene(
         IGameService gameService,
-        IUserSession userSession
+        IUserSession userSession,
+        INavigationService navigationService
     ) {
         Game.start();
 
@@ -57,7 +58,7 @@ public class GameScene extends MyScene {
         viewBuilder.setController(controller);
 
         // Init event handler to listen network
-        _eventHandler = new GameEventHandler(gameView, userSession, _tileRack);
+        _eventHandler = new GameEventHandler(gameView, userSession, _tileRack, navigationService);
     }
 
     @Override

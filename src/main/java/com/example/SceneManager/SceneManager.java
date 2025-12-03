@@ -11,7 +11,8 @@ public class SceneManager {
         CHOOSE_SCENE,
         JOIN_SCENE,
         GAME_SCENE,
-        SETTINGS_SCENE
+        SETTINGS_SCENE,
+        WINNING_SCENE
     }
 
     private static final HashMap<SceneNames, MyScene> _scenes = new HashMap<>();
@@ -26,6 +27,7 @@ public class SceneManager {
         _scenes.put(SceneNames.JOIN_SCENE, SceneFactory.createJoinScene());
         _scenes.put(SceneNames.GAME_SCENE, SceneFactory.createGameScene());
         _scenes.put(SceneNames.SETTINGS_SCENE, SceneFactory.createSettingsScene());
+        _scenes.put(SceneNames.WINNING_SCENE, SceneFactory.createWinningScene());
         _currentScene = _scenes.get(SceneNames.FIRST_SCENE);
     }
 

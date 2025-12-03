@@ -38,4 +38,9 @@ public class SceneManagerNavigationService implements INavigationService {
     public void navigateToGame() {
         SceneManager.loadScene(SceneManager.SceneNames.GAME_SCENE);
     }
+
+    @Override
+    public void navigateToWinning() {
+        SceneManager.loadScene(SceneManager.SceneNames.WINNING_SCENE);
+    }
 }

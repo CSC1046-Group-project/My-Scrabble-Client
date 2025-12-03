@@ -4,6 +4,7 @@ import com.example.Game.Game;
 import com.example.Game.Tile;
 import com.example.Game.TileRack;
 import com.example.Interfaces.GameView;
+import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
 import com.example.Network.Listener;
 import com.example.Network.Network;
@@ -18,15 +19,18 @@ public class GameEventHandler {
     private final IUserSession _userSession;
     private final Listener _gameListener = new Listener();
     private final TileRack _tileRack;
+    private final INavigationService _navigationService;
 
     public GameEventHandler(
         GameView view,
         IUserSession userSession,
-        TileRack tileRack
+        TileRack tileRack,
+        INavigationService navigationService
     ) {
         _view = view;
         _userSession = userSession;
         _tileRack = tileRack;
+        _navigationService = navigationService;
 
         _gameListener.on(MessageType.TILEBAG, msg -> onTileBagUpdate(msg));
         _gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
@@ -34,6 +38,7 @@ public class GameEventHandler {
         _gameListener.on(MessageType.GAME_START, msg -> onGameStart(msg));
         _gameListener.on(MessageType.PLAYER_TURN, msg -> onPlayerTurn(msg));
         _gameListener.on(MessageType.PLAYER_SCORE, msg -> onPlayerScore(msg));
+        _gameListener.on(MessageType.WINNER, msg -> onWinner(msg));
     }
 
     public void run() {
@@ -110,6 +115,18 @@ public class GameEventHandler {
             String token = msg.getArgs().get(0);
             String score = msg.getArgs().get(1);
             Game.setScore(token, score);
+        } catch (Exception e) {
+        }
+    }
+
+    public void onWinner(ProtocolMessage msg){
+        try {
+            String token = msg.getArgs().get(0);
+            String name = msg.getArgs().get(1);
+            if (_userSession.getToken().equals(token))
+                name = "You";
+            Game.setWinner(name);
+            _navigationService.navigateToWinning();
         } catch (Exception e) {
         }
     }

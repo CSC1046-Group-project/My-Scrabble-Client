@@ -8,4 +8,5 @@ public interface INavigationService {
     void navigateToSettingsScene();
     void navigateToJoinScene();
     void navigateToGame();
+    void navigateToWinning();
 }

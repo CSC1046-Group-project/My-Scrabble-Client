@@ -32,4 +32,5 @@ public enum MessageType {
     PLAYER_IS_READY,
     PLAYER_TURN,
     PLAYER_SCORE,
+    WINNER
 }
