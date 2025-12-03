@@ -1,6 +1,7 @@
 package com.example.SceneManager;
 
 import com.example.Interfaces.IAuthenticationService;
+import com.example.Interfaces.IGameService;
 import com.example.Interfaces.IJoinGameService;
 import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
@@ -12,6 +13,7 @@ import com.example.SceneManager.Scenes.LoginScene;
 import com.example.SceneManager.Scenes.RegisterScene;
 import com.example.SceneManager.Scenes.SettingsScene;
 import com.example.Services.NetworkAuthenticationService;
+import com.example.Services.NetworkGameService;
 import com.example.Services.NetworkJoinGameService;
 import com.example.Services.SceneManagerNavigationService;
 import com.example.Services.UserSessionImpl;
@@ -57,6 +59,8 @@ public class SceneFactory {
     }
 
     public static GameScene createGameScene() {
-        return new GameScene();
+        IGameService gameService = new NetworkGameService();
+        IUserSession userSession = new UserSessionImpl();
+        return new GameScene(gameService, userSession);
     }
 }

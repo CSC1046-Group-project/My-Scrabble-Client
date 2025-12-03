@@ -8,6 +8,8 @@ import com.example.Game.BoardCell;
 import com.example.Game.Tile;
 import com.example.Game.TileRack;
 import com.example.Game.User;
+import com.example.Interfaces.IGameService;
+import com.example.Interfaces.IUserSession;
 import com.example.Network.Listener;
 import com.example.Network.Network;
 import com.example.Network.Protocol.MessageType;
@@ -24,6 +26,7 @@ import com.example.RendereUI.Widgets.VBoxBuilder;
 import com.example.SceneManager.MyScene;
 import com.example.SceneManager.SceneManager;
 import com.example.UIBuilder.GameViewBuilder;
+import com.example.Views.GameViewImpl;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -51,18 +54,26 @@ public class GameScene extends MyScene {
     private ButtonBuilder _skipButton;
     private ButtonBuilder _swapButton;
 
-    public GameScene() {
+    public GameScene(
+        IGameService gameService,
+        IUserSession userSession
+    ) {
 
         // Root container
         _root.setPadding(new Insets(20));
         _root.setBackground(new Background(new BackgroundFill(Color.web("0x16161E"), null, null)));
         _root.setAlignment(Pos.CENTER);
 
-        GameController controller = new GameController();
-
         // Build UI
-        GameViewBuilder viewBuilder = new GameViewBuilder(controller);
+        GameViewBuilder viewBuilder = new GameViewBuilder();
         _root.getChildren().addAll(viewBuilder.build());
+
+        // Create the view
+        GameViewImpl gameView = new GameViewImpl(viewBuilder.getUsersBox(), viewBuilder.getReadyButton());
+
+        // Create the controller
+        GameController controller = new GameController(userSession, gameService, gameView);
+        viewBuilder.setController(controller);
     }
 
     @Override

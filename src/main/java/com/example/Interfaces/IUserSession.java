@@ -6,5 +6,6 @@ public interface IUserSession {
     void setIdRoom(String id);
     String getIdRoom();
     boolean isLog();
+    boolean isInRoom();
     void logout();
 }

@@ -12,11 +12,15 @@ import javafx.scene.Node;
 
 public class GameViewBuilder {
 
-    private final GameController _controller;
+    private GameController _controller;
 
-    public GameViewBuilder(
-        GameController controller
-    ) {
+    // widgets to share
+    private VBoxBuilder _usersBox;
+    private ButtonBuilder _readyButton;
+
+    public GameViewBuilder() {}
+
+    public void setController(GameController controller) {
         _controller = controller;
     }
 
@@ -130,16 +134,16 @@ public class GameViewBuilder {
             .setPrefWidth(550)
             .setAlignment(Pos.CENTER_RIGHT);
 
-        // _usersBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833");
+        _usersBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833");
 
-        ButtonBuilder readyButton = WidgetFactory.button(
+        _readyButton = WidgetFactory.button(
             "Set Ready",
             e -> _controller.handleReady())
             .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5);
 
-        // _usersBox.add(_readyButton.getNode());
+        _usersBox.add(_readyButton.getNode());
 
         // VBoxBuilder tilebagBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(1);
         // HBoxBuilder tiletext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
@@ -158,6 +162,15 @@ public class GameViewBuilder {
         // turnhistorytext.add(turnhistoryText.getNode());
 
         // panel.addWithFlex(_usersBox.getNode(), tilebagBox.getNode(), turnhistoryBox.getNode());
+        panel.addWithFlex(_usersBox.getNode());
         return panel;
+    }
+
+    public VBoxBuilder getUsersBox() {
+        return _usersBox;
+    }
+
+    public ButtonBuilder getReadyButton() {
+        return _readyButton;
     }
 }
