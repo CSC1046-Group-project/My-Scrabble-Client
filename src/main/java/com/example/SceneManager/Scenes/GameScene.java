@@ -22,6 +22,7 @@ import com.example.RendereUI.Widgets.TileBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
 import com.example.SceneManager.MyScene;
 import com.example.SceneManager.SceneManager;
+import com.example.UIBuilder.GameViewBuilder;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -49,45 +50,57 @@ public class GameScene extends MyScene {
     private ButtonBuilder _skipButton;
     private ButtonBuilder _swapButton;
 
-    @Override
-    public void initRoot() {
+    public GameScene() {
 
         // Root container
         _root.setPadding(new Insets(20));
         _root.setBackground(new Background(new BackgroundFill(Color.web("0x16161E"), null, null)));
         _root.setAlignment(Pos.CENTER);
 
-        VBoxBuilder page = WidgetFactory.vbox()
-            .setStyle("-fx-background-color: transparent;")
-            .setPadding(0);
-        HBoxBuilder header = WidgetFactory.hbox()
-            .setStyle("-fx-background-color: transparent;")
-            .setMaxWidth(Double.MAX_VALUE);
+        // Build UI
+        GameViewBuilder viewBuilder = new GameViewBuilder();
+        _root.getChildren().addAll(viewBuilder.build());
+    }
 
-        HBoxBuilder gameView = WidgetFactory.hbox()
-            .setStyle("-fx-background-color: transparent;")
-            .setMaxWidth(Double.MAX_VALUE)
-            .setMaxHeight(1880)
-            .setPrefHeight(1880);
+    @Override
+    public void initRoot() {
 
-        VBoxBuilder game = WidgetFactory.vbox()
-            .setMaxWidth(1000)
-            .setPrefWidth(1000)
-            .setStyle("-fx-background-color: transparent;");
+        // // Root container
+        // _root.setPadding(new Insets(20));
+        // _root.setBackground(new Background(new BackgroundFill(Color.web("0x16161E"), null, null)));
+        // _root.setAlignment(Pos.CENTER);
 
-        VBoxBuilder panel = WidgetFactory.vbox()
-            .setMaxWidth(550)
-            .setMaxHeight(850)
-            .setPrefWidth(550)
-            .setAlignment(Pos.CENTER_RIGHT);
+        // VBoxBuilder page = WidgetFactory.vbox()
+        //     .setStyle("-fx-background-color: transparent;")
+        //     .setPadding(0);
+        // HBoxBuilder header = WidgetFactory.hbox()
+        //     .setStyle("-fx-background-color: transparent;")
+        //     .setMaxWidth(Double.MAX_VALUE);
 
-        header(header);
-        boardView(game);
-        rightSidePanel(panel);
+        // HBoxBuilder gameView = WidgetFactory.hbox()
+        //     .setStyle("-fx-background-color: transparent;")
+        //     .setMaxWidth(Double.MAX_VALUE)
+        //     .setMaxHeight(1880)
+        //     .setPrefHeight(1880);
 
-        gameView.addWithFlex(game.getNode(), panel.getNode());
-        page.add(header.getNode(), gameView.getNode());
-        _root.getChildren().addAll(page.getNode());
+        // VBoxBuilder game = WidgetFactory.vbox()
+        //     .setMaxWidth(1000)
+        //     .setPrefWidth(1000)
+        //     .setStyle("-fx-background-color: transparent;");
+
+        // VBoxBuilder panel = WidgetFactory.vbox()
+        //     .setMaxWidth(550)
+        //     .setMaxHeight(850)
+        //     .setPrefWidth(550)
+        //     .setAlignment(Pos.CENTER_RIGHT);
+
+        // header(header);
+        // boardView(game);
+        // rightSidePanel(panel);
+
+        // gameView.addWithFlex(game.getNode(), panel.getNode());
+        // page.add(header.getNode(), gameView.getNode());
+        // _root.getChildren().addAll(page.getNode());
     }
 
     private void header(HBoxBuilder header) {
