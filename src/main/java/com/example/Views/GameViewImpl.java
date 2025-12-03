@@ -116,6 +116,25 @@ public class GameViewImpl implements GameView {
         displayTileRack();
     }
 
+    @Override
+    public void placeWord(String name, String[] parts, int x, int y, boolean isHorizontal) {
+
+        tilesGoBackToRack();
+
+        int idx = 0;
+        for (String p : parts) {
+            String letter = String.valueOf(p.charAt(0));
+            int value = Integer.parseInt(p.substring(1));
+
+            Tile tile = new Tile();
+            tile.setLetter(letter);
+            tile.setPoint(value);
+            TileBuilder tileBuilder= WidgetFactory.tile(tile, (isHorizontal) ? x+idx : x, (isHorizontal) ? y : y+idx, false, -1);
+            _board.addTile(tileBuilder, (isHorizontal) ? x+idx : x, (isHorizontal) ? y : y+idx);
+            idx++;
+        }
+    }
+
     private HBoxBuilder createUserBox(String username, String profilePicPath, String score, String timer) {
         HBoxBuilder allusersBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;");
         HBoxBuilder userBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;");

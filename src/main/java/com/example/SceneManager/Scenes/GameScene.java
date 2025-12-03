@@ -172,34 +172,4 @@ public class GameScene extends MyScene {
             ));
         }
     }
-
-    // private void onHavePlayed(ProtocolMessage message) {
-
-    //     _cellsPlaced.clear();
-    //     try {
-
-    //         String name = message.getArgs().get(0);
-    //         String word = message.getArgs().get(1);
-    //         String[] parts = word.split("\\|");
-    //         int x = Integer.parseInt(message.getArgs().get(2));
-    //         int y = Integer.parseInt(message.getArgs().get(3));
-    //         boolean isHorizontal = Boolean.parseBoolean(message.getArgs().get(4));
-
-    //         Platform.runLater(() -> {
-    //             int idx = 0;
-    //             for (String p : parts) {
-    //                 String letter = String.valueOf(p.charAt(0));
-    //                 int value = Integer.parseInt(p.substring(1));
-
-    //                 Tile tile = new Tile();
-    //                 tile.setLetter(letter);
-    //                 tile.setPoint(value);
-    //                 TileBuilder tileBuilder= WidgetFactory.tile(tile, (isHorizontal) ? x+idx : x, (isHorizontal) ? y : y+idx, false, -1);
-    //                 _board.addTile(tileBuilder, (isHorizontal) ? x+idx : x, (isHorizontal) ? y : y+idx);
-    //                 idx++;
-    //             }
-    //         });
-    //     } catch (Exception e) {
-    //     }
-    // }
 }

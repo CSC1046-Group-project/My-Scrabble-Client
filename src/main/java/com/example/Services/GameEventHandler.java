@@ -56,6 +56,15 @@ public class GameEventHandler {
 
     public void onPlayerHavePlayed(ProtocolMessage msg) {
          try {
+            String name = msg.getArgs().get(0);
+            String word = msg.getArgs().get(1);
+            String[] parts = word.split("\\|");
+            int x = Integer.parseInt(msg.getArgs().get(2));
+            int y = Integer.parseInt(msg.getArgs().get(3));
+            boolean isHorizontal = Boolean.parseBoolean(msg.getArgs().get(4));
+
+            Platform.runLater(() -> _view.placeWord(name, parts, x, y, isHorizontal));
+
         } catch (Exception e) {
         }
     }
@@ -78,7 +87,6 @@ public class GameEventHandler {
 
             Platform.runLater(() -> _view.updateTileRack());
         } catch (Exception e) {
-            System.out.println(e);
         }
     }
 
