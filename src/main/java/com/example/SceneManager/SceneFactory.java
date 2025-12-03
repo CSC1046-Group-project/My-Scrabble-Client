@@ -6,6 +6,7 @@ import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
 import com.example.SceneManager.Scenes.ChooseScene;
 import com.example.SceneManager.Scenes.FirstScene;
+import com.example.SceneManager.Scenes.GameScene;
 import com.example.SceneManager.Scenes.JoinScene;
 import com.example.SceneManager.Scenes.LoginScene;
 import com.example.SceneManager.Scenes.RegisterScene;
@@ -53,5 +54,9 @@ public class SceneFactory {
     public static SettingsScene createSettingsScene() {
         INavigationService navigationService = new SceneManagerNavigationService();
         return new SettingsScene(navigationService);
+    }
+
+    public static GameScene createGameScene() {
+        return new GameScene();
     }
 }

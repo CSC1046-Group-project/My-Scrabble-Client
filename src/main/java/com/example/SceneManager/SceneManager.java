@@ -2,8 +2,6 @@ package com.example.SceneManager;
 
 import java.util.HashMap;
 
-import com.example.SceneManager.Scenes.GameScene;
-
 public class SceneManager {
 
     public static enum SceneNames {
@@ -26,7 +24,7 @@ public class SceneManager {
         _scenes.put(SceneNames.REGISTER_SCENE, SceneFactory.createRegisterScene());
         _scenes.put(SceneNames.CHOOSE_SCENE, SceneFactory.createChooseScene());
         _scenes.put(SceneNames.JOIN_SCENE, SceneFactory.createJoinScene());
-        _scenes.put(SceneNames.GAME_SCENE, new GameScene());
+        _scenes.put(SceneNames.GAME_SCENE, SceneFactory.createGameScene());
         _scenes.put(SceneNames.SETTINGS_SCENE, SceneFactory.createSettingsScene());
         _currentScene = _scenes.get(SceneNames.FIRST_SCENE);
     }
