@@ -9,6 +9,7 @@ import com.example.SceneManager.Scenes.FirstScene;
 import com.example.SceneManager.Scenes.JoinScene;
 import com.example.SceneManager.Scenes.LoginScene;
 import com.example.SceneManager.Scenes.RegisterScene;
+import com.example.SceneManager.Scenes.SettingsScene;
 import com.example.Services.NetworkAuthenticationService;
 import com.example.Services.NetworkJoinGameService;
 import com.example.Services.SceneManagerNavigationService;
@@ -47,5 +48,10 @@ public class SceneFactory {
         INavigationService navigationService = new SceneManagerNavigationService();
         IUserSession userSession = new UserSessionImpl();
         return new JoinScene(joinGameService, navigationService, userSession);
+    }
+
+    public static SettingsScene createSettingsScene() {
+        INavigationService navigationService = new SceneManagerNavigationService();
+        return new SettingsScene(navigationService);
     }
 }
