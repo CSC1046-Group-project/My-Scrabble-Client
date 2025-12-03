@@ -1,5 +1,6 @@
 package com.example.Views;
 
+import com.example.Game.Game;
 import com.example.Game.Tile;
 import com.example.Game.TileRack;
 import com.example.Game.WordPlacement;
@@ -92,8 +93,8 @@ public class GameViewImpl implements GameView {
     }
 
     @Override
-    public void addPlayer(String name) {
-        HBoxBuilder user = createUserBox(name, "/assets/example-profilepic.png", "0", "15:00")
+    public void addPlayer(String token, String name) {
+        HBoxBuilder user = createUserBox(token, name, "/assets/example-profilepic.png", "0", "15:00")
             .setStyle("-fx-background-color: #282833");
 
         _usersBox.add(user.getNode());
@@ -130,7 +131,7 @@ public class GameViewImpl implements GameView {
         }
     }
 
-    private HBoxBuilder createUserBox(String username, String profilePicPath, String score, String timer) {
+    private HBoxBuilder createUserBox(String token, String username, String profilePicPath, String score, String timer) {
         HBoxBuilder allusersBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;");
         HBoxBuilder userBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;");
         HBoxBuilder statsBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;").setAlignment(Pos.CENTER_RIGHT);
@@ -138,7 +139,7 @@ public class GameViewImpl implements GameView {
         TextBuilder usernameText = WidgetFactory.text(username).setFont(16);
 
         IconButtonBuilder profilePic = WidgetFactory.iconButton(
-            "/assets/example-profilepic.png"
+            profilePicPath
         ).setFitWidth(30).setFitHeight(30);
 
         TextBuilder scoreText = WidgetFactory.text(String.valueOf(score)).setFont(30);
@@ -148,6 +149,8 @@ public class GameViewImpl implements GameView {
         statsBox.add(scoreText.getNode(), timeText.getNode());
 
         allusersBox.add(userBox.getNode(), statsBox.getNode());
+
+        Game.addPlayer(token, username, scoreText, timeText);
         return allusersBox;
     }
 

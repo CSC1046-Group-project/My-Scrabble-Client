@@ -1,7 +1,9 @@
 package com.example.SceneManager.Scenes;
 
 import com.example.Controllers.GameController;
+import com.example.Game.Game;
 import com.example.Game.TileRack;
+import com.example.Game.Timer;
 import com.example.Interfaces.IGameService;
 import com.example.Interfaces.IUserSession;
 import com.example.SceneManager.MyScene;
@@ -25,6 +27,7 @@ public class GameScene extends MyScene {
         IGameService gameService,
         IUserSession userSession
     ) {
+        Game.start();
 
         // Root container
         _root.setPadding(new Insets(20));
@@ -55,10 +58,6 @@ public class GameScene extends MyScene {
 
         // Init event handler to listen network
         _eventHandler = new GameEventHandler(gameView, userSession, _tileRack);
-    }
-
-    @Override
-    public void initRoot() {
     }
 
     @Override

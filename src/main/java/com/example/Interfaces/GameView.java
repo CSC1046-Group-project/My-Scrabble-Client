@@ -5,7 +5,7 @@ public interface GameView {
     void clearError();
     // void showMessage(String message);
     void hideReadyButton();
-    void addPlayer(String name);
+    void addPlayer(String token, String name);
     void updateTileRack();
     void updateTurn(boolean isPlayerTurn);
     void updateTileBag(String tileBag);

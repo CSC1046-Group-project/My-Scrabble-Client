@@ -1,5 +1,6 @@
 package com.example.Services;
 
+import com.example.Game.Game;
 import com.example.Game.Tile;
 import com.example.Game.TileRack;
 import com.example.Interfaces.GameView;
@@ -32,6 +33,7 @@ public class GameEventHandler {
         _gameListener.on(MessageType.PLAYER_HAVE_PLAYED, msg -> onPlayerHavePlayed(msg));
         _gameListener.on(MessageType.GAME_START, msg -> onGameStart(msg));
         _gameListener.on(MessageType.PLAYER_TURN, msg -> onPlayerTurn(msg));
+        _gameListener.on(MessageType.PLAYER_SCORE, msg -> onPlayerScore(msg));
     }
 
     public void run() {
@@ -48,8 +50,10 @@ public class GameEventHandler {
 
     public void onPlayerIsReady(ProtocolMessage msg) {
          try {
-            String name = msg.getArgs().get(0);
-            Platform.runLater(() -> _view.addPlayer(name));
+            String token = msg.getArgs().get(0);
+            String name = msg.getArgs().get(1);
+
+            Platform.runLater(() -> _view.addPlayer(token, name));
         } catch (Exception e) {
         }
     }
@@ -91,9 +95,21 @@ public class GameEventHandler {
     }
 
     public void onPlayerTurn(ProtocolMessage msg) {
-         try {
+        try {
             String player = msg.getArgs().get(0);
-            Platform.runLater(() -> _view.updateTurn(_userSession.getToken().equals(player)));
+            Platform.runLater(() -> {
+                _view.updateTurn(_userSession.getToken().equals(player));
+                Game.setTurn(player);
+            });
+        } catch (Exception e) {
+        }
+    }
+
+    public void onPlayerScore(ProtocolMessage msg){
+        try {
+            String token = msg.getArgs().get(0);
+            String score = msg.getArgs().get(1);
+            Game.setScore(token, score);
         } catch (Exception e) {
         }
     }
