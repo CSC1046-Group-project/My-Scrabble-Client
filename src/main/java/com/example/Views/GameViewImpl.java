@@ -1,10 +1,8 @@
 package com.example.Views;
 
-import java.util.List;
-
-import com.example.Game.BoardCell;
 import com.example.Game.Tile;
 import com.example.Game.TileRack;
+import com.example.Game.WordPlacement;
 import com.example.Interfaces.GameView;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.BoardBuilder;
@@ -28,7 +26,6 @@ public class GameViewImpl implements GameView {
 
     private final BoardBuilder _board;
     private final TileRack _tileRack;
-    private final List<BoardCell> _cellsPlaced;
 
     private final VBoxBuilder _usersBox;
     private final ButtonBuilder _readyButton;
@@ -42,7 +39,6 @@ public class GameViewImpl implements GameView {
         StackPane root,
         BoardBuilder board,
         TileRack tileRack,
-        List<BoardCell> cellsPlaced,
         VBoxBuilder userBox,
         ButtonBuilder readyButton,
         VBoxBuilder tilesleft,
@@ -54,7 +50,6 @@ public class GameViewImpl implements GameView {
         _root = root;
         _board = board;
         _tileRack = tileRack;
-        _cellsPlaced = cellsPlaced;
         _usersBox = userBox;
         _readyButton = readyButton;
         _tilesleft = tilesleft;
@@ -204,7 +199,7 @@ public class GameViewImpl implements GameView {
 
         if (_board.addTile(newTile, mousePosOnBoard[0], mousePosOnBoard[1])) {
             _tileRack.removeTile(tile.getRackIndex());
-            _cellsPlaced.add(_board.getBoardCell(mousePosOnBoard[0], mousePosOnBoard[1]));
+            WordPlacement.add(_board.getBoardCell(mousePosOnBoard[0], mousePosOnBoard[1]));
             return true;
         } else {
             return false;
@@ -213,11 +208,11 @@ public class GameViewImpl implements GameView {
 
     private void tilesGoBackToRack() {
 
-        for (int i = 0; i < _cellsPlaced.size(); i++) {
-            _tileRack.addTile(_cellsPlaced.get(i).getTile());
-            _board.removeTile(_cellsPlaced.get(i));
+        for (int i = 0; i < WordPlacement.getSize(); i++) {
+            _tileRack.addTile(WordPlacement.getBoardCell(i).getTile());
+            _board.removeTile(WordPlacement.getBoardCell(i));
         }
-        _cellsPlaced.clear();
+        WordPlacement.clear();
         displayTileRack();
     }
 
