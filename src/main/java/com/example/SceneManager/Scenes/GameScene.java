@@ -22,6 +22,7 @@ import com.example.RendereUI.Widgets.TextBuilder;
 import com.example.RendereUI.Widgets.TileBuilder;
 import com.example.RendereUI.Widgets.VBoxBuilder;
 import com.example.SceneManager.MyScene;
+import com.example.Services.GameEventHandler;
 import com.example.UIBuilder.GameViewBuilder;
 import com.example.Views.GameViewImpl;
 
@@ -51,6 +52,8 @@ public class GameScene extends MyScene {
     private ButtonBuilder _skipButton;
     private ButtonBuilder _swapButton;
 
+    private final GameEventHandler _eventHandler;
+
     public GameScene(
         IGameService gameService,
         IUserSession userSession
@@ -61,78 +64,87 @@ public class GameScene extends MyScene {
         _root.setBackground(new Background(new BackgroundFill(Color.web("0x16161E"), null, null)));
         _root.setAlignment(Pos.CENTER);
 
+
         // Build UI
         GameViewBuilder viewBuilder = new GameViewBuilder();
         _root.getChildren().addAll(viewBuilder.build());
 
         // Create the view
-        GameViewImpl gameView = new GameViewImpl(viewBuilder.getUsersBox(), viewBuilder.getReadyButton());
+        GameViewImpl gameView = new GameViewImpl(
+            _root,
+            viewBuilder.getUsersBox(),
+            viewBuilder.getReadyButton(),
+            viewBuilder.getTilesLeft()
+        );
 
         // Create the controller
         GameController controller = new GameController(userSession, gameService, gameView);
         viewBuilder.setController(controller);
+
+        // Init event handler to listen network
+        _eventHandler = new GameEventHandler(gameView);
     }
 
     @Override
     public void initRoot() {
     }
 
-    private void boardView(VBoxBuilder game) {
+    // private void boardView(VBoxBuilder game) {
 
-        // REMOVE THIS SAMPLE EXAMPLE
-        // _tiles = new ArrayList<>();
-        // String[] letters = { "E", "E", "O", "R", "H", "D", "U" };
-        // int[] points     = {  1,   1,   1,   1,   4,   2,   1 };
-        // for (int i = 0; i < letters.length; i++) {
-        //     Tile tile = new Tile();
-        //     tile.setLetter(letters[i]);
-        //     tile.setPoint(points[i]);
-        //     _tiles.add(tile);
-        // }
+    //     // REMOVE THIS SAMPLE EXAMPLE
+    //     // _tiles = new ArrayList<>();
+    //     // String[] letters = { "E", "E", "O", "R", "H", "D", "U" };
+    //     // int[] points     = {  1,   1,   1,   1,   4,   2,   1 };
+    //     // for (int i = 0; i < letters.length; i++) {
+    //     //     Tile tile = new Tile();
+    //     //     tile.setLetter(letters[i]);
+    //     //     tile.setPoint(points[i]);
+    //     //     _tiles.add(tile);
+    //     // }
 
-        _tileRack = new TileRack();
-        // for (Tile t : _tiles) {
-        //     _tileRack.addTile(t);
-        // }
+    //     _tileRack = new TileRack();
+    //     // for (Tile t : _tiles) {
+    //     //     _tileRack.addTile(t);
+    //     // }
 
-        _board = WidgetFactory.board(15, 15, 50);
+    //     _board = WidgetFactory.board(15, 15, 50);
 
-        ButtonBuilder challengeButton = WidgetFactory.button("Challenge", e -> challenge())
-            .setFont(16)
-            .setPrefWidth(122.5)
-            .setMaxWidth(122.5)
-            .setStyle("-fx-background-color: #C04D4D; -fx-background-radius: 10;");
+    //     ButtonBuilder challengeButton = WidgetFactory.button("Challenge", e -> challenge())
+    //         .setFont(16)
+    //         .setPrefWidth(122.5)
+    //         .setMaxWidth(122.5)
+    //         .setStyle("-fx-background-color: #C04D4D; -fx-background-radius: 10;");
 
-        initTileRack();
-        HBoxBuilder challengeRackBlock = WidgetFactory.hbox()
-            .setMaxWidth(696)
-            .setPrefWidth(696)
-            .setStyle("-fx-background-color: transparent;");
-        challengeRackBlock.add(challengeButton.getNode(), _rack);
+    //     initTileRack();
+    //     HBoxBuilder challengeRackBlock = WidgetFactory.hbox()
+    //         .setMaxWidth(696)
+    //         .setPrefWidth(696)
+    //         .setStyle("-fx-background-color: transparent;");
+    //     challengeRackBlock.add(challengeButton.getNode(), _rack);
 
-        HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
-        ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> resign())
-            .setFont(16)
-            .setPrefWidth(122.5)
-            .setMaxWidth(122.5)
-            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        _skipButton = WidgetFactory.button("Skip", e -> skip())
-            .setFont(16)
-            .setPrefWidth(122.5)
-            .setMaxWidth(122.5)
-            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        _swapButton = WidgetFactory.button("Swap", e -> swap())
-            .setFont(16)
-            .setPrefWidth(122.5)
-            .setMaxWidth(122.5)
-            .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
-        _submitButton = WidgetFactory.button("Submit", e -> submit())
-            .setFont(16)
-            .setPrefWidth(122.5)
-            .setMaxWidth(122.5);
-        buttons.add(resignButton.getNode(), _skipButton.getNode(), _swapButton.getNode(), _submitButton.getNode());
-        game.add(_board.getNode(), challengeRackBlock.getNode(), buttons.getNode());
-    }
+    //     HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
+    //     ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> resign())
+    //         .setFont(16)
+    //         .setPrefWidth(122.5)
+    //         .setMaxWidth(122.5)
+    //         .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+    //     _skipButton = WidgetFactory.button("Skip", e -> skip())
+    //         .setFont(16)
+    //         .setPrefWidth(122.5)
+    //         .setMaxWidth(122.5)
+    //         .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+    //     _swapButton = WidgetFactory.button("Swap", e -> swap())
+    //         .setFont(16)
+    //         .setPrefWidth(122.5)
+    //         .setMaxWidth(122.5)
+    //         .setStyle("-fx-background-color: #282833; -fx-background-radius: 10;");
+    //     _submitButton = WidgetFactory.button("Submit", e -> submit())
+    //         .setFont(16)
+    //         .setPrefWidth(122.5)
+    //         .setMaxWidth(122.5);
+    //     buttons.add(resignButton.getNode(), _skipButton.getNode(), _swapButton.getNode(), _submitButton.getNode());
+    //     game.add(_board.getNode(), challengeRackBlock.getNode(), buttons.getNode());
+    // }
 
     private void initTileRack() {
 
@@ -202,69 +214,69 @@ public class GameScene extends MyScene {
         }
     }
 
-    private void rightSidePanel(VBoxBuilder panel) {
+    // private void rightSidePanel(VBoxBuilder panel) {
 
-        _usersBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833");
+    //     _usersBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833");
 
-        _readyButton = WidgetFactory.button("Set Ready", e -> ready())
-            .setFont(16)
-            .setPrefWidth(122.5)
-            .setMaxWidth(122.5);
+    //     _readyButton = WidgetFactory.button("Set Ready", e -> ready())
+    //         .setFont(16)
+    //         .setPrefWidth(122.5)
+    //         .setMaxWidth(122.5);
 
-        // HBoxBuilder user1 = createUserBox("Player1", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
-        // HBoxBuilder user2 = createUserBox("Player2", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
-        // HBoxBuilder user3 = createUserBox("Player3", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
-        // HBoxBuilder user4 = createUserBox("Player4", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
+    //     // HBoxBuilder user1 = createUserBox("Player1", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
+    //     // HBoxBuilder user2 = createUserBox("Player2", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
+    //     // HBoxBuilder user3 = createUserBox("Player3", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
+    //     // HBoxBuilder user4 = createUserBox("Player4", "/assets/example-profilepic.png").setStyle("-fx-background-color: #282833");
 
-        // usersBox.add(user1.getNode(), user2.getNode(), user3.getNode(), user4.getNode());
-        _usersBox.add(_readyButton.getNode());
+    //     // usersBox.add(user1.getNode(), user2.getNode(), user3.getNode(), user4.getNode());
+    //     _usersBox.add(_readyButton.getNode());
 
-        VBoxBuilder tilebagBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(1);
-        HBoxBuilder tiletext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
+    //     VBoxBuilder tilebagBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(1);
+    //     HBoxBuilder tiletext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
 
-        TextBuilder tilebagText = WidgetFactory.text("Tile bag - 81 tiles left").setFont(16);
-        tiletext.add(tilebagText.getNode());
+    //     TextBuilder tilebagText = WidgetFactory.text("Tile bag - 81 tiles left").setFont(16);
+    //     tiletext.add(tilebagText.getNode());
 
-        _tilesleft = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
+    //     _tilesleft = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
 
-        // TextBuilder line1 = WidgetFactory.text("A  A  A  A  A  A  A  A  B  C  C  D  D  D  ").setFont(16);
-        // TextBuilder line2 = WidgetFactory.text("E  E  E  E  E  E  E  E  E  F  F  G  G  G  ").setFont(16);
-        // TextBuilder line3 = WidgetFactory.text("I  I  I  I  I  I  I  I  I  J  K  L  L  L  L  M  M").setFont(16);
-        // TextBuilder line4 = WidgetFactory.text("N  N  N  N  N  N  O  O  O  O  O  O  O  P  P").setFont(16);
-        // TextBuilder line5 = WidgetFactory.text("Q  R  R  R  R  R  S  S  S  T  T  T  T  T").setFont(16);
-        // TextBuilder line6 = WidgetFactory.text("U  U  U  V  V  W  W  X  Y  Y  Z  ?  ?  ").setFont(16);
+    //     // TextBuilder line1 = WidgetFactory.text("A  A  A  A  A  A  A  A  B  C  C  D  D  D  ").setFont(16);
+    //     // TextBuilder line2 = WidgetFactory.text("E  E  E  E  E  E  E  E  E  F  F  G  G  G  ").setFont(16);
+    //     // TextBuilder line3 = WidgetFactory.text("I  I  I  I  I  I  I  I  I  J  K  L  L  L  L  M  M").setFont(16);
+    //     // TextBuilder line4 = WidgetFactory.text("N  N  N  N  N  N  O  O  O  O  O  O  O  P  P").setFont(16);
+    //     // TextBuilder line5 = WidgetFactory.text("Q  R  R  R  R  R  S  S  S  T  T  T  T  T").setFont(16);
+    //     // TextBuilder line6 = WidgetFactory.text("U  U  U  V  V  W  W  X  Y  Y  Z  ?  ?  ").setFont(16);
 
-        // tilesleft.add(line1.getNode(), line2.getNode(), line3.getNode(), line4.getNode(), line5.getNode(), line6.getNode());
-        tilebagBox.add(tiletext.getNode(), _tilesleft.getNode());
+    //     // tilesleft.add(line1.getNode(), line2.getNode(), line3.getNode(), line4.getNode(), line5.getNode(), line6.getNode());
+    //     tilebagBox.add(tiletext.getNode(), _tilesleft.getNode());
 
-        VBoxBuilder turnhistoryBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
+    //     VBoxBuilder turnhistoryBox = WidgetFactory.vbox().setStyle("-fx-background-color: #282833").setSpacing(2);
 
-        HBoxBuilder turnhistorytext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
-        TextBuilder turnhistoryText = WidgetFactory.text("Turn History").setFont(16);
-        turnhistorytext.add(turnhistoryText.getNode());
+    //     HBoxBuilder turnhistorytext = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
+    //     TextBuilder turnhistoryText = WidgetFactory.text("Turn History").setFont(16);
+    //     turnhistorytext.add(turnhistoryText.getNode());
 
-        // IconButtonBuilder profilePic = WidgetFactory.iconButton(
-        //     "/assets/example-profilepic.png"
-        // ).setFitWidth(30).setFitHeight(30);
+    //     // IconButtonBuilder profilePic = WidgetFactory.iconButton(
+    //     //     "/assets/example-profilepic.png"
+    //     // ).setFitWidth(30).setFitHeight(30);
 
-        // IconButtonBuilder profilePic2 = WidgetFactory.iconButton(
-        //     "/assets/example-profilepic.png"
-        // ).setFitWidth(30).setFitHeight(30);
+    //     // IconButtonBuilder profilePic2 = WidgetFactory.iconButton(
+    //     //     "/assets/example-profilepic.png"
+    //     // ).setFitWidth(30).setFitHeight(30);
 
-        // HBoxBuilder turn1 = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
-        // TextBuilder usernameText = WidgetFactory.text("Player1").setFont(16);
-        // TextBuilder points = WidgetFactory.text("6").setFont(16).setTextAlignment(TextAlignment.RIGHT);
-        // turn1.add(usernameText.getNode(), profilePic.getNode(), points.getNode());
+    //     // HBoxBuilder turn1 = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
+    //     // TextBuilder usernameText = WidgetFactory.text("Player1").setFont(16);
+    //     // TextBuilder points = WidgetFactory.text("6").setFont(16).setTextAlignment(TextAlignment.RIGHT);
+    //     // turn1.add(usernameText.getNode(), profilePic.getNode(), points.getNode());
 
-        // HBoxBuilder turn2 = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
-        // TextBuilder username2Text = WidgetFactory.text("Player2").setFont(16);
-        // TextBuilder points2 = WidgetFactory.text("9").setFont(16).setTextAlignment(TextAlignment.RIGHT);
-        // turn2.add(username2Text.getNode(), profilePic2.getNode(), points2.getNode());
+    //     // HBoxBuilder turn2 = WidgetFactory.hbox().setStyle("-fx-background-color: #282833");
+    //     // TextBuilder username2Text = WidgetFactory.text("Player2").setFont(16);
+    //     // TextBuilder points2 = WidgetFactory.text("9").setFont(16).setTextAlignment(TextAlignment.RIGHT);
+    //     // turn2.add(username2Text.getNode(), profilePic2.getNode(), points2.getNode());
 
-        // turnhistoryBox.add(turnhistorytext.getNode(), turn1.getNode(), turn2.getNode());
+    //     // turnhistoryBox.add(turnhistorytext.getNode(), turn1.getNode(), turn2.getNode());
 
-        panel.addWithFlex(_usersBox.getNode(), tilebagBox.getNode(), turnhistoryBox.getNode());
-    }
+    //     panel.addWithFlex(_usersBox.getNode(), tilebagBox.getNode(), turnhistoryBox.getNode());
+    // }
 
     // we will change this to user.getUsername() and user.getProfilePicPath() later
     public static HBoxBuilder createUserBox(String username, String profilePicPath, String score, String timer) {
@@ -297,40 +309,7 @@ public class GameScene extends MyScene {
 
     @Override
     public void initListener() {
-        // Listener gameListener = new Listener();
-        // gameListener.on(MessageType.PLAYER_HAVE_PLAYED, msg -> onHavePlayed(msg));
-        // gameListener.on(MessageType.TILEBAG, msg -> onTileBagMessage(msg));
-        // gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
-        // gameListener.on(MessageType.GAME_START, msg -> onGameStart(msg));
-        // gameListener.on(MessageType.PLAYER_TURN, msg -> onPlayerTurn(msg));
-        // Network.setListener(gameListener);
-    }
-
-    private void ready() {
-        if (User.getToken() == null || User.getToken().equals(""))
-            return;
-        if (User.getRoomId() == null || User.getRoomId().equals(""))
-            return;
-        _usersBox.remove(_readyButton.getNode());
-        Network.sendMessage(ProtocolFactory.ready(User.getToken(), User.getRoomId()));
-    }
-
-    private void resign() {
-        if (User.getToken() == null || User.getToken().equals(""))
-            return;
-        Network.sendMessage(ProtocolFactory.resign(User.getToken()));
-    }
-
-    private void skip() {
-        if (User.getToken() == null || User.getToken().equals(""))
-            return;
-        Network.sendMessage(ProtocolFactory.skip(User.getToken()));
-    }
-
-    private void swap() {
-        if (User.getToken() == null || User.getToken().equals(""))
-            return;
-        Network.sendMessage(ProtocolFactory.swap(User.getToken(), ""));
+        _eventHandler.run();
     }
 
     private void submit() {
@@ -432,7 +411,7 @@ public class GameScene extends MyScene {
     private void challenge() {
         if (User.getToken() == null || User.getToken().equals(""))
             return;
-        Network.sendMessage(ProtocolFactory.challenge(User.getToken()));
+        // Network.sendMessage(ProtocolFactory.challenge(User.getToken()));
     }
 
     private void tilesGoBackToRack() {
@@ -443,25 +422,6 @@ public class GameScene extends MyScene {
         }
         _cellsPlaced.clear();
         displayTileRack();
-    }
-
-    private void onTileBagMessage(ProtocolMessage message) {
-
-        try {
-
-            String tileBag = message.getArgs().get(0);
-
-            Platform.runLater(() -> {
-                _tilesleft.removeAll();
-                for (int i = 0; i < tileBag.length(); i += 17) {
-                    int end = Math.min(i + 17, tileBag.length());
-                    TextBuilder line = WidgetFactory.text(String.join("  ", tileBag.substring(i, end).split(""))).setFont(16);
-                    _tilesleft.add(line.getNode());
-                }
-            });
-
-        } catch (Exception e) {
-        }
     }
 
     private void onHavePlayed(ProtocolMessage message) {

@@ -1,5 +1,6 @@
 package com.example.Controllers;
 
+import com.example.Interfaces.GameCallback;
 import com.example.Interfaces.GameView;
 import com.example.Interfaces.IGameService;
 import com.example.Interfaces.IUserSession;
@@ -26,27 +27,83 @@ public class GameController {
         if (!_userSession.isInRoom())
             return;
 
-        _view.hideReadyButton();
-        _gameService.ready(_userSession.getToken(), _userSession.getIdRoom());
+        _gameService.ready(_userSession.getToken(), _userSession.getIdRoom(), new GameCallback() {
+
+            @Override
+            public void onSuccess() {
+                _view.hideReadyButton();
+            }
+
+            @Override
+            public void onFailure(String message) {
+            }
+        });
     }
 
     public void handleChallenge() {
+        if (!_userSession.isLog())
+            return;
+        if (!_userSession.isInRoom())
+            return;
+        _gameService.challenge(_userSession.getToken(), _userSession.getIdRoom(), new GameCallback() {
 
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFailure(String message) {
+            }
+        });
     }
 
     public void handleResign() {
+        if (!_userSession.isLog())
+            return;
+        if (!_userSession.isInRoom())
+            return;
+        _gameService.resign(_userSession.getToken(), _userSession.getIdRoom(), new GameCallback() {
 
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFailure(String message) {
+            }
+        });
     }
 
     public void handleSkip() {
+        if (!_userSession.isLog())
+            return;
+        if (!_userSession.isInRoom())
+            return;
+        _gameService.skip(_userSession.getToken(), _userSession.getIdRoom(), new GameCallback() {
 
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFailure(String message) {
+            }
+        });
     }
 
     public void handleSwap() {
-
+        if (!_userSession.isLog())
+            return;
+        if (!_userSession.isInRoom())
+            return;
+        // _gameService.swap(_userSession.getToken(), _userSession.getIdRoom());
     }
 
     public void handleSubmit() {
-
+        if (!_userSession.isLog())
+            return;
+        if (!_userSession.isInRoom())
+            return;
+        // _gameService.submit(_userSession.getToken(), _userSession.getIdRoom());
     }
 }
