@@ -1,5 +1,7 @@
 package com.example.Services;
 
+import com.example.Game.Tile;
+import com.example.Game.TileRack;
 import com.example.Interfaces.GameView;
 import com.example.Interfaces.IUserSession;
 import com.example.Network.Listener;
@@ -14,13 +16,16 @@ public class GameEventHandler {
     private final GameView _view;
     private final IUserSession _userSession;
     private final Listener _gameListener = new Listener();
+    private final TileRack _tileRack;
 
     public GameEventHandler(
         GameView view,
-        IUserSession userSession
+        IUserSession userSession,
+        TileRack tileRack
     ) {
         _view = view;
         _userSession = userSession;
+        _tileRack = tileRack;
 
         _gameListener.on(MessageType.TILEBAG, msg -> onTileBagUpdate(msg));
         _gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
@@ -57,7 +62,23 @@ public class GameEventHandler {
 
     public void onGameStart(ProtocolMessage msg) {
          try {
+            String tiles = msg.getArgs().get(0);
+            String[] tilesParts = tiles.split("\\|");
+
+            for (String t : tilesParts) {
+                String letter = String.valueOf(t.charAt(0));
+                int value = Integer.parseInt(t.substring(1));
+
+                Tile tile = new Tile();
+                tile.setLetter(letter);
+                tile.setPoint(value);
+
+                _tileRack.addTile(tile);
+            }
+
+            Platform.runLater(() -> _view.updateTileRack());
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 

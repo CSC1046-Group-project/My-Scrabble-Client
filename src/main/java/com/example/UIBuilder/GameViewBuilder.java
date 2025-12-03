@@ -10,6 +10,7 @@ import com.example.RendereUI.Widgets.VBoxBuilder;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 
 public class GameViewBuilder {
 
@@ -23,6 +24,7 @@ public class GameViewBuilder {
     private ButtonBuilder _submitButton;
     private ButtonBuilder _skipButton;
     private ButtonBuilder _swapButton;
+    private Pane _rack;
 
     public GameViewBuilder() {}
 
@@ -101,12 +103,12 @@ public class GameViewBuilder {
             .setMaxWidth(122.5)
             .setStyle("-fx-background-color: #C04D4D; -fx-background-radius: 10;");
 
-        // initTileRack();
-        // HBoxBuilder challengeRackBlock = WidgetFactory.hbox()
-        //     .setMaxWidth(696)
-        //     .setPrefWidth(696)
-        //     .setStyle("-fx-background-color: transparent;");
-        // challengeRackBlock.add(challengeButton.getNode(), _rack);
+        initTileRack();
+        HBoxBuilder challengeRackBlock = WidgetFactory.hbox()
+            .setMaxWidth(696)
+            .setPrefWidth(696)
+            .setStyle("-fx-background-color: transparent;");
+        challengeRackBlock.add(challengeButton.getNode(), _rack);
 
         HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
         ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> _controller.handleResign())
@@ -129,8 +131,7 @@ public class GameViewBuilder {
             .setPrefWidth(122.5)
             .setMaxWidth(122.5);
         buttons.add(resignButton.getNode(), _skipButton.getNode(), _swapButton.getNode(), _submitButton.getNode());
-        // game.add(_board.getNode(), challengeRackBlock.getNode(), buttons.getNode());
-        game.add(_board.getNode(), buttons.getNode());
+        game.add(_board.getNode(), challengeRackBlock.getNode(), buttons.getNode());
 
         return game;
     }
@@ -174,6 +175,16 @@ public class GameViewBuilder {
         return panel;
     }
 
+    private void initTileRack() {
+
+        _rack = new Pane();
+        _rack.setPrefWidth(550);
+        _rack.setPrefHeight(86);
+        _rack.setMaxWidth(550);
+        _rack.setMaxHeight(86);
+        _rack.setStyle("-fx-background-color: #222226;");
+    }
+
     public VBoxBuilder getUsersBox() {
         return _usersBox;
     }
@@ -196,5 +207,13 @@ public class GameViewBuilder {
 
     public ButtonBuilder getSwapButton(){
         return _swapButton;
+    }
+
+    public Pane getRack() {
+        return _rack;
+    }
+
+    public BoardBuilder getBoard() {
+        return _board;
     }
 }
