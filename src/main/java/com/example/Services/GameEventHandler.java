@@ -1,6 +1,7 @@
 package com.example.Services;
 
 import com.example.Interfaces.GameView;
+import com.example.Interfaces.IUserSession;
 import com.example.Network.Listener;
 import com.example.Network.Network;
 import com.example.Network.Protocol.MessageType;
@@ -11,12 +12,15 @@ import javafx.application.Platform;
 public class GameEventHandler {
 
     private final GameView _view;
+    private final IUserSession _userSession;
     private final Listener _gameListener = new Listener();
 
     public GameEventHandler(
-        GameView view
+        GameView view,
+        IUserSession userSession
     ) {
         _view = view;
+        _userSession = userSession;
 
         _gameListener.on(MessageType.TILEBAG, msg -> onTileBagUpdate(msg));
         _gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
@@ -59,6 +63,8 @@ public class GameEventHandler {
 
     public void onPlayerTurn(ProtocolMessage msg) {
          try {
+            String player = msg.getArgs().get(0);
+            Platform.runLater(() -> _view.updateTurn(_userSession.getToken().equals(player)));
         } catch (Exception e) {
         }
     }

@@ -74,7 +74,10 @@ public class GameScene extends MyScene {
             _root,
             viewBuilder.getUsersBox(),
             viewBuilder.getReadyButton(),
-            viewBuilder.getTilesLeft()
+            viewBuilder.getTilesLeft(),
+            viewBuilder.getSubmitButton(),
+            viewBuilder.getSkipButton(),
+            viewBuilder.getSwapButton()
         );
 
         // Create the controller
@@ -82,7 +85,7 @@ public class GameScene extends MyScene {
         viewBuilder.setController(controller);
 
         // Init event handler to listen network
-        _eventHandler = new GameEventHandler(gameView);
+        _eventHandler = new GameEventHandler(gameView, userSession);
     }
 
     @Override
@@ -454,21 +457,6 @@ public class GameScene extends MyScene {
         }
     }
 
-    private void onPlayerIsReady(ProtocolMessage message) {
-        try {
-
-            String name = message.getArgs().get(0);
-            Platform.runLater(() -> {
-                HBoxBuilder user = createUserBox(name, "/assets/example-profilepic.png", "0", "15:00")
-                    .setStyle("-fx-background-color: #282833");
-
-                _usersBox.add(user.getNode());
-            });
-
-        } catch (Exception e) {
-        }
-    }
-
     private void onGameStart(ProtocolMessage message) {
         try {
 
@@ -490,19 +478,6 @@ public class GameScene extends MyScene {
                 displayTileRack();
             });
 
-        } catch (Exception e) {
-        }
-    }
-
-    private void onPlayerTurn(ProtocolMessage message) {
-        try {
-            String player = message.getArgs().get(0);
-            _isPlayerTurn = player.equals(User.getToken());
-            Platform.runLater(() -> {
-                _submitButton.getNode().setDisable(!_isPlayerTurn);
-                _skipButton.getNode().setDisable(!_isPlayerTurn);
-                _swapButton.getNode().setDisable(!_isPlayerTurn);
-            });
         } catch (Exception e) {
         }
     }

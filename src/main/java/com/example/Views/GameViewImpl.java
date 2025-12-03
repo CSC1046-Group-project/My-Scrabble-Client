@@ -21,17 +21,26 @@ public class GameViewImpl implements GameView {
     private final VBoxBuilder _usersBox;
     private final ButtonBuilder _readyButton;
     private final VBoxBuilder _tilesleft;
+    private final ButtonBuilder _submitButton;
+    private final ButtonBuilder _skipButton;
+    private final ButtonBuilder _swapButton;
 
     public GameViewImpl(
         StackPane root,
         VBoxBuilder userBox,
         ButtonBuilder readyButton,
-        VBoxBuilder tilesleft
+        VBoxBuilder tilesleft,
+        ButtonBuilder submitButton,
+        ButtonBuilder skipButton,
+        ButtonBuilder swapButton
     ) {
         _root = root;
         _usersBox = userBox;
         _readyButton = readyButton;
         _tilesleft = tilesleft;
+        _submitButton = submitButton;
+        _skipButton = skipButton;
+        _swapButton = swapButton;
     }
 
     @Override
@@ -72,6 +81,13 @@ public class GameViewImpl implements GameView {
             .setStyle("-fx-background-color: #282833");
 
         _usersBox.add(user.getNode());
+    }
+
+    @Override
+    public void updateTurn(boolean isPlayerTurn) {
+        _submitButton.getNode().setDisable(!isPlayerTurn);
+        _skipButton.getNode().setDisable(!isPlayerTurn);
+        _swapButton.getNode().setDisable(!isPlayerTurn);
     }
 
     private HBoxBuilder createUserBox(String username, String profilePicPath, String score, String timer) {

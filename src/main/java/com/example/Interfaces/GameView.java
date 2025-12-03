@@ -7,6 +7,6 @@ public interface GameView {
     void hideReadyButton();
     void addPlayer(String name);
     // void refreshTileRack();
-    // void updateTurnControls(boolean isPlayerTurn);
+    void updateTurn(boolean isPlayerTurn);
     void updateTileBag(String tileBag);
 }

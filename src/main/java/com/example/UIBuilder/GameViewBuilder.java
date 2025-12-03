@@ -185,4 +185,16 @@ public class GameViewBuilder {
     public VBoxBuilder getTilesLeft() {
         return _tilesleft;
     }
+
+    public ButtonBuilder getSubmitButton(){
+        return _submitButton;
+    }
+
+    public ButtonBuilder getSkipButton(){
+        return _skipButton;
+    }
+
+    public ButtonBuilder getSwapButton(){
+        return _swapButton;
+    }
 }
