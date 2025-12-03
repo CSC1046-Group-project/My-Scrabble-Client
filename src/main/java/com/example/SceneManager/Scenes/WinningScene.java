@@ -2,7 +2,6 @@ package com.example.SceneManager.Scenes;
 
 import com.example.Interfaces.INavigationService;
 import com.example.SceneManager.MyScene;
-import com.example.UIBuilder.ChooseViewBuilder;
 import com.example.UIBuilder.WinningViewBuilder;
 
 import javafx.geometry.Insets;

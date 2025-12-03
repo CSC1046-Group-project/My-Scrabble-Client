@@ -91,8 +91,6 @@ public class GameViewBuilder {
             .setPrefWidth(1000)
             .setStyle("-fx-background-color: transparent;");
 
-        // _tileRack = new TileRack();
-
         _board = WidgetFactory.board(15, 15, 50);
 
         ButtonBuilder challengeButton = WidgetFactory.button(
