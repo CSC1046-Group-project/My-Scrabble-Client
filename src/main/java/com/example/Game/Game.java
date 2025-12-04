@@ -36,12 +36,15 @@ public class Game {
 
     public static void setTurn(String token) {
         Player playerToPause = _players.get(_playerTurn);
-        if (playerToPause != null)
+        if (playerToPause != null) {
             playerToPause.pauseTimer();
+            playerToPause.setTurn(false);
+        }
 
         Player playerToStart = _players.get(token);
         if (playerToStart != null) {
             playerToStart.startTimer();
+            playerToStart.setTurn(true);
         }
         _playerTurn = token;
     }

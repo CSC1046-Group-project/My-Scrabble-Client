@@ -39,4 +39,12 @@ public class Player extends User {
     public HBoxBuilder getUserBox() {
         return _userBox;
     }
+
+    public void setTurn(boolean isTurn) {
+        if (isTurn) {
+            _userBox.setStyle("-fx-background-color: #415f41ff;");
+        } else {
+            _userBox.setStyle("-fx-background-color: #282833;");
+        }
+    }
 }

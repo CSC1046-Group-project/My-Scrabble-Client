@@ -151,8 +151,8 @@ public class GameViewImpl implements GameView {
 
     private HBoxBuilder createUserBox(String token, String username, String profilePicPath, String score, String timer) {
         HBoxBuilder allusersBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;");
-        HBoxBuilder userBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;");
-        HBoxBuilder statsBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;").setAlignment(Pos.CENTER_RIGHT);
+        HBoxBuilder userBox = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;");
+        HBoxBuilder statsBox = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setAlignment(Pos.CENTER_RIGHT);
 
         TextBuilder usernameText = WidgetFactory.text(username).setFont(16);
 
