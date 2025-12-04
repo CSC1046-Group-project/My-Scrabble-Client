@@ -12,6 +12,7 @@ import com.example.SceneManager.Scenes.JoinScene;
 import com.example.SceneManager.Scenes.LoginScene;
 import com.example.SceneManager.Scenes.RegisterScene;
 import com.example.SceneManager.Scenes.SettingsScene;
+import com.example.SceneManager.Scenes.WinningScene;
 import com.example.Services.NetworkAuthenticationService;
 import com.example.Services.NetworkGameService;
 import com.example.Services.NetworkJoinGameService;
@@ -61,6 +62,12 @@ public class SceneFactory {
     public static GameScene createGameScene() {
         IGameService gameService = new NetworkGameService();
         IUserSession userSession = new UserSessionImpl();
-        return new GameScene(gameService, userSession);
+        INavigationService navigationService = new SceneManagerNavigationService();
+        return new GameScene(gameService, userSession, navigationService);
+    }
+
+    public static WinningScene createWinningScene() {
+        INavigationService navigationService = new SceneManagerNavigationService();
+        return new WinningScene(navigationService);
     }
 }

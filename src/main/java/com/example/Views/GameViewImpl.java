@@ -1,5 +1,6 @@
 package com.example.Views;
 
+import com.example.Game.Game;
 import com.example.Game.Tile;
 import com.example.Game.TileRack;
 import com.example.Game.WordPlacement;
@@ -33,6 +34,7 @@ public class GameViewImpl implements GameView {
     private final ButtonBuilder _submitButton;
     private final ButtonBuilder _skipButton;
     private final ButtonBuilder _swapButton;
+    private final ButtonBuilder _challengeButton;
     private final Pane _rack;
 
     public GameViewImpl(
@@ -45,6 +47,7 @@ public class GameViewImpl implements GameView {
         ButtonBuilder submitButton,
         ButtonBuilder skipButton,
         ButtonBuilder swapButton,
+        ButtonBuilder challengeButton,
         Pane rack
     ) {
         _root = root;
@@ -56,6 +59,7 @@ public class GameViewImpl implements GameView {
         _submitButton = submitButton;
         _skipButton = skipButton;
         _swapButton = swapButton;
+        _challengeButton = challengeButton;
         _rack = rack;
     }
 
@@ -92,11 +96,20 @@ public class GameViewImpl implements GameView {
     }
 
     @Override
-    public void addPlayer(String name) {
-        HBoxBuilder user = createUserBox(name, "/assets/example-profilepic.png", "0", "15:00")
+    public void addPlayer(String token, String name) {
+        HBoxBuilder user = createUserBox(token, name, "/assets/example-profilepic.png", "0", "15:00")
             .setStyle("-fx-background-color: #282833");
 
         _usersBox.add(user.getNode());
+    }
+
+    @Override
+    public void removePlayer(String token) {
+        HBoxBuilder box = Game.getPlayerUserBox(token);
+        if (box != null) {
+            _usersBox.remove(box.getNode());
+        }
+        Game.removePlayer(token);
     }
 
     @Override
@@ -104,6 +117,7 @@ public class GameViewImpl implements GameView {
         _submitButton.getNode().setDisable(!isPlayerTurn);
         _skipButton.getNode().setDisable(!isPlayerTurn);
         _swapButton.getNode().setDisable(!isPlayerTurn);
+        _challengeButton.getNode().setDisable(!isPlayerTurn);
     }
 
     @Override
@@ -124,21 +138,26 @@ public class GameViewImpl implements GameView {
             Tile tile = new Tile();
             tile.setLetter(letter);
             tile.setPoint(value);
-            TileBuilder tileBuilder= WidgetFactory.tile(tile, (isHorizontal) ? x+idx : x, (isHorizontal) ? y : y+idx, false, -1);
-            _board.addTile(tileBuilder, (isHorizontal) ? x+idx : x, (isHorizontal) ? y : y+idx);
+            TileBuilder tileBuilder= WidgetFactory.tile(tile, (isHorizontal) ? x : x+idx, (isHorizontal) ? y+idx : y, false, -1);
+            _board.addTile(tileBuilder, (isHorizontal) ? x : x+idx, (isHorizontal) ? y+idx : y);
             idx++;
         }
     }
 
-    private HBoxBuilder createUserBox(String username, String profilePicPath, String score, String timer) {
+    @Override
+    public void blockChallengeButton() {
+        _challengeButton.getNode().setDisable(true);
+    }
+
+    private HBoxBuilder createUserBox(String token, String username, String profilePicPath, String score, String timer) {
         HBoxBuilder allusersBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;");
-        HBoxBuilder userBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;");
-        HBoxBuilder statsBox = WidgetFactory.hbox().setStyle("-fx-background-color: #282833;").setAlignment(Pos.CENTER_RIGHT);
+        HBoxBuilder userBox = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;");
+        HBoxBuilder statsBox = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setAlignment(Pos.CENTER_RIGHT);
 
         TextBuilder usernameText = WidgetFactory.text(username).setFont(16);
 
         IconButtonBuilder profilePic = WidgetFactory.iconButton(
-            "/assets/example-profilepic.png"
+            profilePicPath
         ).setFitWidth(30).setFitHeight(30);
 
         TextBuilder scoreText = WidgetFactory.text(String.valueOf(score)).setFont(30);
@@ -148,6 +167,8 @@ public class GameViewImpl implements GameView {
         statsBox.add(scoreText.getNode(), timeText.getNode());
 
         allusersBox.add(userBox.getNode(), statsBox.getNode());
+
+        Game.addPlayer(token, username, scoreText, timeText, allusersBox);
         return allusersBox;
     }
 
@@ -219,5 +240,10 @@ public class GameViewImpl implements GameView {
     private void shuffleOrder() {
         _tileRack.shuffleOrder();
         displayTileRack();
+    }
+
+    @Override
+    public BoardBuilder getBoard() {
+        return _board;
     }
 }

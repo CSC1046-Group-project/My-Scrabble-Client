@@ -37,8 +37,9 @@ public class JoinController {
         _joinGameService.join(_userSession.getToken(), code, password, new JoinGameCallback() {
 
             @Override
-            public void onSuccess(String idRoom) {
+            public void onSuccess(String idRoom, String password) {
                 _userSession.setIdRoom(idRoom);
+                _userSession.setRoomPassword(password);
                 _navigationService.navigateToGame();
             }
 

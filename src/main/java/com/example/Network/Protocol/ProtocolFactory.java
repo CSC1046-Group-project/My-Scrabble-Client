@@ -45,4 +45,8 @@ public class ProtocolFactory {
     public static ProtocolMessage swap(String token, String roomId, String letters) {
         return new ProtocolMessage(MessageType.SWAP, token, roomId, letters);
     }
+
+    public static ProtocolMessage ping() {
+        return new ProtocolMessage(MessageType.PING);
+    }
 }

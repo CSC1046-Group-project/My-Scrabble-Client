@@ -10,7 +10,6 @@ public abstract class MyScene {
 
     public MyScene () {
         _root = new StackPane();
-        initRoot();
     }
 
     public void onDraw() {
@@ -18,6 +17,5 @@ public abstract class MyScene {
         RendererUI.draw(_root);
     }
 
-    public abstract void initRoot();
     public abstract void initListener();
 }

@@ -35,6 +35,10 @@ public class TextBuilder extends Widget{
         return this;
     }
 
+    public void setText(String text) {
+        _text.setText(text);
+    }
+
     @Override
     public Node getNode() {
         return _text;

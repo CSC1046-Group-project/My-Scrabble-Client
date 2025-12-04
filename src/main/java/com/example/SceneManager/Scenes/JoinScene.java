@@ -44,10 +44,6 @@ public class JoinScene extends MyScene {
     }
 
     @Override
-    public void initRoot() {
-    }
-
-    @Override
     public void initListener() {
     }
 }

@@ -8,4 +8,6 @@ public interface IUserSession {
     boolean isLog();
     boolean isInRoom();
     void logout();
+    void setRoomPassword(String password);
+    String getRoomPassword();
 }

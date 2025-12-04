@@ -32,8 +32,9 @@ public class ChooseController {
         _joinGameService.startPrivate(_userSession.getToken(), new JoinGameCallback() {
 
             @Override
-            public void onSuccess(String idRoom) {
+            public void onSuccess(String idRoom, String password) {
                 _userSession.setIdRoom(idRoom);
+                _userSession.setRoomPassword(password);
                 _navigationService.navigateToGame();
             }
 
@@ -49,7 +50,7 @@ public class ChooseController {
         _joinGameService.startPublic(_userSession.getToken(), new JoinGameCallback() {
 
             @Override
-            public void onSuccess(String idRoom) {
+            public void onSuccess(String idRoom, String password) {
                 _userSession.setIdRoom(idRoom);
                 _navigationService.navigateToGame();
             }

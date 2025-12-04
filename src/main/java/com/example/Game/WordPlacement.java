@@ -3,9 +3,12 @@ package com.example.Game;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.RendereUI.Widgets.BoardBuilder;
+
 public class WordPlacement {
 
     private static final List<BoardCell> _cellsPlaced = new ArrayList<>();
+    private static BoardBuilder _board;
 
     public int _x;
     public int _y;
@@ -38,21 +41,12 @@ public class WordPlacement {
     private static WordPlacement tryVerticalPlacement() {
         _cellsPlaced.sort((a, b) -> Integer.compare(a.getPos()[0], b.getPos()[0]));
 
-        if (!isConsecutiveVertical() || !isAlignedVertically())
+        if (!isAlignedVertically())
             return null;
 
-        String word = buildWord();
         BoardCell first = _cellsPlaced.get(0);
+        String word = buildWord(first.getPos()[0], first.getPos()[1], false);
         return new WordPlacement(first.getPos()[0], first.getPos()[1], word, false);
-    }
-
-    private static boolean isConsecutiveVertical() {
-        for (int i = 1; i < _cellsPlaced.size(); i++) {
-            if (_cellsPlaced.get(i).getPos()[0] != _cellsPlaced.get(i-1).getPos()[0] + 1) {
-                return false;
-            }
-        }
-        return true;
     }
 
     private static boolean isAlignedVertically() {
@@ -63,21 +57,12 @@ public class WordPlacement {
     private static WordPlacement tryHorizontalPlacement() {
         _cellsPlaced.sort((a, b) -> Integer.compare(a.getPos()[1], b.getPos()[1]));
 
-        if (!isConsecutiveHorizontal() || !isAlignedHorizontally())
+        if (!isAlignedHorizontally())
             return null;
 
-        String word = buildWord();
         BoardCell first = _cellsPlaced.get(0);
+        String word = buildWord(first.getPos()[0], first.getPos()[1], true);
         return new WordPlacement(first.getPos()[0], first.getPos()[1], word, true);
-    }
-
-    private static boolean isConsecutiveHorizontal() {
-        for (int i = 1; i < _cellsPlaced.size(); i++) {
-            if (_cellsPlaced.get(i).getPos()[1] != _cellsPlaced.get(i-1).getPos()[1] + 1) {
-                return false;
-            }
-        }
-        return true;
     }
 
     private static boolean isAlignedHorizontally() {
@@ -85,22 +70,75 @@ public class WordPlacement {
         return _cellsPlaced.stream().allMatch(cell -> cell.getPos()[0] == firstRow);
     }
 
-    private static String buildWord() {
+    private static String buildWord(int x, int y, boolean isHorizontal) {
         String word = "";
-        for (int i = 0; i < _cellsPlaced.size(); i++) {
-            Tile tile = _cellsPlaced.get(i).getTile();
-            if (tile == null)
-                continue;
+
+        int row = x;
+        int column = y;
+
+        while (true) {
+            int tempRow = isHorizontal ? row : row - 1;
+            int tempColumn = isHorizontal ? column - 1 : column;
+            if (tempRow >= _board.getSize() ||
+                tempRow < 0 ||
+                tempColumn >= _board.getSize() ||
+                tempColumn < 0 ||
+                _board.getBoardCell(tempRow, tempColumn).getTile() == null
+            )
+                break;
+            row = tempRow;
+            column = tempColumn;
+        }
+
+        int startRow = row;
+        int startCol = column;
+
+        int i = 0;
+
+        while (startRow < _board.getSize() &&
+                startRow >= 0 &&
+                startCol < _board.getSize() &&
+                startCol >= 0 &&
+                _board.getBoardCell(startRow, startCol).getTile() != null
+            )
+        {
+            Tile tile = _board.getBoardCell(startRow, startCol).getTile();
 
             if (i > 0)
                 word += "|";
-            word += _cellsPlaced.get(i).getTile().getLetter();
+            word += tile.getLetter();
             word += String.valueOf(tile.getPoint());
+
+            i++;
+            if (isHorizontal)
+                startCol++;
+            else
+                startRow++;
         }
+
         return word;
     }
 
-    public static WordPlacement validateAndCreatePlacement() {
+    public static WordPlacement validateAndCreatePlacement(BoardBuilder board) {
+
+        // for (int i = 0; i < 15; i++) {
+        //     for (int j = 0; j < 15; j++) {
+        //         BoardCell cell = board.getBoardCell(i, j);
+
+        //         if (cell == null)
+        //             continue;
+
+        //         Tile tile = cell.getTile();
+        //         if (tile == null)
+        //             System.out.print(" .");
+        //         else
+        //             System.out.print(" " + tile.getLetter());
+        //     }
+        //     System.out.println();
+        // }
+
+        _board = board;
+
 
         if (_cellsPlaced == null || _cellsPlaced.isEmpty())
             return null;

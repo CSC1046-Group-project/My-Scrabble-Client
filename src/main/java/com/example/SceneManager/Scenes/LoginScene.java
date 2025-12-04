@@ -47,10 +47,6 @@ public class LoginScene extends MyScene {
     }
 
     @Override
-    public void initRoot() {
-    }
-
-    @Override
     public void initListener() {
     }
 }

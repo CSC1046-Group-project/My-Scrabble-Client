@@ -1,8 +1,10 @@
 package com.example.SceneManager.Scenes;
 
 import com.example.Controllers.GameController;
+import com.example.Game.Game;
 import com.example.Game.TileRack;
 import com.example.Interfaces.IGameService;
+import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
 import com.example.SceneManager.MyScene;
 import com.example.Services.GameEventHandler;
@@ -23,8 +25,10 @@ public class GameScene extends MyScene {
 
     public GameScene(
         IGameService gameService,
-        IUserSession userSession
+        IUserSession userSession,
+        INavigationService navigationService
     ) {
+        Game.start();
 
         // Root container
         _root.setPadding(new Insets(20));
@@ -46,19 +50,16 @@ public class GameScene extends MyScene {
             viewBuilder.getSubmitButton(),
             viewBuilder.getSkipButton(),
             viewBuilder.getSwapButton(),
+            viewBuilder.getChallengeButton(),
             viewBuilder.getRack()
         );
 
         // Create the controller
         GameController controller = new GameController(userSession, gameService, gameView);
-        viewBuilder.setController(controller);
+        viewBuilder.setController(controller, navigationService);
 
         // Init event handler to listen network
-        _eventHandler = new GameEventHandler(gameView, userSession, _tileRack);
-    }
-
-    @Override
-    public void initRoot() {
+        _eventHandler = new GameEventHandler(gameView, userSession, _tileRack, navigationService);
     }
 
     @Override

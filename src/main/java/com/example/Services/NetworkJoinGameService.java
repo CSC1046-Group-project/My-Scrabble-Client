@@ -16,7 +16,8 @@ public class NetworkJoinGameService implements IJoinGameService {
         joinListener.on(MessageType.JOIN_PRIVATE_GAME_SUCCESS, msg -> {
             try {
                 String idRoom = msg.getArgs().get(0);
-                callback.onSuccess(idRoom);
+                String roomPassword = msg.getArgs().get(1);
+                callback.onSuccess(idRoom, roomPassword);
             } catch (Exception e) {
                 callback.onFailure("Invalid server response");
             }
@@ -40,7 +41,8 @@ public class NetworkJoinGameService implements IJoinGameService {
         startPrivateListener.on(MessageType.CREATE_PRIVATE_GAME_SUCCESS, msg -> {
             try {
                 String idRoom = msg.getArgs().get(0);
-                callback.onSuccess(idRoom);
+                String roomPassword = msg.getArgs().get(1);
+                callback.onSuccess(idRoom, roomPassword);
             } catch (Exception e) {
                 callback.onFailure("Invalid server response");
             }
@@ -64,7 +66,7 @@ public class NetworkJoinGameService implements IJoinGameService {
         startPublicListener.on(MessageType.START_PUBLIC_GAME_SUCCESS, msg -> {
             try {
                 String idRoom = msg.getArgs().get(0);
-                callback.onSuccess(idRoom);
+                callback.onSuccess(idRoom, "");
             } catch (Exception e) {
                 callback.onFailure("Invalid server response");
             }

@@ -1,8 +1,10 @@
 package com.example.Services;
 
+import com.example.Game.Game;
 import com.example.Game.Tile;
 import com.example.Game.TileRack;
 import com.example.Interfaces.GameView;
+import com.example.Interfaces.INavigationService;
 import com.example.Interfaces.IUserSession;
 import com.example.Network.Listener;
 import com.example.Network.Network;
@@ -17,21 +19,28 @@ public class GameEventHandler {
     private final IUserSession _userSession;
     private final Listener _gameListener = new Listener();
     private final TileRack _tileRack;
+    private final INavigationService _navigationService;
 
     public GameEventHandler(
         GameView view,
         IUserSession userSession,
-        TileRack tileRack
+        TileRack tileRack,
+        INavigationService navigationService
     ) {
         _view = view;
         _userSession = userSession;
         _tileRack = tileRack;
+        _navigationService = navigationService;
 
         _gameListener.on(MessageType.TILEBAG, msg -> onTileBagUpdate(msg));
         _gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
         _gameListener.on(MessageType.PLAYER_HAVE_PLAYED, msg -> onPlayerHavePlayed(msg));
         _gameListener.on(MessageType.GAME_START, msg -> onGameStart(msg));
         _gameListener.on(MessageType.PLAYER_TURN, msg -> onPlayerTurn(msg));
+        _gameListener.on(MessageType.PLAYER_SCORE, msg -> onPlayerScore(msg));
+        _gameListener.on(MessageType.WINNER, msg -> onWinner(msg));
+        _gameListener.on(MessageType.RESIGN, msg -> onResign(msg));
+        _gameListener.on(MessageType.CHALLENGE_SUCCESS, msg -> onChallengeSuccess(msg));
     }
 
     public void run() {
@@ -48,8 +57,10 @@ public class GameEventHandler {
 
     public void onPlayerIsReady(ProtocolMessage msg) {
          try {
-            String name = msg.getArgs().get(0);
-            Platform.runLater(() -> _view.addPlayer(name));
+            String token = msg.getArgs().get(0);
+            String name = msg.getArgs().get(1);
+
+            Platform.runLater(() -> _view.addPlayer(token, name));
         } catch (Exception e) {
         }
     }
@@ -91,9 +102,48 @@ public class GameEventHandler {
     }
 
     public void onPlayerTurn(ProtocolMessage msg) {
-         try {
+        try {
             String player = msg.getArgs().get(0);
-            Platform.runLater(() -> _view.updateTurn(_userSession.getToken().equals(player)));
+            Platform.runLater(() -> {
+                _view.updateTurn(_userSession.getToken().equals(player));
+                Game.setTurn(player);
+            });
+        } catch (Exception e) {
+        }
+    }
+
+    public void onPlayerScore(ProtocolMessage msg){
+        try {
+            String token = msg.getArgs().get(0);
+            String score = msg.getArgs().get(1);
+            Game.setScore(token, score);
+        } catch (Exception e) {
+        }
+    }
+
+    public void onWinner(ProtocolMessage msg){
+        try {
+            String token = msg.getArgs().get(0);
+            String name = msg.getArgs().get(1);
+            if (_userSession.getToken().equals(token))
+                name = "You";
+            Game.setWinner(name);
+            _navigationService.navigateToWinning();
+        } catch (Exception e) {
+        }
+    }
+
+    public void onResign(ProtocolMessage msg) {
+        try {
+            String token = msg.getArgs().get(0);
+            Platform.runLater(() -> _view.removePlayer(token));
+        } catch (Exception e) {
+        }
+    }
+
+    public void onChallengeSuccess(ProtocolMessage msg) {
+        try {
+            Platform.runLater(() -> _view.blockChallengeButton());
         } catch (Exception e) {
         }
     }

@@ -40,11 +40,6 @@ public class RegisterScene extends MyScene {
         _root.getChildren().add(panel);
     }
 
-
-    @Override
-    public void initRoot() {
-    }
-
     @Override
     public void initListener() {
     }

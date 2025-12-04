@@ -24,12 +24,16 @@ public enum MessageType {
     SKIP,
     RESIGN,
     SWAP,
-
     TILEBAG,
-
     GAME_START,
     PLAYER_HAVE_PLAYED,
     PLAYER_IS_READY,
     PLAYER_TURN,
-    // IS_READY,
+    PLAYER_SCORE,
+    WINNER,
+    CHALLENGE_FAILED,
+    CHALLENGE_SUCCESS,
+
+    // Ping to keep connection with server
+    PING
 }
