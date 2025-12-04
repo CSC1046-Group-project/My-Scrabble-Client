@@ -2,10 +2,12 @@ package com.example.Network;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.TimerTask;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import com.example.Network.Protocol.ProtocolFactory;
 import com.example.Network.Protocol.ProtocolMessage;
 
 public class Network {
@@ -14,12 +16,25 @@ public class Network {
     private static WebSocketClient _client;
     private static Listener _listener;
 
+    private static java.util.Timer _ping = new java.util.Timer();
+
     public static void run() {
         try {
             _client = new WebSocketClient(new URI(URL)) {
                 @Override
                 public void onOpen(ServerHandshake handshake) {
                     System.out.println("Connected to Scrabble server!");
+
+                    _ping.scheduleAtFixedRate(new TimerTask() {
+
+                        @Override
+                        public void run() {
+                            if (_client.isClosed())
+                                _ping.cancel();
+
+                            Network.sendMessage(ProtocolFactory.ping());
+                        }
+                    }, 0, 30000);
                 }
 
                 @Override
@@ -38,6 +53,7 @@ public class Network {
                 @Override
                 public void onClose(int code, String reason, boolean remote) {
                     System.out.println("Connection closed: " + reason);
+                    _ping.cancel();
                 }
 
                 @Override

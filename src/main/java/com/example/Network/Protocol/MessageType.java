@@ -32,5 +32,8 @@ public enum MessageType {
     PLAYER_SCORE,
     WINNER,
     CHALLENGE_FAILED,
-    CHALLENGE_SUCCESS
+    CHALLENGE_SUCCESS,
+
+    // Ping to keep connection with server
+    PING
 }
