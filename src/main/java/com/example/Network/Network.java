@@ -41,7 +41,6 @@ public class Network {
                 public void onMessage(String message) {
                     try {
                         ProtocolMessage parsedMessage = ProtocolMessage.parse(message);
-                        System.out.println("Message: " + parsedMessage.serialize());
                         if (_listener != null) {
                             _listener.listen(parsedMessage);
                         }
@@ -76,7 +75,6 @@ public class Network {
     public static void sendMessage(ProtocolMessage message) {
         if (_client != null && _client.isOpen()) {
             _client.send(message.serialize());
-            System.out.println("Sent message: " + message.serialize());
         } else {
             System.err.println("Error: Websocket is not connected. Try to reconnect...");
             run();
