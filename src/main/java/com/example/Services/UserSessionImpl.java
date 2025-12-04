@@ -39,4 +39,14 @@ public class UserSessionImpl implements IUserSession {
     public void logout() {
         User.logout();
     }
+
+    @Override
+    public void setRoomPassword(String roomPassword) {
+        User.setRoomPassword(roomPassword);
+    }
+
+    @Override
+    public String getRoomPassword() {
+        return User.getRoomPassword();
+    }
 }

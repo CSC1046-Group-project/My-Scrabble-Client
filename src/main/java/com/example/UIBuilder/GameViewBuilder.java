@@ -1,6 +1,7 @@
 package com.example.UIBuilder;
 
 import com.example.Controllers.GameController;
+import com.example.Game.User;
 import com.example.Interfaces.INavigationService;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.BoardBuilder;
@@ -67,7 +68,17 @@ public class GameViewBuilder {
             .setMaxWidth(Double.MAX_VALUE);
 
         // Game code/password
-        TextBuilder gameCode = WidgetFactory.text("Private Game 56-54-24-12-43#Password");
+
+        String id = User.getRoomId();
+        String password = User.getRoomPassword();
+
+
+        String accessPrivacy = (password == null || password.equals("")) ? "Public" : "Private";
+        String roomId = (password == null || password.equals("")) ? "" : id;
+        String roomPassword = (password == null || password.equals("")) ? "" : password;
+        String idAndPassword = (password == null || password.equals("")) ? "" : " " + roomId + "#" + roomPassword;
+
+        TextBuilder gameCode = WidgetFactory.text(accessPrivacy + " Game" + idAndPassword);
 
         header.addWithFlex(gameCode.getNode());
         return header;

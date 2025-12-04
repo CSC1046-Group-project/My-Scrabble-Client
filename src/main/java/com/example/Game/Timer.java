@@ -34,18 +34,6 @@ public class Timer {
             }
 
             _textTimer.setText(timerToString());
-            // String activeToken = playerManager.getActivePlayerToken();
-            // if (activeToken != null) {
-            //     PlayerUIComponent activePlayer = playerManager.getPlayer(activeToken);
-            //     if (activePlayer != null) {
-            //         activePlayer.decrementTimer();
-
-            //         // Check if time is up
-            //         if (activePlayer.getData().getTimeRemaining() <= 0) {
-            //             onPlayerTimeUp(activeToken);
-            //         }
-            //     }
-            // }
         }));
 
         _timer.setCycleCount(Timeline.INDEFINITE);
