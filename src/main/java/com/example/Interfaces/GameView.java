@@ -11,4 +11,5 @@ public interface GameView {
     void updateTurn(boolean isPlayerTurn);
     void updateTileBag(String tileBag);
     void placeWord(String name, String[] parts, int x, int y, boolean isHorizontal);
+    void blockChallengeButton();
 }

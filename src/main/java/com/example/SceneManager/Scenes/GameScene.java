@@ -50,6 +50,7 @@ public class GameScene extends MyScene {
             viewBuilder.getSubmitButton(),
             viewBuilder.getSkipButton(),
             viewBuilder.getSwapButton(),
+            viewBuilder.getChallengeButton(),
             viewBuilder.getRack()
         );
 

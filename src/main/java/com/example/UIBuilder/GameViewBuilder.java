@@ -26,6 +26,7 @@ public class GameViewBuilder {
     private ButtonBuilder _submitButton;
     private ButtonBuilder _skipButton;
     private ButtonBuilder _swapButton;
+    private ButtonBuilder _challengeButton;
     private Pane _rack;
 
     public GameViewBuilder() {}
@@ -81,7 +82,7 @@ public class GameViewBuilder {
 
         _board = WidgetFactory.board(15, 15, 50);
 
-        ButtonBuilder challengeButton = WidgetFactory.button(
+        _challengeButton = WidgetFactory.button(
             "Challenge",
             e -> _controller.handleChallenge())
             .setFont(16)
@@ -94,7 +95,7 @@ public class GameViewBuilder {
             .setMaxWidth(696)
             .setPrefWidth(696)
             .setStyle("-fx-background-color: transparent;");
-        challengeRackBlock.add(challengeButton.getNode(), _rack);
+        challengeRackBlock.add(_challengeButton.getNode(), _rack);
 
         HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
         ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> {
@@ -196,6 +197,10 @@ public class GameViewBuilder {
 
     public ButtonBuilder getSwapButton(){
         return _swapButton;
+    }
+
+    public ButtonBuilder getChallengeButton(){
+        return _challengeButton;
     }
 
     public Pane getRack() {

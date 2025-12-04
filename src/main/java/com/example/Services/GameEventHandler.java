@@ -40,6 +40,7 @@ public class GameEventHandler {
         _gameListener.on(MessageType.PLAYER_SCORE, msg -> onPlayerScore(msg));
         _gameListener.on(MessageType.WINNER, msg -> onWinner(msg));
         _gameListener.on(MessageType.RESIGN, msg -> onResign(msg));
+        _gameListener.on(MessageType.CHALLENGE_SUCCESS, msg -> onChallengeSuccess(msg));
     }
 
     public void run() {
@@ -136,6 +137,13 @@ public class GameEventHandler {
         try {
             String token = msg.getArgs().get(0);
             Platform.runLater(() -> _view.removePlayer(token));
+        } catch (Exception e) {
+        }
+    }
+
+    public void onChallengeSuccess(ProtocolMessage msg) {
+        try {
+            Platform.runLater(() -> _view.blockChallengeButton());
         } catch (Exception e) {
         }
     }

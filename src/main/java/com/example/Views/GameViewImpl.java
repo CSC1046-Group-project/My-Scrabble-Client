@@ -34,6 +34,7 @@ public class GameViewImpl implements GameView {
     private final ButtonBuilder _submitButton;
     private final ButtonBuilder _skipButton;
     private final ButtonBuilder _swapButton;
+    private final ButtonBuilder _challengeButton;
     private final Pane _rack;
 
     public GameViewImpl(
@@ -46,6 +47,7 @@ public class GameViewImpl implements GameView {
         ButtonBuilder submitButton,
         ButtonBuilder skipButton,
         ButtonBuilder swapButton,
+        ButtonBuilder challengeButton,
         Pane rack
     ) {
         _root = root;
@@ -57,6 +59,7 @@ public class GameViewImpl implements GameView {
         _submitButton = submitButton;
         _skipButton = skipButton;
         _swapButton = swapButton;
+        _challengeButton = challengeButton;
         _rack = rack;
     }
 
@@ -114,6 +117,7 @@ public class GameViewImpl implements GameView {
         _submitButton.getNode().setDisable(!isPlayerTurn);
         _skipButton.getNode().setDisable(!isPlayerTurn);
         _swapButton.getNode().setDisable(!isPlayerTurn);
+        _challengeButton.getNode().setDisable(!isPlayerTurn);
     }
 
     @Override
@@ -138,6 +142,11 @@ public class GameViewImpl implements GameView {
             _board.addTile(tileBuilder, (isHorizontal) ? x : x+idx, (isHorizontal) ? y+idx : y);
             idx++;
         }
+    }
+
+    @Override
+    public void blockChallengeButton() {
+        _challengeButton.getNode().setDisable(true);
     }
 
     private HBoxBuilder createUserBox(String token, String username, String profilePicPath, String score, String timer) {
