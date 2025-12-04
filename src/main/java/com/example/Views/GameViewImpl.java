@@ -125,8 +125,8 @@ public class GameViewImpl implements GameView {
             Tile tile = new Tile();
             tile.setLetter(letter);
             tile.setPoint(value);
-            TileBuilder tileBuilder= WidgetFactory.tile(tile, (isHorizontal) ? x+idx : x, (isHorizontal) ? y : y+idx, false, -1);
-            _board.addTile(tileBuilder, (isHorizontal) ? x+idx : x, (isHorizontal) ? y : y+idx);
+            TileBuilder tileBuilder= WidgetFactory.tile(tile, (isHorizontal) ? x : x+idx, (isHorizontal) ? y+idx : y, false, -1);
+            _board.addTile(tileBuilder, (isHorizontal) ? x : x+idx, (isHorizontal) ? y+idx : y);
             idx++;
         }
     }
