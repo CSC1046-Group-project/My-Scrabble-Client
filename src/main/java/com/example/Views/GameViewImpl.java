@@ -241,4 +241,9 @@ public class GameViewImpl implements GameView {
         _tileRack.shuffleOrder();
         displayTileRack();
     }
+
+    @Override
+    public BoardBuilder getBoard() {
+        return _board;
+    }
 }

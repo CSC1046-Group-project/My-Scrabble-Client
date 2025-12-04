@@ -34,7 +34,7 @@ public class Network {
 
                             Network.sendMessage(ProtocolFactory.ping());
                         }
-                    }, 0, 30000);
+                    }, 0, 20000);
                 }
 
                 @Override

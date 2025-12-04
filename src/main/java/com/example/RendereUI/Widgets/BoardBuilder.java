@@ -13,8 +13,9 @@ import javafx.scene.layout.Pane;
 
 public class BoardBuilder extends Widget {
 
+    private static int SIZE = 15;
     private final Pane _boardPane;
-    private final List<TileBuilder> _tiles = new ArrayList<>(java.util.Collections.nCopies(15*15, null));
+    private final List<TileBuilder> _tiles = new ArrayList<>(java.util.Collections.nCopies(SIZE*SIZE, null));
     private final Board _board;
 
     private final int rows;
@@ -32,8 +33,8 @@ public class BoardBuilder extends Widget {
         _boardPane.setPrefSize(cols * tileSize, rows * tileSize);
         _boardPane.setMaxSize(cols * tileSize, rows * tileSize);
 
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 BoardCell cell = _board.getCell(i, j);
                 BoardCellBuilder cellBuild = WidgetFactory.boardCell(i * 50, j * 50, cell.getPower());
                 _boardPane.getChildren().add(cellBuild.getNode());
@@ -48,7 +49,7 @@ public class BoardBuilder extends Widget {
 
         tile.setLayoutX(col * tileSize);
         tile.setLayoutY(row * tileSize);
-        _tiles.set(row * 15 + col, tile);
+        _tiles.set(row * SIZE + col, tile);
         _boardPane.getChildren().add(tile.getNode());
         return true;
     }
@@ -61,7 +62,7 @@ public class BoardBuilder extends Widget {
     }
 
     public void removeTile(BoardCell cell) {
-        _boardPane.getChildren().remove(_tiles.get(cell.getPos()[0] * 15 + cell.getPos()[1]).getNode());
+        _boardPane.getChildren().remove(_tiles.get(cell.getPos()[0] * SIZE + cell.getPos()[1]).getNode());
         _board.removeTile(cell.getPos()[0], cell.getPos()[1]);
     }
 
@@ -72,5 +73,9 @@ public class BoardBuilder extends Widget {
     @Override
     public Node getNode() {
         return _boardPane;
+    }
+
+    public int getSize() {
+        return SIZE;
     }
 }

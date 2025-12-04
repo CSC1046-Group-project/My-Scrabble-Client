@@ -107,7 +107,7 @@ public class GameController {
             return;
 
 
-        WordPlacement placement = WordPlacement.validateAndCreatePlacement();
+        WordPlacement placement = WordPlacement.validateAndCreatePlacement(_view.getBoard());
         if (placement == null)
             return;
 
