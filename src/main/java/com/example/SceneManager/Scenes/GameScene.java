@@ -55,7 +55,7 @@ public class GameScene extends MyScene {
 
         // Create the controller
         GameController controller = new GameController(userSession, gameService, gameView);
-        viewBuilder.setController(controller);
+        viewBuilder.setController(controller, navigationService);
 
         // Init event handler to listen network
         _eventHandler = new GameEventHandler(gameView, userSession, _tileRack, navigationService);

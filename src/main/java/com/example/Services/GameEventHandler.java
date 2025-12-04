@@ -39,6 +39,7 @@ public class GameEventHandler {
         _gameListener.on(MessageType.PLAYER_TURN, msg -> onPlayerTurn(msg));
         _gameListener.on(MessageType.PLAYER_SCORE, msg -> onPlayerScore(msg));
         _gameListener.on(MessageType.WINNER, msg -> onWinner(msg));
+        _gameListener.on(MessageType.RESIGN, msg -> onResign(msg));
     }
 
     public void run() {
@@ -127,6 +128,14 @@ public class GameEventHandler {
                 name = "You";
             Game.setWinner(name);
             _navigationService.navigateToWinning();
+        } catch (Exception e) {
+        }
+    }
+
+    public void onResign(ProtocolMessage msg) {
+        try {
+            String token = msg.getArgs().get(0);
+
         } catch (Exception e) {
         }
     }

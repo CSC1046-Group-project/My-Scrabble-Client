@@ -1,6 +1,7 @@
 package com.example.UIBuilder;
 
 import com.example.Controllers.GameController;
+import com.example.Interfaces.INavigationService;
 import com.example.RendereUI.WidgetFactory;
 import com.example.RendereUI.Widgets.BoardBuilder;
 import com.example.RendereUI.Widgets.ButtonBuilder;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Pane;
 public class GameViewBuilder {
 
     private GameController _controller;
+    private INavigationService _navigationService;
 
     // widgets to share
     private VBoxBuilder _usersBox;
@@ -28,8 +30,12 @@ public class GameViewBuilder {
 
     public GameViewBuilder() {}
 
-    public void setController(GameController controller) {
+    public void setController(
+        GameController controller,
+        INavigationService navigationService
+    ) {
         _controller = controller;
+        _navigationService = navigationService;
     }
 
     public Node build() {
@@ -58,24 +64,6 @@ public class GameViewBuilder {
         HBoxBuilder header = WidgetFactory.hbox()
             .setStyle("-fx-background-color: transparent;")
             .setMaxWidth(Double.MAX_VALUE);
-
-        // TODO: Give to the setting page the return value of the GAME SCENE
-        // // Create settings icon
-        // IconButtonBuilder settingsIcon = WidgetFactory.iconButton(
-        //     "/assets/settings.png",
-        //     e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
-        // ).setFitWidth(24).setFitHeight(24);
-        // // Create settings button
-        // ButtonBuilder settingsButton = WidgetFactory.button(
-        //     "Settings",
-        //     e -> SceneManager.loadScene(SceneManager.SceneNames.SETTINGS_SCENE)
-        // ).setPrefHeight(34)
-        //     .setFont(16)
-        //     .setStyle("-fx-background-color: transparent;")
-        //     .setMaxWidth(120)
-        //     .setAlignment(Pos.CENTER_LEFT);
-        // HBoxBuilder settings = WidgetFactory.hbox().setSpacing(0).setStyle("-fx-background-color: transparent;");
-        // settings.add(settingsIcon.getNode(), settingsButton.getNode());
 
         // Game code/password
         TextBuilder gameCode = WidgetFactory.text("Private Game 56-54-24-12-43#Password");
@@ -109,7 +97,10 @@ public class GameViewBuilder {
         challengeRackBlock.add(challengeButton.getNode(), _rack);
 
         HBoxBuilder buttons = WidgetFactory.hbox().setStyle("-fx-background-color: transparent;").setSpacing(20);
-        ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> _controller.handleResign())
+        ButtonBuilder resignButton = WidgetFactory.button("Resign", e -> {
+            _controller.handleResign();
+            _navigationService.navigateToChooseScene();
+        })
             .setFont(16)
             .setPrefWidth(122.5)
             .setMaxWidth(122.5)
