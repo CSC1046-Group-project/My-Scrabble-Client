@@ -1,5 +1,6 @@
 package com.example.Game;
 
+import com.example.RendereUI.Widgets.HBoxBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
 
 public class Player extends User {
@@ -9,12 +10,14 @@ public class Player extends User {
 
     private final TextBuilder _textScore;
     private final TextBuilder _textTimer;
+    private final HBoxBuilder _userBox;
 
-    public Player(String name, TextBuilder textScore, TextBuilder textTimer) {
+    public Player(String name, TextBuilder textScore, TextBuilder textTimer, HBoxBuilder userBox) {
         _name = name;
         _textScore = textScore;
         _textTimer = textTimer;
         _timer = new Timer(textTimer);
+        _userBox = userBox;
     }
 
     public void startTimer() {
@@ -31,5 +34,9 @@ public class Player extends User {
 
     public void setScore(String score) {
         _textScore.setText(score);
+    }
+
+    public HBoxBuilder getUserBox() {
+        return _userBox;
     }
 }

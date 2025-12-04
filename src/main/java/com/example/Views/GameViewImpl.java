@@ -101,6 +101,15 @@ public class GameViewImpl implements GameView {
     }
 
     @Override
+    public void removePlayer(String token) {
+        HBoxBuilder box = Game.getPlayerUserBox(token);
+        if (box != null) {
+            _usersBox.remove(box.getNode());
+        }
+        Game.removePlayer(token);
+    }
+
+    @Override
     public void updateTurn(boolean isPlayerTurn) {
         _submitButton.getNode().setDisable(!isPlayerTurn);
         _skipButton.getNode().setDisable(!isPlayerTurn);
@@ -150,7 +159,7 @@ public class GameViewImpl implements GameView {
 
         allusersBox.add(userBox.getNode(), statsBox.getNode());
 
-        Game.addPlayer(token, username, scoreText, timeText);
+        Game.addPlayer(token, username, scoreText, timeText, allusersBox);
         return allusersBox;
     }
 

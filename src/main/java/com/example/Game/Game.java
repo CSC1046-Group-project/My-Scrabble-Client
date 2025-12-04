@@ -2,6 +2,7 @@ package com.example.Game;
 
 import java.util.HashMap;
 
+import com.example.RendereUI.Widgets.HBoxBuilder;
 import com.example.RendereUI.Widgets.TextBuilder;
 
 public class Game {
@@ -16,9 +17,21 @@ public class Game {
         _winner = "";
     }
 
-    public static void addPlayer(String token, String name, TextBuilder scoreText, TextBuilder timerText) {
-        Player p = new Player(name, scoreText, timerText);
+    public static void addPlayer(String token, String name, TextBuilder scoreText, TextBuilder timerText, HBoxBuilder userBox) {
+        Player p = new Player(name, scoreText, timerText, userBox);
         _players.put(token, p);
+    }
+
+    public static void removePlayer(String token) {
+        _players.remove(token);
+    }
+
+    public static HBoxBuilder getPlayerUserBox(String token) {
+        Player p = _players.get(token);
+        if (p != null) {
+            return p.getUserBox();
+        }
+        return null;
     }
 
     public static void setTurn(String token) {

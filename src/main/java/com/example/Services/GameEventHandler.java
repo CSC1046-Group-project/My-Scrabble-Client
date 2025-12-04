@@ -135,7 +135,7 @@ public class GameEventHandler {
     public void onResign(ProtocolMessage msg) {
         try {
             String token = msg.getArgs().get(0);
-
+            Platform.runLater(() -> _view.removePlayer(token));
         } catch (Exception e) {
         }
     }
