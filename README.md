@@ -2,7 +2,7 @@
 Java Client for MyScrabble game
 
 ## How to run ?
-The following documentation will help you to run the client using Maven or Docker.
+The following documentation will help you to run the client using Maven.
 
 ### Run using Maven
 If you have Maven installed on your computer, you can compile the project at the root of the repository using:
