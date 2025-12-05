@@ -1,5 +1,6 @@
 package com.example.Interfaces;
 
+// Navigation service interface
 public interface INavigationService {
     void navigateToChooseScene();
     void navigateToRegisterScene();

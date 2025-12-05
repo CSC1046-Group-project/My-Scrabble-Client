@@ -24,26 +24,33 @@ public class LoginController {
         this.view = view;
     }
 
+    // Handle the login button
     public void handleLogin(String email, String password) {
+
+        // Check if the email and password are not empty
         if (!validateInput(email, password)) {
             view.showError("Email and password are required");
             return;
         }
 
+        // Call the service to handle the login request
         authService.login(email, password, new AuthCallback() {
             @Override
             public void onSuccess(String token) {
+                // On success get the user token and go to the choose page
                 userSession.setToken(token);
                 navigationService.navigateToChooseScene();
             }
 
             @Override
             public void onFailure(String message) {
+                // On error update the view with the error message
                 view.showError(message);
             }
         });
     }
 
+    // Check if the email and password fields are not empty
     private boolean validateInput(String email, String password) {
         return email != null && !email.trim().isEmpty()
             && password != null && !password.trim().isEmpty();

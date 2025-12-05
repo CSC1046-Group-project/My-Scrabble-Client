@@ -2,6 +2,7 @@ package com.example.Interfaces;
 
 import com.example.RendereUI.Widgets.BoardBuilder;
 
+// Game view interface
 public interface GameView {
     void showError(String message);
     void clearError();

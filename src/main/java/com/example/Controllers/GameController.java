@@ -22,16 +22,21 @@ public class GameController {
         _view = view;
     }
 
+    // Handle the ready button
     public void handleReady() {
+
+        // Check if user logged and in a room
         if (!_userSession.isLog())
             return;
         if (!_userSession.isInRoom())
             return;
 
+        // Call the service to handle the ready request
         _gameService.ready(_userSession.getToken(), _userSession.getIdRoom(), new GameCallback() {
 
             @Override
             public void onSuccess() {
+                // On success update the view
                 _view.hideReadyButton();
             }
 
@@ -41,11 +46,16 @@ public class GameController {
         });
     }
 
+    // Handle the challenge button
     public void handleChallenge() {
+
+        // Check if user logged and in a room
         if (!_userSession.isLog())
             return;
         if (!_userSession.isInRoom())
             return;
+
+        // Call the service to handle the challenge request
         _gameService.challenge(_userSession.getToken(), _userSession.getIdRoom(), new GameCallback() {
 
             @Override
@@ -58,11 +68,16 @@ public class GameController {
         });
     }
 
+    // Handle the resign button
     public void handleResign() {
+
+        // Check if user logged and in a room
         if (!_userSession.isLog())
             return;
         if (!_userSession.isInRoom())
             return;
+
+        // Call the service to handle the resign request
         _gameService.resign(_userSession.getToken(), _userSession.getIdRoom(), new GameCallback() {
 
             @Override
@@ -75,11 +90,16 @@ public class GameController {
         });
     }
 
+    // Handle the skip button
     public void handleSkip() {
+
+        // Check if user logged and in a room
         if (!_userSession.isLog())
             return;
         if (!_userSession.isInRoom())
             return;
+
+        // Call the service to handle the skip request
         _gameService.skip(_userSession.getToken(), _userSession.getIdRoom(), new GameCallback() {
 
             @Override
@@ -92,25 +112,35 @@ public class GameController {
         });
     }
 
+    // Handle the swap button
     public void handleSwap() {
+
+        // Check if user logged and in a room
         if (!_userSession.isLog())
             return;
         if (!_userSession.isInRoom())
             return;
+
+        // TODO: feature not finished
         // _gameService.swap(_userSession.getToken(), _userSession.getIdRoom());
     }
 
+    // Handle the submit button
     public void handleSubmit() {
+
+        // Check if user logged and in a room
         if (!_userSession.isLog())
             return;
         if (!_userSession.isInRoom())
             return;
 
 
+        // Check for validation of the word placement
         WordPlacement placement = WordPlacement.validateAndCreatePlacement(_view.getBoard());
         if (placement == null)
             return;
 
+        // Call the service to handle the submit request
         _gameService.submit(
             _userSession.getToken(),
             _userSession.getIdRoom(),

@@ -8,8 +8,9 @@ import javafx.stage.Stage;
 
 public class Application extends javafx.application.Application {
 
-    final String _appName = "MyScrabble";
+    final String _appName = "MyScrabble";       // App name
 
+    // Start the application
     @Override
     public void start(Stage stage) {
 
@@ -21,10 +22,12 @@ public class Application extends javafx.application.Application {
         run();
     }
 
+    // Run the application
     private void run() {
 
     }
 
+    // Stop the application and close network thread
     @Override
     public void stop() {
         Network.close();

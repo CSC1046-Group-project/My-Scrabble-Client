@@ -1,5 +1,6 @@
 package com.example.Interfaces;
 
+// User session service interface
 public interface IUserSession {
     void setToken(String token);
     String getToken();

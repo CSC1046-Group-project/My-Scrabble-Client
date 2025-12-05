@@ -1,5 +1,6 @@
 package com.example.Network.Protocol;
 
+// Factory to create a protocol message to be send to the server based on the protocol message type
 public class ProtocolFactory {
 
     public static ProtocolMessage login(String email, String password) {

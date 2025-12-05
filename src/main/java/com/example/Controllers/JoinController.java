@@ -25,19 +25,25 @@ public class JoinController {
         _view = view;
     }
 
+    // Handle the join button
     public void handleJoin(String code, String password) {
+
+        // Check if the user is logged
         if (!_userSession.isLog())
             return;
 
+        // Check if the code and password are not empty
         if (!validateInput(code, password)) {
             _view.showError("Code and password are required");
             return;
         }
 
+        // Call the service to handle the join request
         _joinGameService.join(_userSession.getToken(), code, password, new JoinGameCallback() {
 
             @Override
             public void onSuccess(String idRoom, String password) {
+                // On success get the room id and password and go to the game
                 _userSession.setIdRoom(idRoom);
                 _userSession.setRoomPassword(password);
                 _navigationService.navigateToGame();
@@ -45,11 +51,13 @@ public class JoinController {
 
             @Override
             public void onFailure(String message) {
+                // If error, update the view with the message
                 _view.showError(message);
             }
         });
     }
 
+    // Check if code and password inputs are not empty
     private boolean validateInput(String code, String password) {
         return code != null && !code.trim().isEmpty()
             && password != null && !password.trim().isEmpty();

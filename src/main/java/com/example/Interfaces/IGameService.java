@@ -1,5 +1,6 @@
 package com.example.Interfaces;
 
+// Game service interface
 public interface IGameService {
     void ready(String token, String roomId, GameCallback callback);
     void challenge(String token, String roomId, GameCallback callback);

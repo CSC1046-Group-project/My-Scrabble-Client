@@ -17,6 +17,7 @@ public class Board {
 
     public Board() {
 
+        // List of power types of board cells
         BoardCell.TypePower[][] layout = {
             { TW, NONE, NONE, DL, NONE, NONE, NONE, TW, NONE, NONE, NONE, DL, NONE, NONE, TW },
             { NONE, DW, NONE, NONE, NONE, TL, NONE, NONE, NONE, TL, NONE, NONE, NONE, DW, NONE },
@@ -34,6 +35,8 @@ public class Board {
             { NONE, DW, NONE, NONE, NONE, TL, NONE, NONE, NONE, TL, NONE, NONE, NONE, DW, NONE },
             { TW, NONE, NONE, DL, NONE, NONE, NONE, TW, NONE, NONE, NONE, DL, NONE, NONE, TW }
         };
+
+        // Create the board cells using the list of power
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 _cells.add(new BoardCell(layout[row][col], row, col));
@@ -41,10 +44,12 @@ public class Board {
         }
     }
 
+    // Get the cell at the index row and col
     public BoardCell getCell(int row, int col) {
         return _cells.get(row * SIZE + col);
     }
 
+    // Add a tile on the board at the index row and col
     public boolean addTile(int row, int col, Tile tile) {
         if (row >= SIZE || col >= SIZE || row < 0 || col < 0) {
             return false;
@@ -52,6 +57,7 @@ public class Board {
         return _cells.get(row * SIZE + col).addTile(tile);
     }
 
+    // Remove a tile from a cell
     public void removeTile(int row, int col) {
         if (row >= SIZE || col >= SIZE || row < 0 || col < 0) {
             return;

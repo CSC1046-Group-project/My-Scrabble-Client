@@ -1,5 +1,6 @@
 package com.example.Network.Protocol;
 
+// Enumeration of protocol message types
 public enum MessageType {
     LOGIN,
     LOGIN_SUCCESS,

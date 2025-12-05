@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// class to handle the tile rack
 public class TileRack {
 
-    private List<Tile> _tiles = new ArrayList<>(java.util.Collections.nCopies(7, null));
+    private List<Tile> _tiles = new ArrayList<>(java.util.Collections.nCopies(7, null));    // List of 7 tiles
 
+    // Reset the rack with no tiles
     public void resetRack() {
         _tiles.clear();
         _tiles = new ArrayList<>(java.util.Collections.nCopies(7, null));
     }
 
+    // Add a tile to the rack
     public int addTile(Tile tile) {
         for (int i = 0; i < _tiles.size(); i++) {
             if (_tiles.get(i) == null) {
@@ -23,6 +26,7 @@ public class TileRack {
         return -1;
     }
 
+    // Remove a tile at the index idx
     public boolean removeTile(int idx) {
         if (idx >= _tiles.size() || idx < 0)
             return false;
@@ -32,6 +36,7 @@ public class TileRack {
         return true;
     }
 
+    // Shuffle the order of tiles in the rack
     public void shuffleOrder() {
         List<Tile> nonNullTiles = new ArrayList<>();
         for (Tile t : _tiles) {
@@ -49,6 +54,7 @@ public class TileRack {
         }
     }
 
+    // Get the list of tiles in the rack
     public List<Tile> getTiles() {
         return _tiles;
     }
