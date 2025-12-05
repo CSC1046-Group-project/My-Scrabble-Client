@@ -15,6 +15,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
+// Login scene
 public class LoginScene extends MyScene {
     public LoginScene(
         IAuthenticationService authService,

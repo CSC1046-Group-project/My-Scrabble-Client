@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+// Tile widget to display a tile
 public class TileBuilder extends Widget {
 
     private final StackPane _tilePane;

@@ -17,6 +17,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
+// Game scene
 public class GameScene extends MyScene {
 
     private final TileRack _tileRack = new TileRack();

@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 
+// Text field widget to display an input text field
 public class TextFieldBuilder extends Widget {
 
     private final TextField _textField;

@@ -5,8 +5,9 @@ import com.example.RendereUI.Widget;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
 
+// Slider widget to display a slider
 public class SliderBuilder extends Widget {
-    
+
     private final Slider _slider;
 
     public SliderBuilder() {
@@ -47,7 +48,7 @@ public class SliderBuilder extends Widget {
 
     public SliderBuilder setLength(double value) {
         _slider.setPrefWidth(value);
-        
+
         return this;
     }
 

@@ -9,6 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+// Text widget to display a text
 public class TextBuilder extends Widget{
 
     private final Text _text;

@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+// Icon button widget to display a button with an icon
 public class IconButtonBuilder extends Widget{
 
     private final Button _icoBtn;

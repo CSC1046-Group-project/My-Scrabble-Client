@@ -10,6 +10,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
+// First scene
 public class FirstScene extends MyScene {
 
     public FirstScene(INavigationService navigationService) {

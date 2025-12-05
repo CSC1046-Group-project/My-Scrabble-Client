@@ -19,6 +19,7 @@ import com.example.Services.NetworkJoinGameService;
 import com.example.Services.SceneManagerNavigationService;
 import com.example.Services.UserSessionImpl;
 
+// Factory to init a scene
 public class SceneFactory {
 
     public static FirstScene createFirstScene() {

@@ -17,6 +17,7 @@ import com.example.RendereUI.Widgets.VBoxBuilder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+// Factory to create default widgets
 public class WidgetFactory {
 
     public static ButtonBuilder button(String text, EventHandler<ActionEvent> event) {

@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
+// Button widget to display a button
 public class ButtonBuilder extends Widget{
 
     private final Button _button;

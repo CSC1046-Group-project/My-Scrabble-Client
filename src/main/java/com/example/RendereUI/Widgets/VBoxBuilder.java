@@ -9,6 +9,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+// Vbox widget to handle vertical widgets
 public class VBoxBuilder extends Widget{
 
     private final VBox _vbox;

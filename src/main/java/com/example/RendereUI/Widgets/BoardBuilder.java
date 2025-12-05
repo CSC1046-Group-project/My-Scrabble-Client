@@ -11,6 +11,7 @@ import com.example.RendereUI.WidgetFactory;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
+// Board widget to display a board
 public class BoardBuilder extends Widget {
 
     private static int SIZE = 15;

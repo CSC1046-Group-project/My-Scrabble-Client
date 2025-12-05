@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
+// Hbox to handle horizontal widgets
 public class HBoxBuilder extends Widget {
 
     private final HBox _hBox;

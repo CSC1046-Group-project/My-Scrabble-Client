@@ -5,6 +5,7 @@ import com.example.RendereUI.Widget;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
 
+// Line widget to display a line
 public class LineBuilder extends Widget{
 
     private final Region _line;

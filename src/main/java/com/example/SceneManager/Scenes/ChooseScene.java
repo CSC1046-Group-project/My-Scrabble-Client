@@ -14,6 +14,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
+// Choose scene
 public class ChooseScene extends MyScene {
 
     public ChooseScene(

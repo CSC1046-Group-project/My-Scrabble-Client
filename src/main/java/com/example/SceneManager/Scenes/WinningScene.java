@@ -10,6 +10,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
+// Winning scene
 public class WinningScene extends MyScene {
 
     public WinningScene(

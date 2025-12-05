@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+// Board cell widget to display a cell of the board
 public class BoardCellBuilder extends Widget {
 
     private final StackPane _cellPane;
