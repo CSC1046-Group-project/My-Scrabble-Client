@@ -3,6 +3,7 @@ package com.example.Services;
 import com.example.Interfaces.INavigationService;
 import com.example.SceneManager.SceneManager;
 
+// Factory of functions to load a new scene
 public class SceneManagerNavigationService implements INavigationService {
     @Override
     public void navigateToChooseScene() {

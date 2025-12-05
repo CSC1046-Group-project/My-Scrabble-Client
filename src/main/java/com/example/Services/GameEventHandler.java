@@ -13,13 +13,14 @@ import com.example.Network.Protocol.ProtocolMessage;
 
 import javafx.application.Platform;
 
+// Service to handle server requests
 public class GameEventHandler {
 
-    private final GameView _view;
-    private final IUserSession _userSession;
-    private final Listener _gameListener = new Listener();
-    private final TileRack _tileRack;
-    private final INavigationService _navigationService;
+    private final GameView _view;                               // Game view
+    private final IUserSession _userSession;                    // User session
+    private final Listener _gameListener = new Listener();      // Game listener to listen game events from server
+    private final TileRack _tileRack;                           // Player tilerack
+    private final INavigationService _navigationService;        // Navigation service to change the scene
 
     public GameEventHandler(
         GameView view,
@@ -32,6 +33,7 @@ public class GameEventHandler {
         _tileRack = tileRack;
         _navigationService = navigationService;
 
+        // Init the callbacks for the events received
         _gameListener.on(MessageType.TILEBAG, msg -> onTileBagUpdate(msg));
         _gameListener.on(MessageType.PLAYER_IS_READY, msg -> onPlayerIsReady(msg));
         _gameListener.on(MessageType.PLAYER_HAVE_PLAYED, msg -> onPlayerHavePlayed(msg));
@@ -43,10 +45,12 @@ public class GameEventHandler {
         _gameListener.on(MessageType.CHALLENGE_SUCCESS, msg -> onChallengeSuccess(msg));
     }
 
+    // Run the service and add the listener to the network
     public void run() {
         Network.setListener(_gameListener);
     }
 
+    // On tile bag update update the view
     public void onTileBagUpdate(ProtocolMessage msg) {
         try {
             String tileBag = msg.getArgs().get(0);
@@ -55,6 +59,7 @@ public class GameEventHandler {
         }
     }
 
+    // On player is ready update the view
     public void onPlayerIsReady(ProtocolMessage msg) {
          try {
             String token = msg.getArgs().get(0);
@@ -65,6 +70,7 @@ public class GameEventHandler {
         }
     }
 
+    // On move by player update update the board view
     public void onPlayerHavePlayed(ProtocolMessage msg) {
          try {
             String name = msg.getArgs().get(0);
@@ -80,6 +86,7 @@ public class GameEventHandler {
         }
     }
 
+    // On start game update the tile rack and update the view
     public void onGameStart(ProtocolMessage msg) {
          try {
             String tiles = msg.getArgs().get(0);
@@ -101,6 +108,7 @@ public class GameEventHandler {
         }
     }
 
+    // On player turn update the view
     public void onPlayerTurn(ProtocolMessage msg) {
         try {
             String player = msg.getArgs().get(0);
@@ -112,6 +120,7 @@ public class GameEventHandler {
         }
     }
 
+    // On player score update, update the view
     public void onPlayerScore(ProtocolMessage msg){
         try {
             String token = msg.getArgs().get(0);
@@ -121,6 +130,7 @@ public class GameEventHandler {
         }
     }
 
+    // On winner message, go to the winning page
     public void onWinner(ProtocolMessage msg){
         try {
             String token = msg.getArgs().get(0);
@@ -133,6 +143,7 @@ public class GameEventHandler {
         }
     }
 
+    // On resign action from a player update the view
     public void onResign(ProtocolMessage msg) {
         try {
             String token = msg.getArgs().get(0);
@@ -141,6 +152,7 @@ public class GameEventHandler {
         }
     }
 
+    // On challenge success update the view
     public void onChallengeSuccess(ProtocolMessage msg) {
         try {
             Platform.runLater(() -> _view.blockChallengeButton());
