@@ -7,6 +7,7 @@ import com.example.RendereUI.Widgets.TextBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+// Class to handle UI updates during register scene
 public class RegisterViewImpl implements View {
     private final StackPane root;
     private TextBuilder errorText;

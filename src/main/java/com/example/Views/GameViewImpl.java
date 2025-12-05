@@ -37,6 +37,7 @@ public class GameViewImpl implements GameView {
     private final ButtonBuilder _challengeButton;
     private final Pane _rack;
 
+    // Class to handle UI updates during game
     public GameViewImpl(
         StackPane root,
         BoardBuilder board,

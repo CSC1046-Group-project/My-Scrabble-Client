@@ -7,6 +7,7 @@ import com.example.RendereUI.Widgets.TextBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+// Class to handle UI updates during login scene
 public class LoginViewImpl implements View {
     private final StackPane root;
     private TextBuilder errorText;

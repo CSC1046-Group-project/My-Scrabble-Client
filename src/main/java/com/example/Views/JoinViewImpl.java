@@ -7,6 +7,7 @@ import com.example.RendereUI.Widgets.TextBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+// Class to handle UI updates during join scene
 public class JoinViewImpl implements View {
     private final StackPane root;
     private TextBuilder errorText;
